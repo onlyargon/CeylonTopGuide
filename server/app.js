@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import session from "express-session";
-import MongoStore from 'connect-mongo';
+import createMongoStore from 'connect-mongo'; // Updated import
 import dotenv from 'dotenv';
 import guideRouter from './Routes/GuideRoutes.js';
 import reviewRouter from './Routes/ReviewRoutes.js';
@@ -27,7 +27,7 @@ app.use(cors({
   exposedHeaders: ['set-cookie']
 }));
 
-app.options('*', cors()); // Handle preflight requests
+app.options('*', cors());
 
 // Trust proxy for Render
 app.set('trust proxy', 1);
@@ -37,30 +37,32 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Create MongoStore instance
+const MongoStore = createMongoStore(session);
+
 // Enhanced session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
-  proxy: true, // Required for HTTPS behind proxy
-  name: 'ctg.sid', // Unique session cookie name
+  proxy: true,
+  name: 'ctg.sid',
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined,
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
-// Debug middleware (remove in production)
+// Debug middleware
 app.use((req, res, next) => {
   console.log('Session ID:', req.sessionID);
-  console.log('Cookies:', req.cookies);
   next();
 });
 
@@ -76,8 +78,7 @@ app.use("/tourPhotos", tourPhotosRouter);
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
-    session: req.sessionID,
-    cookies: req.cookies
+    session: req.sessionID
   });
 });
 
