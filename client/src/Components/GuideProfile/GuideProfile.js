@@ -32,19 +32,14 @@ const GuideProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/guides/profile`;
-        const cloudinary = `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/guides/profile`;
-        console.log("Attempting to fetch from:", cloudinary); // Debug log
         const response = await instance.get('/guides/profile');
         setGuide(response.data);
-        setFormData(response.data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        navigate("/guideLogin");
+      } catch (err) {
+        console.error("Profile fetch error:", err);
       }
     };
     fetchProfile();
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     const fetchReviews = async () => {

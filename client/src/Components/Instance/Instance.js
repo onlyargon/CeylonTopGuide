@@ -14,7 +14,7 @@ instance.interceptors.response.use(
   error => {
     if (error.response?.status === 401) {
       // Handle unauthorized (redirect to login)
-      window.location.href = '/guideLogin';
+      console.log(error);
     }
     return Promise.reject(error);
   }

@@ -44,6 +44,7 @@ const GuideLogin = () => {
 
       if (response.status === 200) {
         localStorage.setItem("guide", JSON.stringify(response.data.guide));
+        document.cookie = `sessionID=${response.data.sessionID}; path=/; secure; sameSite=none`;
         navigate("/guideProfile");
       }
     } catch (err) {
