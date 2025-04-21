@@ -12,8 +12,8 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:3000', // local dev
-  'https://ceylontopguild.vercel.app' // REMOVED TRAILING SLASH
+  'http://localhost:3000', 
+  'https://ceylontopguild.vercel.app' 
 ];
 
 // Enhanced CORS configuration
@@ -32,18 +32,30 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 204,
+  exposedHeaders: ['set-cookie'] 
 }));
+
+app.use((req, res, next) => {
+    console.log('Session:', req.session); // Log session data
+    console.log('Cookies:', req.cookies); // Log incoming cookies
+    next();
+  });
 
 // Handle preflight requests
 app.options('*', cors());
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, 
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true, maxAge: 3600000 }
-}));
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // true in production (HTTPS only)
+      httpOnly: true,
+      sameSite: 'none', // Required for cross-site cookies
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    }
+  }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

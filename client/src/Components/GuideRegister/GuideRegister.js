@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './GuideRegister.css'
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import axios from "axios";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -38,33 +39,31 @@ const Register = () => {
 
     // Cloudinary upload function
     const uploadToCloudinary = async (file) => {
-        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', 'tour_photos'); // Optional folder
+
+        console.log({
+            cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+            apiKey: process.env.REACT_APP_CLOUDINARY_API_KEY
+          });
+      
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-            
-            const response = await fetch(
-                `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                {
-                    method: 'POST',
-                    body: formData,
-                }
-            );
-            
-            if (!response.ok) {
-                throw new Error('Upload failed');
+          const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
             }
-            
-            const data = await response.json();
-            return data.secure_url;
+          );
+          return response.data.secure_url;
         } catch (error) {
-            console.error('Error uploading to Cloudinary:', error);
-            throw error;
-        } finally {
-            setUploading(false);
+          console.error('Upload error details:', error.response?.data);
+          throw new Error('Upload failed');
         }
-    };
+      };
 
     const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
     const districts = {
