@@ -41,12 +41,8 @@ const Register = () => {
     const uploadToCloudinary = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('folder', 'tour_photos'); // Optional folder
-
-        console.log({
-            cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
-            apiKey: process.env.REACT_APP_CLOUDINARY_API_KEY
-          });
+        formData.append('upload_preset', 'guide_photos'); // Add your preset name here
+        formData.append('folder', 'tour_photos');
       
         try {
           const response = await axios.post(
@@ -173,18 +169,21 @@ const Register = () => {
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            try {
-                const url = await uploadToCloudinary(file);
-                setFormData({
-                    ...formData,
-                    profilePhoto: url,
-                    profilePhotoPreview: url,
-                });
-            } catch (error) {
-                alert('Failed to upload profile photo');
-            }
+          setUploading(true);
+          try {
+            const url = await uploadToCloudinary(file);
+            setFormData({
+              ...formData,
+              profilePhoto: url,
+              profilePhotoPreview: url,
+            });
+          } catch (error) {
+            alert('Failed to upload profile photo: ' + error.message);
+          } finally {
+            setUploading(false);
+          }
         }
-    };
+      };
 
 
 
