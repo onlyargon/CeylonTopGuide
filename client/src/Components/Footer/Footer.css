@@ -136,6 +136,10 @@
     text-decoration: underline;
 }
 
+.footer-fourthwall{
+    font-weight: bold;
+}
+
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     .footer-main-content {

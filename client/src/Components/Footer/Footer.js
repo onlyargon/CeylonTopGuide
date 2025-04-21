@@ -53,7 +53,7 @@ function Footer() {
             </div>
 
             <div className="footer-bottom">
-                <p>© 2025 CeylonTopGuide. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms & Conditions</a></p>
+                <p>© 2025 CeylonTopGuide. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms & Conditions</a> | Designed and Developed by : <a href='https://linktr.ee/ImethW'><span className='footer-fourthwall'>FourthWall</span></a></p>
             </div>
         </footer>
     )

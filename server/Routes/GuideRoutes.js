@@ -388,7 +388,7 @@ router.post('/forgot-password', async (req, res) => {
     guide.resetPasswordExpires = Date.now() + parseInt(process.env.RESET_PASSWORD_EXPIRES);
     await guide.save();
 
-    const resetURL = `${process.env.CLIENT_ORIGIN}/reset-password/${token}`;
+    const resetURL = `${process.env.REACT_APP_API_BASE_URL}/reset-password/${token}`;
 
     // Replace your current nodemailer.createTransport configuration with this:
 
