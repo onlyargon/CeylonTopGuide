@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./GuideProfile.css";
 import Header from "../Header/Header";
+import instance from "../Instance/Instance";
 
 const GuideProfile = () => {
   const [guide, setGuide] = useState(null);
@@ -34,10 +35,7 @@ const GuideProfile = () => {
         const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/guides/profile`;
         const cloudinary = `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/guides/profile`;
         console.log("Attempting to fetch from:", cloudinary); // Debug log
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/guides/profile`,
-          { withCredentials: true }
-        );
+        const response = await instance.get('/guides/profile');
         setGuide(response.data);
         setFormData(response.data);
       } catch (error) {
