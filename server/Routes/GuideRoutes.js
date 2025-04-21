@@ -49,7 +49,7 @@ router.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
     maxAge: parseInt(process.env.SESSION_MAX_AGE),
     secure: process.env.NODE_ENV === 'production', // HTTPS in production
     httpOnly: true
@@ -60,6 +60,7 @@ router.use(session({
 
 router.post("/login", async (req, res) => {
   try {
+
     const { email, password } = req.body;
 
     const guide = await Guide.findOne({ "contact.email": email });
@@ -87,6 +88,9 @@ router.post("/login", async (req, res) => {
 
     res.cookie("sessionID", req.sessionID, { httpOnly: true, secure: false });
 
+    console.log('New session:', req.sessionID);
+    console.log('Set-Cookie header:', req.headers['set-cookie']);
+
     res.status(200).json({ message: "Login Successful!", guide: req.session.guide });
   } catch (error) {
     console.log("Login error:", error);
@@ -113,7 +117,7 @@ router.use('/uploads', express.static('uploads'));
 router.post("/register", async (req, res) => {
   try {
     console.log("Request Body:", req.body);
-    
+
     // Validate required fields
     const requiredFields = ['email', 'username', 'password', 'fullName'];
     for (const field of requiredFields) {
@@ -538,6 +542,12 @@ router.delete('/reject/:id', async (req, res) => {
 // Get Guide Profile
 router.get('/profile', async (req, res) => {
   try {
+    console.log('Session:', req.session); // Debug log
+
+    if (!req.session?.guide?.id) {
+      return res.status(401).json({ error: "No active session" });
+    }
+
     if (!req.session.guide) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -554,6 +564,7 @@ router.get('/profile', async (req, res) => {
 
     res.status(200).json(guide);
   } catch (error) {
+    console.error("Profile error:", error)
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -586,14 +597,14 @@ router.delete("/profile/delete", async (req, res) => {
 
     // First get the guide to access image URLs
     const guide = await Guide.findById(req.session.guide.id);
-    
+
     if (!guide) {
       return res.status(404).json({ error: "Guide not found" });
     }
 
     // Delete images from Cloudinary
     const { deleteFromCloudinary, getPublicIdFromUrl } = require('../utils/cloudinary');
-    
+
     const imagesToDelete = [
       guide.profilePhoto,
       guide.verificationDocuments.governmentID,
