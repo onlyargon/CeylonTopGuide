@@ -5,6 +5,7 @@ import Guide from '../Models/GuideModel.js';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
+
 const router = express.Router();
 
 // Submit a review (with email verification)
@@ -31,22 +32,37 @@ router.post('/', async (req, res) => {
 
     // Setup email transporter (you can switch to SendGrid/Mailgun in prod)
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: true,
       auth: {
-        user: 'heshaltempdissanayake@gmail.com',
-        pass: 'qxts aaww ymia hzfc' // Use App Password (Google security)
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
       }
     });
 
-    const verificationUrl = `http://localhost:5000/reviews/verify/${token}`;
+    const verificationUrl = `${process.env.SERVER_BASE_URL}/reviews/verify/${token}`;
 
     await transporter.sendMail({
-      from: '"Mail" <heshaltempdissanayake@gmail.com>',
+      from: process.env.EMAIL_FROM,
       to: reviewerEmail,
       subject: 'Verify your review',
       html: `
-        <p>Thanks for submitting a review! Please click the link below to verify it:</p>
-        <a href="${verificationUrl}">Verify your review</a>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1>Verify your Review</h1>
+          <p>Dear user,</p>
+          <p>Thanks for sharing your experience with TopGuide! To help us keep our community authentic and trustworthy, we kindly ask you to verify your email before your review goes live.</p>
+          <p>Click the button below to confirm your review:</p>
+          <a href="${verificationUrl}">Verify your review</a>
+          <p>This helps ensure that all reviews come from real travelers like you. Once verified, your review will be visible on the guide’s profile.</p>
+          <p>If you didn’t write a review on TopGuide, please ignore this email.</p>
+          <p>Thank you for helping us keep travel transparent and reliable!</p>
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+            <p>With regards,</p>
+            <p><strong>The CeylonTopGuide Team</strong></p>
+            <p><a href="www.celyontopguide.com">www.celyontopguide.com</a></p>
+          </div>
+        </div>
       `
     });
 
@@ -60,7 +76,9 @@ router.post('/', async (req, res) => {
 
 router.get('/verify/:token', async (req, res) => {
   try {
-    const review = await Review.findOne({ verificationToken: req.params.token });
+    const review = await Review.findOne({ 
+      verificationToken: req.params.token, 
+      createdAt: { $gt: new Date(Date.now() - process.env.REVIEW_TOKEN_EXPIRY) } });
 
     if (!review) {
       return res.status(400).send('Invalid or expired verification token.');
@@ -83,9 +101,9 @@ router.get('/verify/:token', async (req, res) => {
 // Get all reviews for a guide
 router.get('/guide/:guideId', async (req, res) => {
   try {
-    const reviews = await Review.find({ guideId: req.params.guideId }).sort({ createdAt: -1 });
+    const reviews = await Review.find({ guideId: req.params.guideId, verified: true  }).sort({ createdAt: -1 });
     res.status(200).json(reviews);
-  } catch (error) {
+  } catch (error) {s
     console.error('Error fetching reviews:', error);
     res.status(500).json({ error: 'Failed to get reviews' });
   }
