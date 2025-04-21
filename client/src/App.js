@@ -24,6 +24,7 @@ function App() {
     <div className="App">
       <React.Fragment>
         <Routes>
+        <Route path="/" element={<LandingPage/>}/>
          <Route path="/guideRegister" element={<Register/>}/>
          <Route path="/adminDashboard" element={<AdminDashboard/>}/>
          <Route path='/guideLogin' element={<GuideLogin/>}/>
