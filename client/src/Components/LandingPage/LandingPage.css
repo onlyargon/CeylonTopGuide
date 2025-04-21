@@ -1,0 +1,629 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Work Sans", Helvetica, Arial, sans-serif;
+  }
+
+html {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
+.ceylon-banner-container {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+    z-index: 1;
+    transition: background-image 3s ease-in-out;
+    margin-bottom: 100px;
+}
+
+.ceylon-banner-content {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.ceylon-welcome-text,
+.ceylon-brand-name,
+.ceylon-tagline {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.945); /* X offset, Y offset, blur radius, color */
+}
+
+
+.ceylon-welcome-text {
+    font-family: "Work Sans", Helvetica, Arial, sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.ceylon-brand-name {
+    font-family: 'Roboto', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.ceylon-tagline {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+/* ArticleSections.css */
+.article-sections-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+}
+
+.article-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    gap: 40px;
+}
+
+.article-section.reverse {
+    flex-direction: row-reverse;
+}
+
+.article-content {
+    flex: 1;
+}
+
+.article-heading {
+    font-size: 28px;
+    color: #333;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+.article-subheading {
+    font-size: 20px;
+    color: #777;
+    font-weight: normal;
+    margin: 0 0 20px 0;
+}
+
+.article-text {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.article-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.article-image {
+    width: 100%;
+    max-width: 450px;
+    height: 320px;
+    background-color: #e8e8e8;
+    border-radius: 4px;
+}
+
+.placeholder-image {
+    position: relative;
+}
+
+.placeholder-image::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/* CeylonFeatures.css */
+/* Scoped class names to avoid affecting other components */
+
+.ceylon-features-container {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .ceylon-features-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 100px;
+  }
+  
+  .ceylon-feature-box {
+    border: 2px solid #3b6e3b;
+    border-radius: 10px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+  }
+  
+  .ceylon-feature-text {
+    font-size: 15px;
+    font-weight: 200px;
+    flex-grow: 1;
+  }
+  
+  .ceylon-feature-highlight {
+    font-weight: 800;
+  }
+  
+  .ceylon-feature-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .ceylon-feature-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: #000;
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .ceylon-features-title {
+      font-size: 32px;
+    }
+    
+    .ceylon-feature-text {
+      font-size: 16px;
+    }
+    
+    .ceylon-feature-icon {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ceylon-features-title {
+      font-size: 28px;
+    }
+    
+    .ceylon-feature-box {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .ceylon-feature-text {
+      margin-bottom: 15px;
+    }
+  }
+
+.find-guide-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.find-guide-heading {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.find-guide-subheading {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.carousel-container {
+    position: relative;
+    margin: 60px 0;
+    padding: 20px 0;
+  }
+  
+  .find-guide-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    justify-content: center;
+  }
+  
+  /* Hide scrollbar */
+  .find-guide-carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .guide-card {
+    flex: 0 0 280px;
+    min-width: 280px;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .guide-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .guide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 380px;
+  }
+  
+  .guide-photo {
+    width: 100%;
+    min-height: 580px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .guide-card:hover .guide-photo {
+    transform: scale(1.05);
+  }
+  
+  .guide-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+    color: white;
+    z-index: 2;
+  }
+  
+  .guide-label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  
+  .guide-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .guide-rating {
+    font-size: 14px;
+  }
+  
+  .find-guide-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+  
+  .find-guide-nav-button:hover {
+    background-color: white;
+  }
+  
+  .find-guide-nav-button.left {
+    left: 20px;
+  }
+  
+  .find-guide-nav-button.right {
+    right: 20px;
+  }
+  
+  .find-guide-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .find-guide-button {
+    background-color: #2c5d3f;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 40px;
+  }
+  
+  .find-guide-button:hover {
+    background-color: #224830;
+  }
+.tour-guide-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin-top: 0px;
+}
+
+.tour-guide-registration {
+    padding: 40px 0;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .tour-guide-heading {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 100px;
+    text-align: center;
+  }
+  
+  .tour-guide-steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  
+  .tour-guide-step {
+    width: 100%;
+    padding: 40px 20px;
+    border: 2px solid #2c5d3f;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    transition: transform 0.3s ease;
+  }
+  
+  .tour-guide-step:hover {
+    transform: translateY(-5px);
+  }
+  
+  .step-icon {
+    font-size: 80px;
+    color: #2c5d3f;
+    margin-bottom: 30px;
+  }
+
+  .guide-icons{
+    max-width: 130px;
+  }
+  
+  .step-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .step-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .step-description {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .tour-guide-steps {
+      flex-direction: column;
+    }
+    
+    .tour-guide-heading {
+      font-size: 32px;
+    }
+    
+    .step-icon {
+      font-size: 60px;
+    }
+  }
+.tour-guide-button {
+    background-color: #2c5d3f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 40px;
+}
+
+.tour-guide-button:hover {
+    background-color: #2c533a;
+}
+
+.about-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+.about-us-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 80px;
+}
+
+.about-us-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.about-us-text {
+    flex: 1;
+}
+
+.about-us-heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom:20px;
+    color: #333;
+}
+
+.about-us-subheading {
+    font-size: 20px;
+    font-weight: normal;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.about-us-paragraph {
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.about-us-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-us-image {
+    width: 350px;
+    height: 350px;
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ceylon-welcome-text {
+        font-size: 2rem;
+    }
+
+    .ceylon-brand-name {
+        font-size: 2.5rem;
+    }
+
+    .ceylon-tagline {
+        font-size: 1.2rem;
+    }
+
+    .article-section,
+    .article-section.reverse {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .article-image-container {
+        width: 100%;
+    }
+
+    .article-image {
+        max-width: 100%;
+        height: 250px;
+    }
+
+    .why-choose-heading {
+        font-size: 26px;
+        margin-bottom: 30px;
+    }
+
+    .why-choose-feature {
+        font-size: 14px;
+    }
+
+    .why-choose-features {
+        gap: 15px;
+    }
+
+    .find-guide-heading {
+        font-size: 28px;
+    }
+
+    .find-guide-subheading {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .guide-card {
+        min-width: 220px;
+    }
+
+    .guide-image {
+        height: 300px;
+    }
+
+    .find-guide-button {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+
+    .find-guide-nav-button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .about-us-content {
+        flex-direction: column;
+    }
+
+    .about-us-image-container {
+        margin-top: 30px;
+    }
+}

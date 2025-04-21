@@ -1,0 +1,404 @@
+* {
+  font-family: "Work Sans", Helvetica, Arial, sans-serif;
+}
+
+.guide-profile-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  padding: 20px;
+  margin-top: 50px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.guide-profile-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.guide-profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #eff6fc;
+  border: 2px solid #ddd;
+  padding: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.guide-profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guide-profile-name1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.guide-profile-rating {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.rating-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 80px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+}
+
+.years-number,
+.ratings-number,
+.hours-number {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.rating-title {
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ratings-number {
+  color: #ffc107;
+}
+
+.star-rating {
+  color: #ffc107;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.empty-star {
+  color: #e2e8f0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.guide-button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.edit-button {
+  background-color: #3a724a;
+  color: white;
+}
+
+.write-review {
+  margin-top: 30px;
+  display: inline-block;
+}
+
+.section-divider {
+  border-top: 1px solid #ddd;
+  margin: 30px 0;
+}
+
+.tour-photos-section {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.tour-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.tour-photo-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.tour-photo {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.about-section, .professional-details-section {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.about-section h2, .professional-details-section h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.about-section p, .professional-details-section p {
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.reviews-section {
+  padding: 40px 0;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.reviews-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reviews-subtitle {
+  font-size: 16px;
+  color: #718096;
+  margin-bottom: 30px;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+}
+
+.review-card {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.reviewer-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #3a724a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.reviewer-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #2d3748;
+}
+
+.reviewer-title {
+  font-size: 13px;
+  color: #718096;
+  margin: 5px 0 0;
+  font-weight: 400;
+}
+
+.review-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4a5568;
+  font-style: normal;
+  margin: 20px 0;
+  position: relative;
+  padding: 0 10px;
+}
+
+.review-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.stars {
+  color: #FFD700;
+  font-size: 18px;
+  margin-bottom: 5px;
+  letter-spacing: 2px;
+}
+
+.rating-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 3px;
+}
+
+.rating-label {
+  font-size: 12px;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.no-reviews {
+  font-size: 16px;
+  color: #718096;
+  grid-column: 1 / -1;
+  padding: 20px;
+}
+
+.verification-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.verification-status {
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-right: 0;
+}
+
+.verified {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.guide-contact-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: #333;
+}
+
+.phone-icon {
+  font-size: 20px;
+}
+
+.guide-phone {
+  font-weight: 500;
+}
+
+
+@media (max-width: 768px) {
+  .guide-profile-rating {
+    gap: 15px;
+  }
+  
+  .years-number, 
+  .ratings-number, 
+  .hours-number {
+    font-size: 18px;
+  }
+  
+  .highlighted-rate {
+    font-weight: bold;
+    color: #4CAF50;
+    background-color: #f8f8f8;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  
+  .rating-title {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 3px;
+  }
+
+  .reviews-section {
+    padding: 30px 15px;
+  }
+  
+  .reviews-title {
+    font-size: 24px;
+  }
+  
+  .reviews-subtitle {
+    font-size: 15px;
+  }
+  
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .review-card {
+    padding: 20px;
+  }
+
+  .tour-photos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .guide-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

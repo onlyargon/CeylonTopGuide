@@ -1,0 +1,218 @@
+
+
+.ceylon-login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+.ceylon-login-left {
+  width: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ceylon-login-right {
+  width: 50%;
+  background-color: #3D6949;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.ceylon-brand {
+  position: relative;
+  padding-right: 90px;
+}
+
+.ceylon-title {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+  color: black;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+.ceylon-logo {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  right: -20px;
+  top: -60px;
+}
+
+.login-middleLogo{
+  width: 200px;
+}
+
+
+.ceylon-login-form-container {
+  width: 60%;
+  max-width: 400px;
+}
+
+.welcome-text {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.login-subtitle {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.ceylon-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ceylon-form-group {
+  width: 100%;
+}
+
+.form-inputs{
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  background-color: #e0e0e0;
+  box-sizing: border-box;
+}
+
+.ceylon-input::placeholder {
+  color: #666;
+}
+
+.ceylon-form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.remember-me-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.remember-me-option input[type="checkbox"] {
+  margin: 0;
+}
+
+.forgot-password-link {
+  color: white;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.ceylon-login-button {
+  width: 100%;
+  max-width: 200px;
+  padding: 10px;
+  margin: 20px auto 0;
+  background-color: #5c8a63;
+  color: white;
+  border: 1px solid #5c8a63;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+}
+
+.ceylon-login-button:hover {
+  background-color: #4c7553;
+}
+
+.ceylon-signup-link {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+.ceylon-signup-link a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+.ceylon-signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Password input container */
+.password-input-container {
+  position: relative;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+}
+
+/* Error styling */
+.input-error {
+  border-color: #ff4444 !important;
+}
+
+.error-message {
+  color: #ff4444;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.field-error {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Loading state */
+.ceylon-login-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .ceylon-login-container {
+    flex-direction: column;
+  }
+  
+  .ceylon-login-left,
+  .ceylon-login-right {
+    width: 100%;
+    height: 50vh;
+  }
+  
+  .ceylon-login-form-container {
+    width: 80%;
+  }
+}
