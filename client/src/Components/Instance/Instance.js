@@ -13,8 +13,7 @@ instance.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
-      // Handle unauthorized (redirect to login)
-      console.log(error);
+      // Handle unauthorized (redirect to login
     }
     return Promise.reject(error);
   }
