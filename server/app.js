@@ -70,7 +70,7 @@ app.use((req, res, next) => {
     next();
 });
 
-router.post("/login", async (req, res) => {
+guideRouter.post("/login", async (req, res) => {
     try {
 
         const { email, password } = req.body;
