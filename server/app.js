@@ -11,7 +11,8 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = [ // local dev
+const allowedOrigins = [ 
+    'http://localhost:3000',// local dev
     'https://ceylontopguild.vercel.app/' // deployed frontend
   ];
   
