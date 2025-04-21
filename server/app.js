@@ -2,12 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import session from "express-session";
-import createMongoStore from 'connect-mongo'; // Updated import
+import MongoStore from 'connect-mongo'; // Correct import
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import guideRouter from './Routes/GuideRoutes.js';
 import reviewRouter from './Routes/ReviewRoutes.js';
 import tourPhotosRouter from './Routes/TourPhotoRoutes.js';
-import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -37,16 +37,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Create MongoStore instance
-const MongoStore = createMongoStore(session);
-
-// Enhanced session configuration
+// Session configuration with proper MongoStore initialization
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   proxy: true,
@@ -63,6 +60,7 @@ app.use(session({
 // Debug middleware
 app.use((req, res, next) => {
   console.log('Session ID:', req.sessionID);
+  console.log('Session data:', req.session);
   next();
 });
 
@@ -78,21 +76,26 @@ app.use("/tourPhotos", tourPhotosRouter);
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
-    session: req.sessionID
+    session: req.sessionID,
+    sessionStore: req.sessionStore.name
   });
 });
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
+    
     app.listen(process.env.PORT || 5000, () => {
       console.log(`Server running on port ${process.env.PORT || 5000}`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("MongoDB connection error:", err);
     process.exit(1);
-  });
+  }
+};
+
+connectDB();
 
 export default app;
