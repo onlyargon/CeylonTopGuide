@@ -11,8 +11,13 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [ // local dev
+    'https://ceylontopguild.vercel.app/' // deployed frontend
+  ];
+  
+
 app.use(cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: allowedOrigins,
     credentials: true,
 }));
 
