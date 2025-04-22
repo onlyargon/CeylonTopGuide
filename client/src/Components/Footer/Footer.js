@@ -2,6 +2,7 @@ import React from 'react'
 import './Footer.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -25,10 +26,10 @@ function Footer() {
                         <h3>Quick Links:</h3>
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li><a href="/register">Register as Guide</a></li>
-                            <li><a href="/browse">Browse Guides</a></li>
-                            <li><a href="/about">About Us</a></li>
-                            <li><a href="/contact">Contact Us</a></li>
+                            <li><Link to="/landingPage">Register as Guide</Link></li>
+                            <li><Link to="/landingPage">Browse Guides</Link></li>
+                            <li><Link to="/landingPage">About Us</Link></li>
+                            <li><Link to="/landingPage">Contact Us</Link></li>
                         </ul>
                     </div>
 

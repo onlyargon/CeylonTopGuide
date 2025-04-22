@@ -1,11 +1,11 @@
-/* Registration Form Specific Styles */
+/* Registration Form Specific Styles - Mobile First */
 * {
     font-family: "Helvetica", "Arial", sans-serif;
+    box-sizing: border-box;
 }
 
 .background-banner-container {
     min-height: 100vh;
-    max-height: 300vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,14 +16,14 @@
     color: white;
     z-index: 1;
     transition: background-image 3s ease-in-out;
+    padding: 20px;
 }
 
 .registration-container {
+    width: 100%;
     max-width: 800px;
-    min-width: 600px;
-    min-height: 300px;
-    margin: 150px auto;
-    padding: 40px 30px;
+    margin: 80px auto 40px;
+    padding: 20px;
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -34,8 +34,8 @@
 .registration-container h2 {
     text-align: center;
     color: #000000;
-    margin-bottom: 30px;
-    font-size: 24px;
+    margin-bottom: 20px;
+    font-size: 22px;
     border-bottom: 2px solid #5B986B;
     padding-bottom: 10px;
 }
@@ -57,7 +57,6 @@
     transform: translateY(0);
 }
 
-
 .registration-form-group {
     margin-bottom: 1rem;
     transition: margin-bottom 0.3s ease-in-out;
@@ -65,25 +64,25 @@
 
 .registration-form-group:hover {
     margin-bottom: 1.5rem;
-  }
+}
 
 .registration-form-group label {
     display: block;
     margin-bottom: 8px;
     color: #000000;
     font-weight: 300;
+    font-size: 14px;
 }
-
 
 .registration-input,
 .registration-select {
     width: 100%;
-    padding: 10px;
-    margin-right: 10px;
+    padding: 12px;
     background-color: #eeeded;
     border: 0px solid #000000;
     border-radius: 6px;
     transition: border-color 0.3s ease-in-out;
+    font-size: 14px;
 }
 
 .registration-input:focus,
@@ -93,29 +92,24 @@
     box-shadow: 0 0 5px rgba(247, 247, 247, 0.5);
 }
 
-.registration-file-input {
-    display: block;
-    margin-bottom: 10px;
-    transition: margin-top 0.3s ease-in-out;
-}
-
 /* Hide the default file input */
 .registration-file-input {
     display: none;
-  }
-  
-  /* Style the wrapper to position our custom button */
-  .file-input-wrapper {
+}
+
+/* Style the wrapper to position our custom button */
+.file-input-wrapper {
     display: inline-block;
     position: relative;
     cursor: pointer;
     margin-top: 10px;
-  }
-  
-  /* Style our custom button to match registration-button-next */
-  .file-input-button {
+    width: 100%;
+}
+
+/* Style our custom button to match registration-button-next */
+.file-input-button {
     display: inline-block;
-    padding: 8px 20px;
+    padding: 12px 20px;
     background-color: white;
     color: black;
     border: 1px solid #2c5d3f;
@@ -123,31 +117,28 @@
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-  }
-  
-  /* Hover effect to match your design */
-  .file-input-button:hover {
+    width: 100%;
+    text-align: center;
+}
+
+/* Hover effect to match your design */
+.file-input-button:hover {
     background-color: #2c5d3f;
     color: white;
-  }
-  
-  /* Style for when a file is selected */
-  .file-input-wrapper::after {
+}
+
+/* Style for when a file is selected */
+.file-input-wrapper::after {
     content: attr(data-file-name);
     display: block;
     margin-top: 5px;
     font-size: 12px;
     color: #666;
-  }
-
-.registration-form-group:hover .registration-input,
-.registration-form-group:hover .registration-select,
-.registration-form-group:hover .registration-file-input {
-  margin-top: 0.25rem;
 }
 
 .registration-preview-image {
-    max-width: 200px;
+    max-width: 100%;
+    height: auto;
     margin-top: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -157,14 +148,18 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    gap: 10px;
 }
 
 .registration-button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
 }
 
 .registration-button-back {
@@ -182,6 +177,8 @@
     background-color: #2c5d3f;
     color: white;
     border: 1px solid white;
+    width: 100%;
+    padding: 14px;
 }
 
 .registration-button:hover {
@@ -191,7 +188,7 @@
 .registration-tags-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     margin-top: 10px;
 }
 
@@ -199,8 +196,8 @@
     background-color: #ffffff;
     color: #000000;
     box-shadow: 1px 1px 4px #2c5d3f;
-    font-size: 15px;
-    padding: 7px 11px;
+    font-size: 14px;
+    padding: 6px 10px;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -212,57 +209,70 @@
     border: none;
     color: #35724c;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     padding: 0;
     line-height: 1;
 }
 
-.registration-description-header{
+.registration-description-header {
     color: #000000;
     font-size: 15px;
     margin-top: 15px;
 }
 
-.registration-description-subheader{
+.registration-description-subheader {
     color: #000000;
     font-size: 15px;
     margin-top: 15px;
 }
 
-.registration-description-text{
+.registration-description-text {
     color: #000000;
     font-size: 14px;
     margin-top: 15px;
     margin-left: 15px;
 }
 
-#registration-description-text-last{
+#registration-description-text-last {
     margin-bottom: 20px;
 }
 
-#registration-description-text-italic{
+#registration-description-text-italic {
     font-style: italic;
     opacity: 0.8;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 600px) {
-    .registration-container {
-        padding: 20px 15px;
-    }
+/* Button container for language/specialty inputs */
+.registration-button-container-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
 }
 
+.registration-button-container-inputs select,
+.registration-button-container-inputs input {
+    width: 100%;
+    padding: 12px;
+}
+
+.registration-button-container-inputs button {
+    width: 100%;
+    padding: 12px;
+}
+
+/* Review section styles */
 .registration-review-container {
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 20px;
+    padding: 15px;
     margin-bottom: 20px;
 }
 
 .registration-review-section {
     margin-bottom: 20px;
     padding-bottom: 20px;
-    padding: 5px;
+    padding: 10px;
     border-radius: 15px;
     background-color: #ffffff;
 }
@@ -276,18 +286,19 @@
     border-bottom: 2px solid #3D6949;
     padding-bottom: 10px;
     margin-bottom: 15px;
+    font-size: 18px;
 }
 
 .registration-review-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
-.registration-review-grid>div {
+.registration-review-grid > div {
     background-color: #eeeded;
     border-radius: 6px;
-    padding: 15px;
+    padding: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -295,19 +306,16 @@
     color: #444444;
     display: block;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
 .registration-review-grid p {
     margin: 0;
     color: #444444;
+    font-size: 14px;
 }
 
-@media (max-width: 768px) {
-    .registration-review-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
+/* Uploading overlay */
 .uploading-overlay {
     position: fixed;
     top: 0;
@@ -336,4 +344,76 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 600px) {
+    .registration-container {
+        padding: 30px;
+        margin: 100px auto 60px;
+    }
+    
+    .registration-button-container-inputs {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .registration-button-container-inputs select {
+        flex: 2;
+    }
+    
+    .registration-button-container-inputs input {
+        flex: 2;
+    }
+    
+    .registration-button-container-inputs button {
+        flex: 1;
+    }
+    
+    .registration-review-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+/* Desktop screens */
+@media (min-width: 900px) {
+    .registration-container {
+        padding: 40px;
+    }
+    
+    .registration-container h2 {
+        font-size: 24px;
+    }
+    
+    .registration-input,
+    .registration-select {
+        padding: 12px 15px;
+    }
+    
+    .registration-button {
+        padding: 12px 24px;
+    }
+}
+
+/* Very small screens adjustments */
+@media (max-width: 400px) {
+    .background-banner-container {
+        padding: 10px;
+    }
+    
+    .registration-container {
+        margin: 60px auto 30px;
+        padding: 15px;
+    }
+    
+    .registration-button {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    
+    .registration-tag {
+        font-size: 13px;
+        padding: 5px 8px;
+    }
 }
