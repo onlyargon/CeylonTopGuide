@@ -88,7 +88,6 @@ html {
     z-index: 1;
     transition: background-image 3s ease-in-out;
     margin-bottom: 50px;
-    margin-top: 80px; /* Account for fixed header */
 }
 
 .ceylon-banner-content {
