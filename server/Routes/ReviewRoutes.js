@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
       }
     });
 
-    const verificationUrl = `${process.env.REACT_APP_API_BASE_URL}/reviews/verify/${token}`;
+    const verificationUrl = `${process.env.SERVER_BASE_URL}/reviews/verify/${token}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,

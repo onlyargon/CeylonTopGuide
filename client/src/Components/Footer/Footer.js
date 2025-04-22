@@ -26,8 +26,8 @@ function Footer() {
                         <h3>Quick Links:</h3>
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li><Link to="/landingPage">Register as Guide</Link></li>
-                            <li><Link to="/landingPage">Browse Guides</Link></li>
+                            <li><Link to="/guideRegister">Register as Guide</Link></li>
+                            <li><Link to="/guideList">Browse Guides</Link></li>
                             <li><Link to="/landingPage">About Us</Link></li>
                             <li><Link to="/landingPage">Contact Us</Link></li>
                         </ul>
