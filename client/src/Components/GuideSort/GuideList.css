@@ -6,7 +6,6 @@
   padding: 1rem;
   background-color: #f8f8f8;
   min-height: 100vh;
-  min-width: auto;
   font-family: "Helvetica", "Arial", sans-serif;
 }
 
@@ -243,7 +242,7 @@
   .guide-list-container {
     padding: 2rem;
     gap: 2rem;
-    max-width: 1400px;
+    max-width: 200vh;
     margin: 0 auto;
   }
 
