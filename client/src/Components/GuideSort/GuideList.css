@@ -96,7 +96,7 @@
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
-  height: 100%; /* Ensure all cards have equal height */
+  min-height: 500px;
 }
 
 .guide-card-content {
