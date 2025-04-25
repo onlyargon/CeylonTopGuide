@@ -59,7 +59,7 @@ const GuideList = () => {
   const languages = ['All','English','Spanish','French','German','Chinese','Tamil','Sinhala'];
   const experienceOptions = ['All','1','2','3','4','5','6','7','8','9','10+'];
   const specialtyOptions = ['All','Cultural Tours','Wildlife Tours','Hiking','Adventure Travel','Historical Sites','Photography'];
-  const tourRegions = ['All','Colombo','Kandy','Galle','Sigiriya','Ella','Jaffna','Anuradhapura'];
+  const tourRegions = ['All','All Island','Colombo','Kandy','Galle','Sigiriya','Ella','Jaffna','Anuradhapura'];
   const availableDays = ['All','Full-time','Part-time','Weekends Only','On-Request'];
 
   const getCloudinaryUrl = (imagePath, width = 200, height = 200, crop = 'fill') => {
