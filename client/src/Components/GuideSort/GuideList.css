@@ -94,7 +94,15 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   text-align: center;
   transition: transform 0.2s ease;
-  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure all cards have equal height */
+}
+
+.guide-card-content {
+  flex: 1; /* This makes the content area grow and push the button to the bottom */
+  display: flex;
+  flex-direction: column;
 }
 
 .guide-card img {
@@ -120,7 +128,7 @@
 
 .guide-card a {
   display: inline-block;
-  margin-top: 0.6rem;
+  margin-top: auto; /* This pushes the button to the bottom */
   color: #2c5d3f;
   text-decoration: none;
   font-weight: 600;

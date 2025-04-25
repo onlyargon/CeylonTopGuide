@@ -26,6 +26,10 @@ const LandingPage = () => {
     ];
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
         }, 10000); // 10 seconds
@@ -35,14 +39,14 @@ const LandingPage = () => {
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/top-rated`)
-          .then(res => {
-            // Filter for active guides (double check)
-            const activeGuides = res.data.filter(guide => guide.isActive !== false);
-            // Take only first 5 guides
-            setTopGuides(activeGuides.slice(0, 5));
-          })
-          .catch(err => console.error("Failed to fetch top guides:", err));
-      }, []);
+            .then(res => {
+                // Filter for active guides (double check)
+                const activeGuides = res.data.filter(guide => guide.isActive !== false);
+                // Take only first 5 guides
+                setTopGuides(activeGuides.slice(0, 5));
+            })
+            .catch(err => console.error("Failed to fetch top guides:", err));
+    }, []);
 
     const scrollLeft = () => {
         if (carouselRef.current) {
@@ -58,15 +62,15 @@ const LandingPage = () => {
 
     const getCloudinaryUrl = (imagePath) => {
         if (!imagePath) return '/default-profile.png';
-    
+
         // If it's already a full URL, return it directly
         if (imagePath.startsWith('http')) {
-          return imagePath;
+            return imagePath;
         }
-    
+
         // If it's just the public ID (without the full URL)
         return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/${imagePath}`;
-      };
+    };
 
     return (
         <div>
@@ -190,7 +194,7 @@ const LandingPage = () => {
             </div>
 
             <div className="carousel-container" id="find-guide">
-            <h1 className="tour-guide-heading">FIND A SUITABLE GUIDE FOR YOU</h1>
+                <h1 className="tour-guide-heading">FIND A SUITABLE GUIDE FOR YOU</h1>
                 <div className="find-guide-carousel" ref={carouselRef}>
                     {topGuides.map((guide, index) => (
                         <div className="guide-card" key={index}>
@@ -199,8 +203,8 @@ const LandingPage = () => {
                                     src={getCloudinaryUrl(guide.profilePhoto)}
                                     alt={guide.fullName}
                                     onError={(e) => {
-                                      e.target.onerror = null; // Prevent infinite loop if default image fails
-                                      e.target.src = '/default-profile.png';
+                                        e.target.onerror = null; // Prevent infinite loop if default image fails
+                                        e.target.src = '/default-profile.png';
                                     }}
                                     className='guide-photo'
                                 />
@@ -232,50 +236,54 @@ const LandingPage = () => {
                 <div className="tour-guide-registration">
                     <h1 className="tour-guide-heading">REGISTER AS A TOUR GUIDE</h1>
 
-                    <div className="tour-guide-steps">
-                        <div className="tour-guide-step">
-                            <div className="step-icon">
-                                <img src='/Icons/add-user.png' alt='document' className='guide-icons' />
+                    <Link to="/guideRegister" className="tour-guide-steps-link">
+                        <div className="tour-guide-steps">
+                            <div className="tour-guide-step">
+                                <div className="step-icon">
+                                    <img src='/Icons/add-user.png' alt='document' className='guide-icons' />
+                                </div>
+                                <h3 className="step-title">STEP 1:</h3>
+                                <h2 className="step-subtitle">CREATE YOUR PROFILE</h2>
+                                <p className="step-description">
+                                    Enter your basic details and upload
+                                    <br />a profile photo.
+                                </p>
                             </div>
-                            <h3 className="step-title">STEP 1:</h3>
-                            <h2 className="step-subtitle">CREATE YOUR PROFILE</h2>
-                            <p className="step-description">
-                                Enter your basic details and upload
-                                <br />a profile photo.
-                            </p>
-                        </div>
 
-                        <div className="tour-guide-step">
-                            <div className="step-icon">
-                                <img src='/Icons/document.png' alt='document' className='guide-icons' />
+                            <div className="tour-guide-step">
+                                <div className="step-icon">
+                                    <img src='/Icons/document.png' alt='document' className='guide-icons' />
+                                </div>
+                                <h3 className="step-title">STEP 2:</h3>
+                                <h2 className="step-subtitle">ADD YOUR CREDENTIALS</h2>
+                                <p className="step-description">
+                                    Share your guide license,
+                                    <br />expertise, languages,
+                                    <br />and tour types.
+                                </p>
                             </div>
-                            <h3 className="step-title">STEP 2:</h3>
-                            <h2 className="step-subtitle">ADD YOUR CREDENTIALS</h2>
-                            <p className="step-description">
-                                Share your guide license,
-                                <br />expertise, languages,
-                                <br />and tour types.
-                            </p>
-                        </div>
 
-                        <div className="tour-guide-step">
-                            <div className="step-icon">
-                                <img src='/Icons/complete.png' alt='document' className='guide-icons' />
+                            <div className="tour-guide-step">
+                                <div className="step-icon">
+                                    <img src='/Icons/complete.png' alt='document' className='guide-icons' />
+                                </div>
+                                <h3 className="step-title">STEP 3:</h3>
+                                <h2 className="step-subtitle">GET VERIFIED & GO LIVE</h2>
+                                <p className="step-description">
+                                    Once approved, your profile
+                                    <br />becomes searchable to
+                                    <br />travelers worldwide.
+                                </p>
                             </div>
-                            <h3 className="step-title">STEP 3:</h3>
-                            <h2 className="step-subtitle">GET VERIFIED & GO LIVE</h2>
-                            <p className="step-description">
-                                Once approved, your profile
-                                <br />becomes searchable to
-                                <br />travelers worldwide.
-                            </p>
                         </div>
+                    </Link>
+
+                    <div className="register-now-button-container">
+                        <Link to="/guideRegister">
+                            <button className="tour-guide-button">REGISTER NOW</button>
+                        </Link>
                     </div>
                 </div>
-
-                <Link to="/guideRegister">
-                    <button className="tour-guide-button">REGISTER NOW</button>
-                </Link>
             </div>
 
             <div className="about-us-container" id="about">
@@ -311,7 +319,7 @@ const LandingPage = () => {
                 </div>
             </div>
             <div className="about-us-container" id="contact">
-            <Footer />
+                <Footer />
             </div>
         </div>
     );

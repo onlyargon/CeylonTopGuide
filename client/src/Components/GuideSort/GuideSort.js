@@ -142,25 +142,27 @@ const GuideList = () => {
       <div className="main-content">
         <div className="guide-grid">
           {guides.map(guide => (
-            <div key={guide._id} className="guide-card">
-              <img
-                src={getCloudinaryUrl(guide.profilePhoto)}
-                alt={guide.fullName}
-                onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.src = '/default-profile.png';
-                }}
-              />
-              <h4>{guide.fullName}</h4>
-              <p>Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
-              <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
-              <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
-              <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
-              <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
-              <p>Hourly: ${guide.pricing?.hourlyRate}</p>
-              <p>Daily: ${guide.pricing?.dailyRate}</p>
-              <Link to={`/guides/${guide._id}`}>View Details</Link>
-            </div>
+           <div key={guide._id} className="guide-card">
+           <img
+             src={getCloudinaryUrl(guide.profilePhoto)}
+             alt={guide.fullName}
+             onError={(e) => {
+               e.target.onerror = null; 
+               e.target.src = '/default-profile.png';
+             }}
+           />
+           <div className="guide-card-content">
+             <h4>{guide.fullName}</h4>
+             <p>Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
+             <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
+             <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
+             <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
+             <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
+             <p>Hourly: ${guide.pricing?.hourlyRate}</p>
+             <p>Daily: ${guide.pricing?.dailyRate}</p>
+             <Link to={`/guides/${guide._id}`}>View Details</Link>
+           </div>
+         </div>
           ))}
         </div>
       </div>

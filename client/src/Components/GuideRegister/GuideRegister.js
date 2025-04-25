@@ -43,23 +43,23 @@ const Register = () => {
         formData.append('file', file);
         formData.append('upload_preset', 'guide_photos'); // Add your preset name here
         formData.append('folder', 'tour_photos');
-      
+
         try {
-          const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            }
-          );
-          return response.data.secure_url;
+            const response = await axios.post(
+                `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            return response.data.secure_url;
         } catch (error) {
-          console.error('Upload error details:', error.response?.data);
-          throw new Error('Upload failed');
+            console.error('Upload error details:', error.response?.data);
+            throw new Error('Upload failed');
         }
-      };
+    };
 
     const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
     const districts = {
@@ -68,7 +68,7 @@ const Register = () => {
         Southern: ["Galle", "Matara", "Hambantota"],
         Uva: ["Badulla", "Monaragala"],
         Northern: ["Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullativu"],
-        Sabaragamuwa: ["Kegalle","Rathnapura"],
+        Sabaragamuwa: ["Kegalle", "Rathnapura"],
         North_Western: ["Kurunagla", "Puttalam"],
         North_Central: ["Anuradhapura", "Polonnaruwa"],
         Eastern: ["Ampara", "Batticaloa", "Trincomalee"]
@@ -86,6 +86,11 @@ const Register = () => {
         'slide9.jpg',
         'slide10.jpg',
     ];
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
@@ -128,7 +133,7 @@ const Register = () => {
         });
     };
 
-    const availableSpecialties = ["Cultural Tours", "Wildlife Safaris", "Adventure Travels", "Historical Sites" , "Hiking" , "Photography"];
+    const availableSpecialties = ["Cultural Tours", "Wildlife Safaris", "Adventure Travels", "Historical Sites", "Hiking", "Photography"];
     const availableRegions = ["Colombo", "Kandy", "Ella", "Galle", "Sigiriya", "Nuwara Eliya"];
 
     const handleSelect = (e, field) => {
@@ -169,21 +174,21 @@ const Register = () => {
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-          setUploading(true);
-          try {
-            const url = await uploadToCloudinary(file);
-            setFormData({
-              ...formData,
-              profilePhoto: url,
-              profilePhotoPreview: url,
-            });
-          } catch (error) {
-            alert('Failed to upload profile photo: ' + error.message);
-          } finally {
-            setUploading(false);
-          }
+            setUploading(true);
+            try {
+                const url = await uploadToCloudinary(file);
+                setFormData({
+                    ...formData,
+                    profilePhoto: url,
+                    profilePhotoPreview: url,
+                });
+            } catch (error) {
+                alert('Failed to upload profile photo: ' + error.message);
+            } finally {
+                setUploading(false);
+            }
         }
-      };
+    };
 
 
 
@@ -211,7 +216,7 @@ const Register = () => {
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
         const fileName = e.target.name;
-        
+
         if (file) {
             try {
                 const url = await uploadToCloudinary(file);
@@ -229,7 +234,7 @@ const Register = () => {
 
 
     const nextStep = () => {
-
+        window.scrollTo(0, 0);
         if (step === 3 && formData.guideRank === "Unregistered Guide") {
             setStep(step + 2);
         } else {
@@ -239,7 +244,7 @@ const Register = () => {
 
 
     const prevStep = () => {
-
+        window.scrollTo(0, 0);
         if (step === 5 && formData.guideRank === "Unregistered Guide") {
             setStep(step - 2);
         } else {
@@ -380,6 +385,7 @@ const Register = () => {
         formDataToSend.append("username", formData.username);
         formDataToSend.append("password", formData.password);
         formDataToSend.append("bio", formData.bio);
+
 
         // Append files (if they exist)
         if (formData.profilePhoto) {
@@ -714,7 +720,6 @@ const Register = () => {
                                         accept="image/*"
                                         name="tourGuideLicense"
                                         onChange={handleFileUpload}
-                                        required
                                     />
                                 </label>
                                 {formData.tourGuideLicensePreview && (
@@ -738,7 +743,6 @@ const Register = () => {
                                         name="governmentID"
                                         accept="image/*"
                                         onChange={handleFileUpload}
-                                        required
                                     />
                                 </label>
                                 {formData.governmentIDPreview && (

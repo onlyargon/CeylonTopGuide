@@ -333,6 +333,12 @@ html {
     margin: 0 auto;
 }
 
+.tour-guide-steps-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .tour-guide-steps {
     display: flex;
     flex-direction: column;
@@ -345,6 +351,18 @@ html {
     border: 2px solid #2c5d3f;
     border-radius: 8px;
     text-align: center;
+    flex: 1;
+    min-height: 300px; /* Set a minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.tour-guide-step:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .step-icon img {
@@ -370,20 +388,63 @@ html {
     line-height: 1.5;
 }
 
+.register-now-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
 .tour-guide-button {
     background-color: #2c5d3f;
     color: white;
     border: none;
     padding: 12px 30px;
     font-size: 16px;
+    font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 200px;
 }
 
 .tour-guide-button:hover {
     background-color: #224830;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* For larger screens */
+@media (min-width: 768px) {
+    .register-now-button-container {
+        margin-top: 60px;
+    }
+    
+    .tour-guide-button {
+        padding: 15px 40px;
+        font-size: 18px;
+    }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+    .tour-guide-steps {
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .tour-guide-step {
+        min-height: 350px; /* Adjust height for larger screens */
+    }
+}
+
+/* Desktop screens */
+@media (min-width: 1024px) {
+    .tour-guide-step {
+        padding: 40px 20px;
+        min-height: 400px; /* Adjust height for even larger screens */
+    }
 }
 
 /* About Us Section */
