@@ -272,3 +272,94 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .guide-list-container {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 60px; /* Below header */
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .sidebar.expanded {
+    max-height: calc(100vh - 120px); /* Account for header and bottom space */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  .filter-toggle {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    z-index: 110;
+  }
+
+  .main-content {
+    margin-top: 120px; /* Space for header + filter toggle */
+    padding: 1rem;
+  }
+
+  .guide-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .guide-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .guide-card img {
+    height: 150px;
+  }
+
+  /* Improve filter group spacing */
+  .filter-group {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Better spacing for filter options */
+  .filter-group div {
+    padding: 0.2rem 0;
+  }
+
+  /* Adjust font sizes for mobile */
+  .guide-card h4 {
+    font-size: 1.1rem;
+  }
+
+  .guide-card p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Small mobile devices (e.g., iPhone SE) */
+@media (max-width: 375px) {
+  .guide-card {
+    padding: 0.8rem;
+  }
+
+  .guide-card img {
+    height: 120px;
+  }
+
+  .guide-card a {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
