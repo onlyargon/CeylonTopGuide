@@ -78,6 +78,18 @@
   border-bottom: 2px solid #e0e0e0;
 }
 
+/* Mobile-specific filter heading visibility */
+@media (max-width: 767px) {
+  .sidebar:not(.expanded) .filter-content h3 {
+    display: none;
+  }
+  
+  .sidebar.expanded .filter-content h3 {
+    display: block;
+    margin-top: 1rem;
+  }
+}
+
 .filter-group {
   margin-bottom: 1.5rem;
   background-color: #f9f9f9;
@@ -282,7 +294,7 @@
 
   .sidebar {
     position: relative;
-    top: 50px; /* Below header */
+    top: 30px; /* Below header */
     left: 0;
     right: 0;
     width: 100%;
