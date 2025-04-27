@@ -613,6 +613,10 @@ html {
         font-size: 36px;
     }
 
+    .guide-card {
+        flex: 0 0 280px;
+        height: 380px;
+    }
 
     .tour-guide-step {
         padding: 40px 20px;
