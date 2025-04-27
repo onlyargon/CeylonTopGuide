@@ -55,25 +55,29 @@ const GuideList = () => {
     fetchGuides();
   }, [filters]);
 
-  const guideRanks = ['All','National Guide','Provincial Guide','Chauffer Guide','Driver Guide','Unregistered Guide'];
-  const languages = ['All','English','Spanish','French','German','Chinese','Tamil','Sinhala'];
-  const experienceOptions = ['All','1','2','3','4','5','6','7','8','9','10+'];
-  const specialtyOptions = ['All','Cultural Tours','Wildlife Tours','Hiking','Adventure Travel','Historical Sites','Photography'];
-  const tourRegions = ['All','All Island','Colombo','Kandy','Galle','Sigiriya','Ella','Jaffna','Anuradhapura'];
-  const availableDays = ['All','Full-time','Part-time','Weekends Only','On-Request'];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const guideRanks = ['All', 'National Guide', 'Provincial Guide', 'Chauffer Guide', 'Driver Guide', 'Unregistered Guide'];
+  const languages = ['All', 'English', 'Spanish', 'French', 'German', 'Chinese', 'Tamil', 'Sinhala'];
+  const experienceOptions = ['All', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10+'];
+  const specialtyOptions = ['All', 'Cultural Tours', 'Wildlife Tours', 'Hiking', 'Adventure Travel', 'Historical Sites', 'Photography'];
+  const tourRegions = ['All', 'All Island', 'Colombo', 'Kandy', 'Galle', 'Sigiriya', 'Ella', 'Jaffna', 'Anuradhapura'];
+  const availableDays = ['All', 'Full-time', 'Part-time', 'Weekends Only', 'On-Request'];
 
   const getCloudinaryUrl = (imagePath, width = 200, height = 200, crop = 'fill') => {
     if (!imagePath) return '/default-profile.png';
     if (imagePath.startsWith('http')) return imagePath;
     return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/w_${width},h_${height},c_${crop}/${imagePath}`;
   };
-  
+
   return (
     <>
-      <Header/>
+      <Header />
       <div className="guide-list-container">
         <div className={`sidebar ${isFiltersExpanded ? 'expanded' : 'collapsed'}`}>
-          <button 
+          <button
             className={`filter-toggle ${isFiltersExpanded ? 'expanded' : ''}`}
             onClick={toggleFilters}
           >
@@ -86,11 +90,11 @@ const GuideList = () => {
               <label>Rank</label>
               {guideRanks.map(rank => (
                 <div key={rank}>
-                  <input 
-                    type="radio" 
-                    name="rank" 
-                    value={rank} 
-                    onChange={handleChange} 
+                  <input
+                    type="radio"
+                    name="rank"
+                    value={rank}
+                    onChange={handleChange}
                     checked={filters.rank === rank}
                   /> {rank}
                 </div>
@@ -102,11 +106,11 @@ const GuideList = () => {
               <label>Language</label>
               {languages.map(lang => (
                 <div key={lang}>
-                  <input 
-                    type="radio" 
-                    name="language" 
-                    value={lang} 
-                    onChange={handleChange} 
+                  <input
+                    type="radio"
+                    name="language"
+                    value={lang}
+                    onChange={handleChange}
                     checked={filters.language === lang}
                   /> {lang}
                 </div>
@@ -153,22 +157,22 @@ const GuideList = () => {
 
             <div className="filter-group">
               <label>Hourly Rate (Max)</label>
-              <input 
-                type="number" 
-                name="maxHourlyRate" 
-                value={filters.maxHourlyRate} 
-                onChange={handleChange} 
+              <input
+                type="number"
+                name="maxHourlyRate"
+                value={filters.maxHourlyRate}
+                onChange={handleChange}
                 placeholder="Enter max rate"
               />
             </div>
 
             <div className="filter-group">
               <label>Daily Rate (Max)</label>
-              <input 
-                type="number" 
-                name="maxDailyRate" 
-                value={filters.maxDailyRate} 
-                onChange={handleChange} 
+              <input
+                type="number"
+                name="maxDailyRate"
+                value={filters.maxDailyRate}
+                onChange={handleChange}
                 placeholder="Enter max rate"
               />
             </div>
@@ -194,7 +198,7 @@ const GuideList = () => {
                   src={getCloudinaryUrl(guide.profilePhoto)}
                   alt={guide.fullName}
                   onError={(e) => {
-                    e.target.onerror = null; 
+                    e.target.onerror = null;
                     e.target.src = '/default-profile.png';
                   }}
                 />
@@ -214,7 +218,7 @@ const GuideList = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
