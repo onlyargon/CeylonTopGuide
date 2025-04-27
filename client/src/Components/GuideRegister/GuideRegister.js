@@ -325,10 +325,13 @@ const Register = () => {
             // Only check documents if not an unregistered guide
             if (formData.guideRank !== "Unregistered Guide") {
                 requiredFields.push(
-                    { field: formData.tourGuideLicense, message: "Tour Guide License is required" },
-                    { field: formData.governmentID, message: "Government ID is required" }
+                    { field: formData.tourGuideLicense, message: "Tour Guide License is required" }
                 );
             }
+            // Always require Government ID
+            requiredFields.push(
+                { field: formData.governmentID, message: "Government ID is required" }
+            );
 
             // Check all required fields
             for (const { field, message } of requiredFields) {
@@ -704,32 +707,34 @@ const Register = () => {
                     )}
 
 
-                    {step === 4 && formData.guideRank !== "Unregistered Guide" && (
+                    {step === 4 && (
                         <div>
                             <h2>Step 4: Documents for Verification</h2>
 
-                            <div className="registration-form-group">
-                                <label>Tour Guide License</label>
-                                <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
+                            {formData.guideRank !== "Unregistered Guide" && (
+                                <div className="registration-form-group">
+                                    <label>Tour Guide License</label>
+                                    <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
 
-                                <label className="file-input-wrapper">
-                                    <span className="file-input-button">Choose License File</span>
-                                    <input
-                                        className="registration-file-input"
-                                        type="file"
-                                        accept="image/*"
-                                        name="tourGuideLicense"
-                                        onChange={handleFileUpload}
-                                    />
-                                </label>
-                                {formData.tourGuideLicensePreview && (
-                                    <img
-                                        src={formData.tourGuideLicensePreview}
-                                        alt="License Preview"
-                                        className="registration-preview-image"
-                                    />
-                                )}
-                            </div>
+                                    <label className="file-input-wrapper">
+                                        <span className="file-input-button">Choose License File</span>
+                                        <input
+                                            className="registration-file-input"
+                                            type="file"
+                                            accept="image/*"
+                                            name="tourGuideLicense"
+                                            onChange={handleFileUpload}
+                                        />
+                                    </label>
+                                    {formData.tourGuideLicensePreview && (
+                                        <img
+                                            src={formData.tourGuideLicensePreview}
+                                            alt="License Preview"
+                                            className="registration-preview-image"
+                                        />
+                                    )}
+                                </div>
+                            )}
 
                             <div className="registration-form-group">
                                 <label>NIC (National Identity Card)</label>
@@ -827,7 +832,7 @@ const Register = () => {
 
                             <div className="registration-form-group">
                                 <label>Years of Experience</label>
-                                <p className="registration-sub-label">Enter how long you’ve been guiding.</p>
+                                <p className="registration-sub-label">Enter how long you've been guiding.</p>
                                 <input
                                     className="registration-input"
                                     type="number"
@@ -1268,32 +1273,18 @@ const Register = () => {
                                 </div>
 
                                 <div className="registration-review-section">
-                                    <h3>Documents</h3>
+                                    <h3>Verification Documents</h3>
                                     <div className="registration-review-grid">
                                         <div>
-                                            <strong>Tour Guide License:</strong>
-                                            {formData.tourGuideLicensePreview ? (
-                                                <img
-                                                    src={formData.tourGuideLicensePreview}
-                                                    alt="Tour Guide License"
-                                                    className="registration-preview-image"
-                                                />
-                                            ) : (
-                                                <p>No license uploaded</p>
-                                            )}
-                                        </div>
-                                        <div>
                                             <strong>Government ID:</strong>
-                                            {formData.governmentIDPreview ? (
-                                                <img
-                                                    src={formData.governmentIDPreview}
-                                                    alt="Government ID"
-                                                    className="registration-preview-image"
-                                                />
-                                            ) : (
-                                                <p>No ID uploaded</p>
-                                            )}
+                                            <p>Uploaded</p>
                                         </div>
+                                        {formData.tourGuideLicense && (
+                                            <div>
+                                                <strong>Tour Guide License:</strong>
+                                                <p>Uploaded</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
