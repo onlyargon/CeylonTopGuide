@@ -197,24 +197,26 @@ const LandingPage = () => {
                 <h1 className="tour-guide-heading">FIND A SUITABLE GUIDE FOR YOU</h1>
                 <div className="find-guide-carousel" ref={carouselRef}>
                     {topGuides.map((guide, index) => (
-                        <div className="guide-card" key={index}>
-                            <div className="guide-image">
-                                <img
-                                    src={getCloudinaryUrl(guide.profilePhoto)}
-                                    alt={guide.fullName}
-                                    onError={(e) => {
-                                        e.target.onerror = null; // Prevent infinite loop if default image fails
-                                        e.target.src = '/default-profile.png';
-                                    }}
-                                    className='guide-photo'
-                                />
+                        <Link to={`/guides/${guide._id}`} key={index} className="guide-card-link">
+                            <div className="guide-card">
+                                <div className="guide-image">
+                                    <img
+                                        src={getCloudinaryUrl(guide.profilePhoto)}
+                                        alt={guide.fullName}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = '/default-profile.png';
+                                        }}
+                                        className='guide-photo'
+                                    />
+                                </div>
+                                <div className="guide-overlay">
+                                    <div className="guide-label">RANK #{index + 1}</div>
+                                    <div className="guide-name">{guide.fullName}</div>
+                                    <div className="guide-rating">⭐ {guide.averageRating?.toFixed(1) || "0.0"}</div>
+                                </div>
                             </div>
-                            <div className="guide-overlay">
-                                <div className="guide-label">RANK #{index + 1}</div>
-                                <div className="guide-name">{guide.fullName}</div>
-                                <div className="guide-rating">⭐ {guide.averageRating?.toFixed(1) || "0.0"}</div>
-                            </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 
