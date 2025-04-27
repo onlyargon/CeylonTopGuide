@@ -281,7 +281,7 @@
   }
 
   .sidebar {
-    position: fixed;
+    position: relative;
     top: 60px; /* Below header */
     left: 0;
     right: 0;
