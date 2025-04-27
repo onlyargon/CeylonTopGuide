@@ -300,7 +300,8 @@ html {
 }
 
 .find-guide-nav-button {
-    display: none; /* Hide arrows on mobile by default */
+    display: none;
+    /* Hide arrows on mobile by default */
 }
 
 .find-guide-button-container {
@@ -352,7 +353,8 @@ html {
     border-radius: 8px;
     text-align: center;
     flex: 1;
-    min-height: 300px; /* Set a minimum height */
+    min-height: 300px;
+    /* Set a minimum height */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -362,7 +364,7 @@ html {
 .tour-guide-step:hover {
     background-color: #f5f5f5;
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .step-icon img {
@@ -412,7 +414,7 @@ html {
 .tour-guide-button:hover {
     background-color: #224830;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* For larger screens */
@@ -420,7 +422,7 @@ html {
     .register-now-button-container {
         margin-top: 60px;
     }
-    
+
     .tour-guide-button {
         padding: 20px 40px;
         font-size: 25px;
@@ -433,9 +435,10 @@ html {
         flex-direction: row;
         gap: 20px;
     }
-    
+
     .tour-guide-step {
-        min-height: 350px; /* Adjust height for larger screens */
+        min-height: 350px;
+        /* Adjust height for larger screens */
     }
 }
 
@@ -443,7 +446,8 @@ html {
 @media (min-width: 1024px) {
     .tour-guide-step {
         padding: 40px 20px;
-        min-height: 400px; /* Adjust height for even larger screens */
+        min-height: 400px;
+        /* Adjust height for even larger screens */
     }
 }
 
@@ -614,8 +618,12 @@ html {
     }
 
     .guide-card {
-        flex: 0 0 280px;
-        height: 380px;
+        flex: 0 0 250px;
+        height: 320px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
     }
 
     .tour-guide-step {
@@ -692,7 +700,8 @@ html {
     }
 
     .ceylon-banner-container {
-        margin-top: 120px; /* More space for stacked header */
+        margin-top: 120px;
+        /* More space for stacked header */
     }
 }
 
