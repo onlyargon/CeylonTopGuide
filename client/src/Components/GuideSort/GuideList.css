@@ -282,7 +282,7 @@
 
   .sidebar {
     position: relative;
-    top: 30px; /* Below header */
+    top: 50px; /* Below header */
     left: 0;
     right: 0;
     width: 100%;
