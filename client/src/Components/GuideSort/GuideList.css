@@ -282,7 +282,7 @@
 
   .sidebar {
     position: relative;
-    top: 60px; /* Below header */
+    top: 10px; /* Below header */
     left: 0;
     right: 0;
     width: 100%;
@@ -300,8 +300,8 @@
   }
 
   .filter-toggle {
-    position: fixed;
-    top: 60px;
+    position: absolute;
+    top: 40px;
     left: 0;
     right: 0;
     border-radius: 0;
