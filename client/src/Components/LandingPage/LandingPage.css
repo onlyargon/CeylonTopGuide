@@ -264,14 +264,14 @@ html {
 }
 
 .guide-image {
-    min-width: 320px;
+    min-width: none;
     min-height: 320px;
+    object-fit: cover;
 }
 
 .guide-photo {
     width: 100%;
     min-height: 320px;
-    object-fit: cover;
 }
 
 .guide-overlay {
