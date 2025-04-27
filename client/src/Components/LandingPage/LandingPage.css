@@ -293,6 +293,8 @@ html {
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
     color: white;
     z-index: 2; /* Ensure overlay stays above image */
 }
