@@ -261,17 +261,31 @@ html {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 320px;
+    transition: transform 0.3s ease; /* Add smooth transition */
+}
+
+.guide-card:hover {
+    transform: scale(1.02); /* Slight zoom on hover */
 }
 
 .guide-image {
-    min-width: none;
-    min-height: 320px;
-    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .guide-photo {
     width: 100%;
-    min-height: 320px;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease; /* Add zoom transition */
+}
+
+.guide-card:hover .guide-photo {
+    transform: scale(1.05); /* Zoom effect on hover */
 }
 
 .guide-overlay {
@@ -282,6 +296,19 @@ html {
     padding: 15px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
     color: white;
+    z-index: 2; /* Ensure overlay stays above image */
+}
+
+.guide-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.guide-card-link:hover {
+    transform: translateY(-5px);
 }
 
 .guide-label {
