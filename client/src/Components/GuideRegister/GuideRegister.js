@@ -234,22 +234,12 @@ const Register = () => {
 
     const nextStep = () => {
         window.scrollTo(0, 0);
-        if (step === 3 && formData.guideRank === "Unregistered Guide") {
-            // Skip to special step 4 for unregistered guides
-            setStep(5); // After documents, go straight to professional details (step 5)
-        } else {
-            setStep(step + 1);
-        }
+        setStep(step + 1);
     };
 
     const prevStep = () => {
         window.scrollTo(0, 0);
-        if (step === 5 && formData.guideRank === "Unregistered Guide") {
-            // Go back to special step 4 for unregistered guides
-            setStep(3); // Back to guide rank selection
-        } else {
-            setStep(step - 1);
-        }
+        setStep(step - 1);
     };
 
     const handleChange = (e) => {
