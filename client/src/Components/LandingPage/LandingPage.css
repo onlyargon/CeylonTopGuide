@@ -264,7 +264,7 @@ html {
 }
 
 .guide-image {
-    width: 100%;
+    min-width: 320px;
     min-height: 320px;
 }
 
