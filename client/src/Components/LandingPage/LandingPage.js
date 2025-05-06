@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import './LandingPage.css';
 import Header from '../Header/Header';
@@ -84,30 +83,43 @@ const LandingPage = () => {
                         <ul className="nav-list">
                             <li className="nav-item"><a href="#home" className="nav-link">Home</a></li>
                             <li className="nav-item"><a href="#find-guide" className="nav-link">Find a guide</a></li>
-                            <li className="nav-item"><a href="#register" className="nav-link">Register as a guide</a></li>
                             <li className="nav-item"><a href="#about" className="nav-link">About us</a></li>
                             <li className="nav-item"><a href="#contact" className="nav-link">Contact</a></li>
                         </ul>
                     </nav>
 
                     <div className="header-auth">
-                        <Link to="/guideLogin" className="auth-link">Login / Sign-up</Link>
+                        <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
+                        <Link to="/guideLogin" className="auth-link">Login</Link>
                     </div>
                 </div>
             </header>
-            <div
-                className="ceylon-banner-container"
-                id="home"
-                style={{
-                    backgroundImage: `url(/Slideshow/${slides[currentSlide]})`,
-                    transition: 'background-image 3s ease-in-out',
-                }}
-            >
-
-                <div className="ceylon-banner-content">
-                    <h1 className="ceylon-welcome-text">Welcome to</h1>
-                    <h1 className="ceylon-brand-name">CEYLON TOPGUIDE</h1>
-                    <p className="ceylon-tagline">Connecting Travelers with Sri Lanka's Best Tour Guides</p>
+            <div className="slider-container" id="home">
+                <div className="slider-wrapper">
+                    {slides.map((slide, index) => (
+                        <div
+                            key={index}
+                            className={`slider-slide ${index === currentSlide ? 'active' : ''}`}
+                            style={{
+                                backgroundImage: `url(/Slideshow/${slide})`,
+                            }}
+                        >
+                            <div className="ceylon-banner-content">
+                                <h1 className="ceylon-welcome-text">Welcome to</h1>
+                                <h1 className="ceylon-brand-name">CEYLON TOPGUIDE</h1>
+                                <p className="ceylon-tagline">Connecting Travelers with Sri Lanka's Best Tour Guides</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="slider-dots">
+                    {slides.map((_, index) => (
+                        <button
+                            key={index}
+                            className={`slider-dot ${index === currentSlide ? 'active' : ''}`}
+                            onClick={() => setCurrentSlide(index)}
+                        />
+                    ))}
                 </div>
             </div>
 
@@ -220,13 +232,6 @@ const LandingPage = () => {
                     ))}
                 </div>
 
-                <button className="find-guide-nav-button left" onClick={scrollLeft}>
-                    &lt;
-                </button>
-                <button className="find-guide-nav-button right" onClick={scrollRight}>
-                    &gt;
-                </button>
-
                 <div className="find-guide-button-container">
                     <Link to="/guideList">
                         <button className="find-guide-button">FIND A GUIDE</button>
@@ -242,7 +247,9 @@ const LandingPage = () => {
                         <div className="tour-guide-steps">
                             <div className="tour-guide-step">
                                 <div className="step-icon">
-                                    <img src='/Icons/add-user.png' alt='document' className='guide-icons' />
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
                                 </div>
                                 <h3 className="step-title">STEP 1:</h3>
                                 <h2 className="step-subtitle">CREATE YOUR PROFILE</h2>
@@ -254,7 +261,9 @@ const LandingPage = () => {
 
                             <div className="tour-guide-step">
                                 <div className="step-icon">
-                                    <img src='/Icons/document.png' alt='document' className='guide-icons' />
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                    </svg>
                                 </div>
                                 <h3 className="step-title">STEP 2:</h3>
                                 <h2 className="step-subtitle">ADD YOUR CREDENTIALS</h2>
@@ -267,7 +276,9 @@ const LandingPage = () => {
 
                             <div className="tour-guide-step">
                                 <div className="step-icon">
-                                    <img src='/Icons/complete.png' alt='document' className='guide-icons' />
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
                                 </div>
                                 <h3 className="step-title">STEP 3:</h3>
                                 <h2 className="step-subtitle">GET VERIFIED & GO LIVE</h2>
@@ -296,14 +307,14 @@ const LandingPage = () => {
                         <h2 className="about-us-heading">We Connect the Best Guides with Curious Travelers.</h2>
 
                         <p className="about-us-paragraph">
-                            At CeylonTopGuide, we’re not just building a
-                            platform, we’re opening a door that connects curious
+                            At CeylonTopGuide, we're not just building a
+                            platform, we're opening a door that connects curious
                             travelers with the local voices who know Sri Lanka best.
                         </p>
 
                         <p className="about-us-paragraph">
                             Our mission is simple; make finding experienced, passionate local guides straightforward and reliable.
-                            We bring Sri Lanka’s professional tour guides together on one trusted platform, each verified to help travelers confidently choose who will lead their journey.
+                            We bring Sri Lanka's professional tour guides together on one trusted platform, each verified to help travelers confidently choose who will lead their journey.
                         </p>
 
                         <p className="about-us-paragraph">
@@ -311,7 +322,7 @@ const LandingPage = () => {
                         </p>
 
                         <p className="about-us-paragraph">
-                            Welcome to our community. We’re glad you're here.
+                            Welcome to our community. We're glad you're here.
                         </p>
                     </div>
 

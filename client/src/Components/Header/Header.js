@@ -13,16 +13,16 @@ function Header() {
 
                 <nav className="header-nav">
                     <ul className="nav-list">
-                        <li className="nav-item"><Link to="/landingPage" className="nav-link">Home</Link></li>
-                        <li className="nav-item"><Link to="/landingPage" className="nav-link">Find a guide</Link></li>
-                        <li className="nav-item"><Link to="/landingPage" className="nav-link">Register as a guide</Link></li>
-                        <li className="nav-item"><Link to="/landingPage" className="nav-link">About us</Link></li>
-                        <li className="nav-item"><Link to="/landingPage" className="nav-link">Contact</Link></li>
+                        <li className="nav-item"><a href="#home" className="nav-link">Home</a></li>
+                        <li className="nav-item"><a href="#find-guide" className="nav-link">Find a guide</a></li>
+                        <li className="nav-item"><a href="#about" className="nav-link">About us</a></li>
+                        <li className="nav-item"><a href="#contact" className="nav-link">Contact</a></li>
                     </ul>
                 </nav>
 
                 <div className="header-auth">
-                    <Link to="/guideLogin" className="auth-link">Login / Sign-up</Link>
+                    <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
+                    <Link to="/guideLogin" className="auth-link">Login</Link>
                 </div>
             </div>
         </header>

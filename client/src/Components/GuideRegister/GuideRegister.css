@@ -15,7 +15,6 @@
     position: relative;
     color: white;
     z-index: 1;
-    transition: background-image 3s ease-in-out;
     padding: 20px;
 }
 
@@ -41,29 +40,35 @@
 }
 
 .registration-sub-label {
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
     color: #666;
     font-size: 0.85rem;
     margin-top: 0.25rem;
-    transition: all 0.3s ease-in-out;
-    transform: translateY(-5px);
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .registration-form-group:hover .registration-sub-label {
     opacity: 1;
-    max-height: 50px;
-    transform: translateY(0);
 }
 
 .registration-form-group {
     margin-bottom: 1rem;
-    transition: margin-bottom 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    padding: 8px;
+    border-radius: 6px;
+    position: relative;
 }
 
-.registration-form-group:hover {
-    margin-bottom: 1.5rem;
+.registration-form-group.error {
+    border: 1px solid #ff4444;
+    background-color: #fff8f8;
+}
+
+.registration-form-group.error .registration-input,
+.registration-form-group.error .registration-select {
+    border: 1px solid #ff4444;
+    background-color: #fff8f8;
 }
 
 .registration-form-group label {
@@ -415,5 +420,25 @@
     .registration-tag {
         font-size: 13px;
         padding: 5px 8px;
+    }
+}
+
+.registration-error-message {
+    color: #ff4444;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

@@ -20,7 +20,16 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: 'https://ceylontopguild.vercel.app',
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -48,9 +57,9 @@ app.use(session({
     }),
     proxy: true,
     cookie: {
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         domain: process.env.NODE_ENV === 'production' ? 'topguide.onrender.com' : undefined,
         maxAge: 24 * 60 * 60 * 1000
     }
@@ -152,11 +161,17 @@ app.get('/health', (req, res) => {
 // MongoDB connection
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        const mongoURI = process.env.MONGO_URI;
+        if (!mongoURI) {
+            throw new Error('MongoDB URI is not defined in environment variables');
+        }
+        
+        await mongoose.connect(mongoURI);
         console.log("Connected to MongoDB");
 
-        app.listen(process.env.PORT || 5000, () => {
-            console.log(`Server running on port ${process.env.PORT || 5000}`);
+        const port = process.env.PORT || 5000;
+        app.listen(port, () => {
+            console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${port}`);
         });
     } catch (err) {
         console.error("MongoDB connection error:", err);

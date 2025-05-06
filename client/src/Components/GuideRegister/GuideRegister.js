@@ -41,7 +41,7 @@ const Register = () => {
     const uploadToCloudinary = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', 'guide_photos'); // Add your preset name here
+        formData.append('upload_preset', 'guide_photos');
         formData.append('folder', 'tour_photos');
 
         try {
@@ -125,7 +125,6 @@ const Register = () => {
         }
     };
 
-
     const removeLanguage = (language) => {
         setFormData({
             ...formData,
@@ -148,7 +147,7 @@ const Register = () => {
             setFormData({
                 ...formData,
                 [field]: [...formData[field], formData[inputField].trim()],
-                [inputField]: "", // Clear input after adding
+                [inputField]: "",
             });
         }
     };
@@ -157,8 +156,6 @@ const Register = () => {
         setFormData({ ...formData, [field]: formData[field].filter((i) => i !== item) });
     };
 
-
-    // Handle input changes
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -169,7 +166,6 @@ const Register = () => {
             },
         });
     };
-
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -189,8 +185,6 @@ const Register = () => {
             }
         }
     };
-
-
 
     const handleDistrictChange = (e) => {
         setFormData({
@@ -231,10 +225,96 @@ const Register = () => {
         }
     };
 
+    const validateStep = (step) => {
+        const errors = {};
+        
+        switch(step) {
+            case 1:
+                if (!formData.fullName) errors.fullName = "Full Name is required";
+                if (!formData.dateOfBirth) errors.dateOfBirth = "Date of Birth is required";
+                if (!formData.gender) errors.gender = "Gender is required";
+                if (!formData.nationality) errors.nationality = "Nationality is required";
+                if (!formData.profilePhoto) errors.profilePhoto = "Profile Photo is required";
+                break;
+                
+            case 2:
+                if (!formData.email) errors.email = "Email is required";
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = "Invalid email format";
+                if (!formData.phone) errors.phone = "Phone is required";
+                else if (!/^07[0-9]{8}$/.test(formData.phone)) errors.phone = "Phone must start with 07 and be 10 digits";
+                if (!formData.address.street) errors.street = "Street address is required";
+                if (!formData.address.city) errors.city = "City is required";
+                if (!formData.address.province) errors.province = "Province is required";
+                if (!formData.address.district) errors.district = "District is required";
+                break;
+                
+            case 3:
+                if (!formData.guideRank) errors.guideRank = "Guide Rank is required";
+                break;
+                
+            case 4:
+                if (!formData.governmentID) errors.governmentID = "Government ID is required";
+                if (formData.guideRank !== "Unregistered Guide" && !formData.tourGuideLicense) {
+                    errors.tourGuideLicense = "Tour Guide License is required";
+                }
+                break;
+                
+            case 5:
+                if (formData.languagesSpoken.length === 0) errors.languagesSpoken = "At least one language is required";
+                if (!formData.experienceYears) errors.experienceYears = "Years of experience is required";
+                else if (isNaN(formData.experienceYears) || formData.experienceYears < 0) errors.experienceYears = "Invalid years of experience";
+                if (formData.specialties.length === 0) errors.specialties = "At least one specialty is required";
+                if (formData.tourRegions.length === 0) errors.tourRegions = "At least one tour region is required";
+                break;
+                
+            case 6:
+                if (!formData.availability) errors.availability = "Availability is required";
+                if (!formData.rateType) errors.rateType = "Please select either hourly or daily rate";
+                if (formData.rateType === "hourly" && !formData.hourlyRate) {
+                    errors.hourlyRate = "Hourly Rate is required";
+                } else if (formData.rateType === "hourly" && isNaN(formData.hourlyRate)) {
+                    errors.hourlyRate = "Hourly Rate must be a number";
+                }
+                if (formData.rateType === "daily" && !formData.dailyRate) {
+                    errors.dailyRate = "Daily Rate is required";
+                } else if (formData.rateType === "daily" && isNaN(formData.dailyRate)) {
+                    errors.dailyRate = "Daily Rate must be a number";
+                }
+                if (formData.paymentMethods.length === 0) errors.paymentMethods = "At least one payment method is required";
+                break;
+                
+            case 7:
+                if (!formData.username) errors.username = "Username is required";
+                if (!formData.password) errors.password = "Password is required";
+                else if (formData.password.length < 8) {
+                    errors.password = "Password must be at least 8 characters long";
+                } else if (!/[a-zA-Z]/.test(formData.password) || !/[0-9]/.test(formData.password)) {
+                    errors.password = "Password must contain both letters and numbers";
+                }
+                if (!formData.bio) errors.bio = "About Me is required";
+                break;
+        }
+        
+        return errors;
+    };
 
     const nextStep = () => {
+        const stepErrors = validateStep(step);
+        
+        if (Object.keys(stepErrors).length > 0) {
+            setErrors(stepErrors);
+            // Scroll to the first error
+            const firstErrorField = Object.keys(stepErrors)[0];
+            const errorElement = document.querySelector(`[name="${firstErrorField}"]`);
+            if (errorElement) {
+                errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+        
         window.scrollTo(0, 0);
         setStep(step + 1);
+        setErrors({});
     };
 
     const prevStep = () => {
@@ -249,146 +329,24 @@ const Register = () => {
             [name]: value,
         }));
 
-        if (name === "phone") {
-            if (!/^07[0-9]{8}$/.test(value)) {
-                setErrors((prev) => ({ ...prev, phone: "Phone must start with 07 and be 10 digits." }));
-            } else {
-                setErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.phone;
-                    return updated;
-                });
-            }
-        }
-
-        if (name === "password") {
-            if (value.length < 8) {
-                setErrors((prev) => ({ ...prev, password: "Password must be at least 8 characters long." }));
-            } else if (!/[a-zA-Z]/.test(value) || !/[0-9]/.test(value)) {
-                setErrors((prev) => ({ ...prev, password: "Password must contain both letters and numbers." }));
-            } else {
-                setErrors((prev) => {
-                    const updated = { ...prev };
-                    delete updated.password;
-                    return updated;
-                });
-            }
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
         }
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation function
-        const validateFields = () => {
-            const requiredFields = [
-                { field: formData.fullName, message: "Full Name is required" },
-                { field: formData.dateOfBirth, message: "Date of Birth is required" },
-                { field: formData.gender, message: "Gender is required" },
-                { field: formData.nationality, message: "Nationality is required" },
-                { field: formData.profilePhoto, message: "Profile Photo is required" },
-                { field: formData.email, message: "Email is required" },
-                { field: formData.phone, message: "Phone is required" },
-                { field: formData.address.street, message: "Street address is required" },
-                { field: formData.address.city, message: "City is required" },
-                { field: formData.address.province, message: "Province is required" },
-                { field: formData.address.district, message: "District is required" },
-                { field: formData.guideRank, message: "Guide Rank is required" },
-                { field: formData.languagesSpoken.length > 0, message: "At least one language is required" },
-                { field: formData.experienceYears, message: "Years of experience is required" },
-                { field: formData.specialties.length > 0, message: "At least one specialty is required" },
-                { field: formData.tourRegions.length > 0, message: "At least one tour region is required" },
-                { field: formData.availability, message: "Availability is required" },
-                { field: formData.rateType, message: "Please select either hourly or daily rate" },
-                {
-                    field: formData.rateType === "hourly" ? formData.hourlyRate : formData.dailyRate,
-                    message: formData.rateType === "hourly" ? "Hourly Rate is required" : "Daily Rate is required"
-                },
-                { field: formData.paymentMethods.length > 0, message: "At least one payment method is required" },
-                { field: formData.username, message: "Username is required" },
-                { field: formData.password, message: "Password is required" },
-                { field: formData.bio, message: "About Me is required" }
-            ];
-
-            // Only check documents if not an unregistered guide
-            if (formData.guideRank !== "Unregistered Guide") {
-                requiredFields.push(
-                    { field: formData.tourGuideLicense, message: "Tour Guide License is required" }
-                );
-            }
-            // Always require Government ID
-            requiredFields.push(
-                { field: formData.governmentID, message: "Government ID is required" }
-            );
-
-            // Check all required fields
-            for (const { field, message } of requiredFields) {
-                if (!field && field !== 0) { // Allow 0 for experienceYears
-                    alert(message);
-                    return false;
-                }
-            }
-
-            // Additional validation for phone number
-            if (!/^07[0-9]{8}$/.test(formData.phone)) {
-                alert("Phone must start with 07 and be 10 digits.");
-                return false;
-            }
-
-            // Password validation
-            if (formData.password.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return false;
-            }
-            if (!/[a-zA-Z]/.test(formData.password) || !/[0-9]/.test(formData.password)) {
-                alert("Password must contain both letters and numbers.");
-                return false;
-            }
-
-            return true;
-        };
-        // Run validation
-        if (!validateFields()) {
-            return; // Stop submission if validation fails
-        }
-
-        // Proceed with form submission if validation passes
-        console.log("Before Submitting:", formData);
-
-        const formDataToSend = new FormData();
-
-        formDataToSend.append("fullName", formData.fullName);
-        formDataToSend.append("dateOfBirth", formData.dateOfBirth);
-        formDataToSend.append("gender", formData.gender);
-        formDataToSend.append("nationality", formData.nationality);
-        formDataToSend.append("email", formData.email);
-        formDataToSend.append("phone", formData.phone);
-        formDataToSend.append("address", JSON.stringify(formData.address));
-        formDataToSend.append("guideRank", formData.guideRank);
-        formDataToSend.append("languagesSpoken", JSON.stringify(formData.languagesSpoken));
-        formDataToSend.append("experienceYears", formData.experienceYears);
-        formDataToSend.append("specialties", JSON.stringify(formData.specialties));
-        formDataToSend.append("tourRegions", JSON.stringify(formData.tourRegions));
-        formDataToSend.append("availability", formData.availability);
-        formDataToSend.append("hourlyRate", formData.hourlyRate);
-        formDataToSend.append("dailyRate", formData.dailyRate);
-        formDataToSend.append("paymentMethods", JSON.stringify(formData.paymentMethods));
-        formDataToSend.append("username", formData.username);
-        formDataToSend.append("password", formData.password);
-        formDataToSend.append("bio", formData.bio);
-
-
-        // Append files (if they exist)
-        if (formData.profilePhoto) {
-            formDataToSend.append("profilePhoto", formData.profilePhoto);
-        }
-        if (formData.governmentID) {
-            formDataToSend.append("governmentID", formData.governmentID);
-        }
-        if (formData.tourGuideLicense) {
-            formDataToSend.append("tourGuideLicense", formData.tourGuideLicense);
+        // Final validation before submission
+        const finalErrors = validateStep(step);
+        if (Object.keys(finalErrors).length > 0) {
+            setErrors(finalErrors);
+            return;
         }
 
         try {
@@ -399,7 +357,6 @@ const Register = () => {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    // Cloudinary URLs are already in the formData
                     profilePhoto: formData.profilePhoto,
                     governmentID: formData.governmentID,
                     tourGuideLicense: formData.tourGuideLicense,
@@ -421,7 +378,6 @@ const Register = () => {
         }
     };
 
-
     return (
         <div>
             <Header />
@@ -429,15 +385,14 @@ const Register = () => {
                 className="background-banner-container"
                 id="home"
                 style={{
-                    backgroundImage: `url(/Slideshow/${slides[currentSlide]})`,
-                    transition: 'background-image 3s ease-in-out',
+                    backgroundImage: `url(/Slideshow/${slides[step - 1]})`,
                 }}
             >
                 <div className="registration-container">
                     {step === 1 && (
                         <div>
                             <h2>Step 1: Personal Information</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.fullName ? 'error' : ''}`}>
                                 <label>Full Name</label>
                                 <p className="registration-sub-label">Use your full name, same as your ID or guide license</p>
                                 <input
@@ -449,9 +404,10 @@ const Register = () => {
                                     placeholder="Enter your full name"
                                     required
                                 />
+                                {errors.fullName && <span className="registration-error-message">{errors.fullName}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.dateOfBirth ? 'error' : ''}`}>
                                 <label>Date of Birth</label>
                                 <p className="registration-sub-label">This helps us confirm your age.</p>
                                 <input
@@ -462,9 +418,10 @@ const Register = () => {
                                     onChange={handleChange}
                                     required
                                 />
+                                {errors.dateOfBirth && <span className="registration-error-message">{errors.dateOfBirth}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.gender ? 'error' : ''}`}>
                                 <label>Gender</label>
                                 <p className="registration-sub-label">Choose your gender.</p>
                                 <select
@@ -479,9 +436,10 @@ const Register = () => {
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
+                                {errors.gender && <span className="registration-error-message">{errors.gender}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.nationality ? 'error' : ''}`}>
                                 <label>Nationality</label>
                                 <p className="registration-sub-label">Type your nationality. Example: Sri Lankan.</p>
                                 <input
@@ -493,9 +451,10 @@ const Register = () => {
                                     placeholder="Enter your nationality"
                                     required
                                 />
+                                {errors.nationality && <span className="registration-error-message">{errors.nationality}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.profilePhoto ? 'error' : ''}`}>
                                 <label>Profile Picture</label>
                                 <p className="registration-sub-label">Upload a clear photo of your face. No group photos or sunglasses, please.</p>
                                 <label className="file-input-wrapper">
@@ -508,6 +467,7 @@ const Register = () => {
                                         required
                                     />
                                 </label>
+                                {errors.profilePhoto && <span className="registration-error-message">{errors.profilePhoto}</span>}
                                 {formData.profilePhotoPreview && (
                                     <img
                                         src={formData.profilePhotoPreview}
@@ -531,7 +491,7 @@ const Register = () => {
                     {step === 2 && (
                         <div>
                             <h2>Step 2: Contact Details</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.email ? 'error' : ''}`}>
                                 <label>Email</label>
                                 <p className="registration-sub-label">Enter your email. We will use this to contact you.</p>
                                 <input
@@ -543,9 +503,10 @@ const Register = () => {
                                     placeholder="someone@example.com"
                                     required
                                 />
+                                {errors.email && <span className="registration-error-message">{errors.email}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.phone ? 'error' : ''}`}>
                                 <label>Phone</label>
                                 <p className="registration-sub-label">Please enter your mobile number. Kindly ensure that the number provided is active on WhatsApp.</p>
                                 <input
@@ -559,11 +520,10 @@ const Register = () => {
                                     pattern="07[0-9]{8}"
                                     title="Phone number must start with '07' and contain exactly 10 digits."
                                 />
-                                {errors.phone && <p style={{ color: "red", fontSize: "0.9em" }}>{errors.phone}</p>}
-
+                                {errors.phone && <span className="registration-error-message">{errors.phone}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.street ? 'error' : ''}`}>
                                 <label>Address</label>
                                 <p className="registration-sub-label">Type your complete address here.</p>
                                 <input
@@ -575,9 +535,10 @@ const Register = () => {
                                     placeholder="Address"
                                     required
                                 />
+                                {errors.street && <span className="registration-error-message">{errors.street}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.city ? 'error' : ''}`}>
                                 <label>City</label>
                                 <p className="registration-sub-label">Enter the city or town where you live.</p>
                                 <input
@@ -589,9 +550,10 @@ const Register = () => {
                                     placeholder="City"
                                     required
                                 />
+                                {errors.city && <span className="registration-error-message">{errors.city}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.province ? 'error' : ''}`}>
                                 <label>Province</label>
                                 <p className="registration-sub-label">Select your province from the list.</p>
                                 <select
@@ -606,10 +568,11 @@ const Register = () => {
                                         <option key={province} value={province}>{province}</option>
                                     ))}
                                 </select>
+                                {errors.province && <span className="registration-error-message">{errors.province}</span>}
                             </div>
 
                             {formData.address.province && (
-                                <div className="registration-form-group">
+                                <div className={`registration-form-group ${errors.district ? 'error' : ''}`}>
                                     <label>District</label>
                                     <p className="registration-sub-label">Select your district from the list.</p>
                                     <select
@@ -624,6 +587,7 @@ const Register = () => {
                                             <option key={district} value={district}>{district}</option>
                                         ))}
                                     </select>
+                                    {errors.district && <span className="registration-error-message">{errors.district}</span>}
                                 </div>
                             )}
 
@@ -647,20 +611,14 @@ const Register = () => {
                     {step === 3 && (
                         <div>
                             <h2>Step 3: Guide Rank</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.guideRank ? 'error' : ''}`}>
                                 <label>Guide Rank</label>
                                 <p className="registration-description-header">Choose your official guide type. This should match your license.</p>
                                 <p className="registration-description-subheader">Not sure which one to choose?</p>
                                 <p className="registration-description-subheader">Here are the common ranks:</p>
                                 <p className="registration-description-text">National Guide – Can guide across Sri Lanka</p>
-
-
                                 <p className="registration-description-text">Chauffeur Guide – Drives and guides tourists</p>
-
-
                                 <p className="registration-description-text">Site Guide – Works in specific locations (like a museum or historical site)</p>
-
-
                                 <p className="registration-description-text" id="registration-description-text-last">Driver – Only provides driving, not guiding</p>
                                 <select
                                     className="registration-select"
@@ -677,6 +635,7 @@ const Register = () => {
                                     <option value="Site Guide">Site Guide</option>
                                     <option value="Unregistered Guide">Unregistered Guide</option>
                                 </select>
+                                {errors.guideRank && <span className="registration-error-message">{errors.guideRank}</span>}
                             </div>
 
                             <div className="registration-button-container">
@@ -696,11 +655,10 @@ const Register = () => {
                         </div>
                     )}
 
-
                     {step === 4 && formData.guideRank === "Unregistered Guide" && (
                         <div>
                             <h2>Step 4: Identity Verification</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
                                 <label>NIC (National Identity Card)</label>
                                 <p className="registration-sub-label">
                                     Upload a clear photo or scan of your NIC. This helps us confirm your identity.
@@ -716,6 +674,7 @@ const Register = () => {
                                         required
                                     />
                                 </label>
+                                {errors.governmentID && <span className="registration-error-message">{errors.governmentID}</span>}
                                 {formData.governmentIDPreview && (
                                     <img
                                         src={formData.governmentIDPreview}
@@ -750,7 +709,7 @@ const Register = () => {
                     {step === 4 && formData.guideRank !== "Unregistered Guide" && (
                         <div>
                             <h2>Step 4: Documents for Verification</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
                                 <label>Tour Guide License</label>
                                 <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
                                 <label className="file-input-wrapper">
@@ -764,6 +723,7 @@ const Register = () => {
                                         required
                                     />
                                 </label>
+                                {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
                                 {formData.tourGuideLicensePreview && (
                                     <img
                                         src={formData.tourGuideLicensePreview}
@@ -773,7 +733,7 @@ const Register = () => {
                                 )}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
                                 <label>NIC (National Identity Card)</label>
                                 <p className="registration-sub-label">Upload a clear photo or scan of your NIC or driver's license. This helps us confirm your identity.</p>
                                 <label className="file-input-wrapper">
@@ -787,6 +747,7 @@ const Register = () => {
                                         required
                                     />
                                 </label>
+                                {errors.governmentID && <span className="registration-error-message">{errors.governmentID}</span>}
                                 {formData.governmentIDPreview && (
                                     <img
                                         src={formData.governmentIDPreview}
@@ -818,14 +779,12 @@ const Register = () => {
                         </div>
                     )}
 
-
                     {step === 5 && (
                         <div>
                             <h2>Step 5: Professional Details</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.languagesSpoken ? 'error' : ''}`}>
                                 <label>Languages</label>
-                                <p className="registration-sub-label">Choose when you are usually free to work (example: weekdays, weekends, full-time).
-                                </p>
+                                <p className="registration-sub-label">Select the languages you can guide in.</p>
                                 <div className="registration-button-container">
                                     <select
                                         className="registration-select"
@@ -852,7 +811,7 @@ const Register = () => {
                                         Add
                                     </button>
                                 </div>
-
+                                {errors.languagesSpoken && <span className="registration-error-message">{errors.languagesSpoken}</span>}
                                 <div className="registration-tags-container">
                                     {formData.languagesSpoken.map((language, index) => (
                                         <div key={index} className="registration-tag">
@@ -868,7 +827,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.experienceYears ? 'error' : ''}`}>
                                 <label>Years of Experience</label>
                                 <p className="registration-sub-label">Enter how long you've been guiding.</p>
                                 <input
@@ -878,14 +837,15 @@ const Register = () => {
                                     value={formData.experienceYears}
                                     onChange={handleChange}
                                     placeholder="Years of experience"
+                                    min="0"
                                     required
                                 />
+                                {errors.experienceYears && <span className="registration-error-message">{errors.experienceYears}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.specialties ? 'error' : ''}`}>
                                 <label>Specialties</label>
-                                <p className="registration-sub-label">Add what kind of tours you lead.
-                                </p>
+                                <p className="registration-sub-label">Add what kind of tours you lead.</p>
                                 <div className="registration-button-container">
                                     <select
                                         className="registration-select"
@@ -911,7 +871,7 @@ const Register = () => {
                                         Add
                                     </button>
                                 </div>
-
+                                {errors.specialties && <span className="registration-error-message">{errors.specialties}</span>}
                                 <div className="registration-tags-container">
                                     {formData.specialties.map((specialty, index) => (
                                         <div key={index} className="registration-tag">
@@ -927,10 +887,9 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.tourRegions ? 'error' : ''}`}>
                                 <label>Tour Regions</label>
-                                <p className="registration-sub-label">Select where you offer tours.
-                                </p>
+                                <p className="registration-sub-label">Select where you offer tours.</p>
                                 <div className="registration-button-container">
                                     <select
                                         className="registration-select"
@@ -956,7 +915,7 @@ const Register = () => {
                                         Add
                                     </button>
                                 </div>
-
+                                {errors.tourRegions && <span className="registration-error-message">{errors.tourRegions}</span>}
                                 <div className="registration-tags-container">
                                     {formData.tourRegions.map((region, index) => (
                                         <div key={index} className="registration-tag">
@@ -989,22 +948,20 @@ const Register = () => {
                         </div>
                     )}
 
-
-
                     {step === 6 && (
                         <div>
                             <h2>Step 6: Availability, Rates & Payment Methods</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.availability ? 'error' : ''}`}>
                                 <p>Set your rates clearly so travelers know what to expect.
                                     Let us know when you're available and how you'd like to be paid.
                                     You can change this info later from your profile.
                                 </p>
                                 <label>Availability</label>
-                                <p className="registration-sub-label">Choose when you are usually free to work (example: weekdays, weekends, full-time).
-                                </p>
+                                <p className="registration-sub-label">Choose when you are usually free to work (example: weekdays, weekends, full-time).</p>
                                 <select
                                     className="registration-select"
                                     name="availability"
+                                    value={formData.availability}
                                     onChange={handleChange}
                                     required
                                 >
@@ -1014,16 +971,17 @@ const Register = () => {
                                     <option value="Weekends Only">Weekends Only</option>
                                     <option value="On-Request">On-Request</option>
                                 </select>
+                                {errors.availability && <span className="registration-error-message">{errors.availability}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.rateType ? 'error' : ''}`}>
                                 <label>Pricing Option</label>
                                 <p className="registration-sub-label">Choose either hourly or daily rate</p>
                                 <select
                                     className="registration-select"
                                     name="rateType"
+                                    value={formData.rateType}
                                     onChange={(e) => {
-                                        // Clear the other rate when switching types
                                         if (e.target.value === "hourly") {
                                             setFormData(prev => ({ ...prev, dailyRate: "", rateType: "hourly" }));
                                         } else {
@@ -1036,13 +994,13 @@ const Register = () => {
                                     <option value="hourly">Hourly Rate</option>
                                     <option value="daily">Daily Rate</option>
                                 </select>
+                                {errors.rateType && <span className="registration-error-message">{errors.rateType}</span>}
                             </div>
 
                             {formData.rateType === "hourly" && (
-                                <div className="registration-form-group">
+                                <div className={`registration-form-group ${errors.hourlyRate ? 'error' : ''}`}>
                                     <label>Hourly Rate</label>
-                                    <p className="registration-sub-label">Enter how much you charge per hour. Use USD (US Dollars).
-                                    </p>
+                                    <p className="registration-sub-label">Enter how much you charge per hour. Use USD (US Dollars).</p>
                                     <input
                                         className="registration-input"
                                         type="number"
@@ -1050,16 +1008,18 @@ const Register = () => {
                                         placeholder="Hourly Rate ($)"
                                         value={formData.hourlyRate}
                                         onChange={handleChange}
-                                        required={formData.rateType === "hourly"}
+                                        min="0"
+                                        step="0.01"
+                                        required
                                     />
+                                    {errors.hourlyRate && <span className="registration-error-message">{errors.hourlyRate}</span>}
                                 </div>
                             )}
 
                             {formData.rateType === "daily" && (
-                                <div className="registration-form-group">
+                                <div className={`registration-form-group ${errors.dailyRate ? 'error' : ''}`}>
                                     <label>Daily Rate</label>
-                                    <p className="registration-sub-label">Enter how much you charge per day. Use USD (US Dollars).
-                                    </p>
+                                    <p className="registration-sub-label">Enter how much you charge per day. Use USD (US Dollars).</p>
                                     <input
                                         className="registration-input"
                                         type="number"
@@ -1067,21 +1027,21 @@ const Register = () => {
                                         placeholder="Daily Rate ($)"
                                         value={formData.dailyRate}
                                         onChange={handleChange}
-                                        required={formData.rateType === "daily"}
+                                        min="0"
+                                        step="0.01"
+                                        required
                                     />
+                                    {errors.dailyRate && <span className="registration-error-message">{errors.dailyRate}</span>}
                                 </div>
                             )}
 
-                            {/* Rest of the payment methods section remains the same */}
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.paymentMethods ? 'error' : ''}`}>
                                 <label>Payment Methods</label>
-                                <p className="registration-sub-label">Choose how you'd like to be paid.
-                                </p>
+                                <p className="registration-sub-label">Choose how you'd like to be paid.</p>
                                 <div className="registration-button-container">
                                     <select
                                         className="registration-select"
                                         onChange={(e) => handleSelect(e, "paymentMethods")}
-                                        required
                                     >
                                         <option value="">Select Payment Method</option>
                                         {["Cash", "Credit Card", "PayPal", "Bank Transfer"].map((method) => (
@@ -1093,6 +1053,7 @@ const Register = () => {
                                         type="text"
                                         name="customPayment"
                                         placeholder="Other Payment Method"
+                                        value={formData.customPayment || ''}
                                         onChange={handleChange}
                                     />
                                     <button
@@ -1102,7 +1063,7 @@ const Register = () => {
                                         Add
                                     </button>
                                 </div>
-
+                                {errors.paymentMethods && <span className="registration-error-message">{errors.paymentMethods}</span>}
                                 <div className="registration-tags-container">
                                     {formData.paymentMethods.map((method, index) => (
                                         <div key={index} className="registration-tag">
@@ -1110,7 +1071,6 @@ const Register = () => {
                                             <button
                                                 className="registration-tag-remove"
                                                 onClick={() => handleRemove("paymentMethods", method)}
-                                                required
                                             >
                                                 ×
                                             </button>
@@ -1139,45 +1099,46 @@ const Register = () => {
                     {step === 7 && (
                         <div>
                             <h2>Final Step: Account Details</h2>
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.username ? 'error' : ''}`}>
                                 <label>Username</label>
                                 <input
                                     className="registration-input"
                                     type="text"
                                     name="username"
-                                    placeholder="Choose a username"
+                                    value={formData.username}
                                     onChange={handleChange}
+                                    placeholder="Choose a username"
                                     required
                                 />
+                                {errors.username && <span className="registration-error-message">{errors.username}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.password ? 'error' : ''}`}>
                                 <label>Password</label>
                                 <input
                                     className="registration-input"
                                     type="password"
                                     name="password"
-                                    placeholder="Create a strong password"
+                                    value={formData.password}
                                     onChange={handleChange}
+                                    placeholder="Create a strong password"
                                     required
                                 />
-                                {errors.password && (
-                                    <p style={{ color: "red", fontSize: "0.9em" }}>
-                                        {errors.password}
-                                    </p>
-                                )}
+                                {errors.password && <span className="registration-error-message">{errors.password}</span>}
                             </div>
 
-                            <div className="registration-form-group">
+                            <div className={`registration-form-group ${errors.bio ? 'error' : ''}`}>
                                 <label>About Me</label>
-                                <input
-                                    className="registration-input"
-                                    type="text"
+                                <textarea
+                                    className="registration-textarea"
                                     name="bio"
-                                    placeholder="Let us a little bit about yourself"
+                                    value={formData.bio}
                                     onChange={handleChange}
+                                    placeholder="Tell us a little bit about yourself"
+                                    rows="4"
                                     required
                                 />
+                                {errors.bio && <span className="registration-error-message">{errors.bio}</span>}
                             </div>
 
                             <div className="registration-button-container">
@@ -1196,7 +1157,6 @@ const Register = () => {
                             </div>
                         </div>
                     )}
-
 
                     {step === 8 && (
                         <div>
@@ -1235,7 +1195,6 @@ const Register = () => {
                                                 )}
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 
@@ -1297,11 +1256,11 @@ const Register = () => {
                                         </div>
                                         <div>
                                             <strong>Hourly Rate:</strong>
-                                            <p>${formData.hourlyRate}</p>
+                                            <p>{formData.hourlyRate ? `$${formData.hourlyRate}` : "Not set"}</p>
                                         </div>
                                         <div>
                                             <strong>Daily Rate:</strong>
-                                            <p>${formData.dailyRate}</p>
+                                            <p>{formData.dailyRate ? `$${formData.dailyRate}` : "Not set"}</p>
                                         </div>
                                         <div>
                                             <strong>Payment Methods:</strong>
@@ -1315,12 +1274,12 @@ const Register = () => {
                                     <div className="registration-review-grid">
                                         <div>
                                             <strong>Government ID:</strong>
-                                            <p>Uploaded</p>
+                                            <p>{formData.governmentID ? "Uploaded" : "Not uploaded"}</p>
                                         </div>
                                         {formData.tourGuideLicense && (
                                             <div>
                                                 <strong>Tour Guide License:</strong>
-                                                <p>Uploaded</p>
+                                                <p>{formData.tourGuideLicense ? "Uploaded" : "Not uploaded"}</p>
                                             </div>
                                         )}
                                     </div>
@@ -1334,7 +1293,12 @@ const Register = () => {
                                 >
                                     Back
                                 </button>
-                                <button onClick={handleSubmit} className="registration-button registration-button-submit">Submit</button>
+                                <button 
+                                    onClick={handleSubmit} 
+                                    className="registration-button registration-button-submit"
+                                >
+                                    Submit
+                                </button>
                             </div>
                         </div>
                     )}
@@ -1349,7 +1313,6 @@ const Register = () => {
             <Footer />
         </div>
     );
-
 };
 
 export default Register;
