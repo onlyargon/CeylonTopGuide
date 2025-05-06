@@ -136,13 +136,13 @@ const LandingPage = () => {
                         </p>
                     </div>
                     <div className="article-image-container">
-                        <img src="/Slideshow/slide8.jpg" className="article-image placeholder-image" />
+                        <img src="/Slideshow/slide11.jpg" className="article-image placeholder-image" />
                     </div>
                 </section>
 
                 <section className="article-section reverse">
                     <div className="article-image-container">
-                        <img src="/Slideshow/slide9.jpg" className="article-image placeholder-image" />
+                        <img src="/Slideshow/slide12.jpg" className="article-image placeholder-image" />
                     </div>
                     <div className="article-content">
                         <h2 className="article-heading">Travel Smart with Trusted Chauffeur Guides</h2>

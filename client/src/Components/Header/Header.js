@@ -13,10 +13,10 @@ function Header() {
 
                 <nav className="header-nav">
                     <ul className="nav-list">
-                        <li className="nav-item"><a href="#home" className="nav-link">Home</a></li>
-                        <li className="nav-item"><a href="#find-guide" className="nav-link">Find a guide</a></li>
-                        <li className="nav-item"><a href="#about" className="nav-link">About us</a></li>
-                        <li className="nav-item"><a href="#contact" className="nav-link">Contact</a></li>
+                        <li className="nav-item"><Link to="/">Home</Link></li>
+                        <li className="nav-item"><Link to="/guideList">Find a guide</Link></li>
+                        <li className="nav-item"><Link to="/#about">About us</Link></li>
+                        <li className="nav-item"><Link to="/#contact">Contact</Link></li>
                     </ul>
                 </nav>
 
