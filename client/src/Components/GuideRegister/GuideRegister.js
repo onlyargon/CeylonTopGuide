@@ -4,6 +4,7 @@ import './GuideRegister.css'
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import axios from "axios";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Register = () => {
     const [errors, setErrors] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
     const [uploading, setUploading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         fullName: "",
         dateOfBirth: "",
@@ -133,7 +135,7 @@ const Register = () => {
     };
 
     const availableSpecialties = ["Cultural Tours", "Wildlife Safaris", "Adventure Travels", "Historical Sites", "Hiking", "Photography"];
-    const availableRegions = ["Colombo", "Kandy", "Ella", "Galle", "Sigiriya", "Nuwara Eliya"];
+    const availableRegions = ["Colombo", "Kandy", "Ella", "Galle", "Sigiriya", "Nuwara Eliya","All Island"];
 
     const handleSelect = (e, field) => {
         const selectedValue = e.target.value;
@@ -1115,15 +1117,25 @@ const Register = () => {
 
                             <div className={`registration-form-group ${errors.password ? 'error' : ''}`}>
                                 <label>Password</label>
-                                <input
-                                    className="registration-input"
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Create a strong password"
-                                    required
-                                />
+                                <div className="password-input-wrapper">
+                                    <input
+                                        className="registration-input"
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        placeholder="Create a strong password"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="password-toggle"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
                                 {errors.password && <span className="registration-error-message">{errors.password}</span>}
                             </div>
 

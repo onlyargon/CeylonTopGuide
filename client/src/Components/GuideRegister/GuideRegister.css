@@ -97,6 +97,32 @@
     box-shadow: 0 0 5px rgba(247, 247, 247, 0.5);
 }
 
+.registration-textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #eeeded;
+    border: 0px solid #000000;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+    font-family: inherit;
+}
+
+.registration-textarea:focus {
+    outline: none;
+    border-color: #eeeded;
+    box-shadow: 0 0 5px rgba(247, 247, 247, 0.5);
+    background-color: #f8f8f8;
+}
+
+.registration-textarea::placeholder {
+    color: #999;
+    opacity: 0.7;
+}
+
 /* Hide the default file input */
 .registration-file-input {
     display: none;
@@ -430,6 +456,30 @@
     display: block;
     animation: fadeIn 0.3s ease-in-out;
     font-weight: 500;
+}
+
+/* Password input styles */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: #2c5d3f;
 }
 
 @keyframes fadeIn {

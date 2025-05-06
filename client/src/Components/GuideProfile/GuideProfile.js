@@ -8,7 +8,35 @@ import instance from "../Instance/Instance";
 const GuideProfile = () => {
   const [guide, setGuide] = useState(null);
   const [editing, setEditing] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    fullName: "",
+    contact: {
+      phone: "",
+      email: ""
+    },
+    address: {
+      street: "",
+      city: "",
+      district: "",
+      province: ""
+    },
+    professionalDetails: {
+      specialties: [],
+      languagesSpoken: [],
+      experienceYears: 0,
+      tourRegions: []
+    },
+    pricing: {
+      rateType: "",
+      hourlyRate: "",
+      dailyRate: "",
+      paymentMethods: []
+    },
+    availability: "",
+    additionalInfo: {
+      bio: ""
+    }
+  });
   const [showAllDetails, setShowAllDetails] = useState(false);
   const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
@@ -73,24 +101,68 @@ const GuideProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    
+    // Handle nested fields
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      
+      // Handle array fields (comma-separated values)
+      if (['specialties', 'languagesSpoken', 'tourRegions', 'paymentMethods'].includes(child)) {
+        setFormData(prev => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: value.split(',').map(item => item.trim()).filter(item => item)
+          }
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: value
+          }
+        }));
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleUpdate = async () => {
     try {
+      // Prepare the data for submission
+      const updateData = {
+        ...formData,
+        // Convert arrays back to strings for the API
+        professionalDetails: {
+          ...formData.professionalDetails,
+          specialties: formData.professionalDetails.specialties.join(', '),
+          languagesSpoken: formData.professionalDetails.languagesSpoken.join(', '),
+          tourRegions: formData.professionalDetails.tourRegions.join(', ')
+        },
+        pricing: {
+          ...formData.pricing,
+          paymentMethods: formData.pricing.paymentMethods.join(', ')
+        }
+      };
+
       await axios.put(
         `${process.env.REACT_APP_API_BASE_URL}/guides/profile/update`,
-        formData,
+        updateData,
         { withCredentials: true }
       );
-      setGuide(formData);
+      
+      // Update the guide state with the new data
+      setGuide(updateData);
       setEditing(false);
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Update failed:", error);
+      alert("Failed to update profile. Please try again.");
     }
   };
 
@@ -281,20 +353,162 @@ const GuideProfile = () => {
         {editing ? (
           <div className="edit-form">
             <h2>Edit Profile</h2>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName || ""}
-              onChange={handleChange}
-              placeholder="Full Name"
-            />
-            <input
-              type="text"
-              name="contact.phone"
-              value={formData.contact?.phone || ""}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
+            
+            {/* Personal Information */}
+            <div className="edit-section">
+              <h3>Personal Information</h3>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName || ""}
+                onChange={handleChange}
+                placeholder="Full Name"
+              />
+            </div>
+
+            {/* Contact Information */}
+            <div className="edit-section">
+              <h3>Contact Information</h3>
+              <input
+                type="email"
+                name="contact.email"
+                value={formData.contact?.email || ""}
+                onChange={handleChange}
+                placeholder="Email"
+              />
+              <input
+                type="text"
+                name="contact.phone"
+                value={formData.contact?.phone || ""}
+                onChange={handleChange}
+                placeholder="Phone Number"
+              />
+            </div>
+
+            {/* Address Information */}
+            <div className="edit-section">
+              <h3>Address</h3>
+              <input
+                type="text"
+                name="address.street"
+                value={formData.address?.street || ""}
+                onChange={handleChange}
+                placeholder="Street Address"
+              />
+              <input
+                type="text"
+                name="address.city"
+                value={formData.address?.city || ""}
+                onChange={handleChange}
+                placeholder="City"
+              />
+              <input
+                type="text"
+                name="address.district"
+                value={formData.address?.district || ""}
+                onChange={handleChange}
+                placeholder="District"
+              />
+              <input
+                type="text"
+                name="address.province"
+                value={formData.address?.province || ""}
+                onChange={handleChange}
+                placeholder="Province"
+              />
+            </div>
+
+            {/* Professional Details */}
+            <div className="edit-section">
+              <h3>Professional Details</h3>
+              <input
+                type="number"
+                name="professionalDetails.experienceYears"
+                value={formData.professionalDetails?.experienceYears || ""}
+                onChange={handleChange}
+                placeholder="Years of Experience"
+              />
+              <input
+                type="text"
+                name="professionalDetails.specialties"
+                value={formData.professionalDetails?.specialties?.join(", ") || ""}
+                onChange={handleChange}
+                placeholder="Specialties (comma-separated)"
+              />
+              <input
+                type="text"
+                name="professionalDetails.languagesSpoken"
+                value={formData.professionalDetails?.languagesSpoken?.join(", ") || ""}
+                onChange={handleChange}
+                placeholder="Languages (comma-separated)"
+              />
+              <input
+                type="text"
+                name="professionalDetails.tourRegions"
+                value={formData.professionalDetails?.tourRegions?.join(", ") || ""}
+                onChange={handleChange}
+                placeholder="Tour Regions (comma-separated)"
+              />
+            </div>
+
+            {/* Pricing and Availability */}
+            <div className="edit-section">
+              <h3>Pricing and Availability</h3>
+              <select
+                name="pricing.rateType"
+                value={formData.pricing?.rateType || ""}
+                onChange={handleChange}
+              >
+                <option value="">Select Rate Type</option>
+                <option value="hourly">Hourly Rate</option>
+                <option value="daily">Daily Rate</option>
+              </select>
+              <input
+                type="number"
+                name="pricing.hourlyRate"
+                value={formData.pricing?.hourlyRate || ""}
+                onChange={handleChange}
+                placeholder="Hourly Rate ($)"
+              />
+              <input
+                type="number"
+                name="pricing.dailyRate"
+                value={formData.pricing?.dailyRate || ""}
+                onChange={handleChange}
+                placeholder="Daily Rate ($)"
+              />
+              <input
+                type="text"
+                name="pricing.paymentMethods"
+                value={formData.pricing?.paymentMethods?.join(", ") || ""}
+                onChange={handleChange}
+                placeholder="Payment Methods (comma-separated)"
+              />
+              <select
+                name="availability"
+                value={formData.availability || ""}
+                onChange={handleChange}
+              >
+                <option value="">Select Availability</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Weekends Only">Weekends Only</option>
+                <option value="On-Request">On-Request</option>
+              </select>
+            </div>
+
+            {/* About Me */}
+            <div className="edit-section">
+              <h3>About Me</h3>
+              <textarea
+                name="additionalInfo.bio"
+                value={formData.additionalInfo?.bio || ""}
+                onChange={handleChange}
+                placeholder="Tell us about yourself"
+                rows="4"
+              />
+            </div>
+
             <div className="button-container">
               <button onClick={handleUpdate} className="guide-button edit-button">
                 Save Changes
