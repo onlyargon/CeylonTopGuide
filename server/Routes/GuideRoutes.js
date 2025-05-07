@@ -412,7 +412,7 @@ router.post('/forgot-password', async (req, res) => {
         <p>Dear user,</p>
         <p>We received a request to reset your password for your TopGuide account. To proceed, please click the button below to verify your identity and set a new password:</p>
         <a href="${resetURL}">Reset your password</a>
-        <p>If you didn’t request a password reset, you can safely ignore this email, your current password will remain unchanged.</p>
+        <p>If you didn't request a password reset, you can safely ignore this email, your current password will remain unchanged.</p>
         <p>Thank you for being a part of our travel community!</p>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
           <p>With regards,</p>
@@ -572,19 +572,44 @@ router.get('/profile', async (req, res) => {
 // Update Guide Profile
 router.put("/profile/update", async (req, res) => {
   try {
-    if (!req.session.guide) {
-      return res.status(401).json({ error: "Unauthorized" });
+    if (!req.session.guide || !req.session.guide.id) {
+      return res.status(401).json({ error: "Unauthorized - No valid session" });
     }
+
+    // Log the incoming data for debugging
+    console.log('Update request data:', req.body);
 
     const updatedGuide = await Guide.findByIdAndUpdate(
       req.session.guide.id,
       { $set: req.body },
-      { new: true, runValidators: true }
+      { 
+        new: true, 
+        runValidators: true,
+        context: 'query'
+      }
     ).select("-account.password");
+
+    if (!updatedGuide) {
+      return res.status(404).json({ error: "Guide not found" });
+    }
 
     res.status(200).json({ message: "Profile updated", guide: updatedGuide });
   } catch (error) {
-    res.status(500).json({ error: "Update failed" });
+    console.error("Profile update error:", error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        error: "Validation failed", 
+        details: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
+    // Handle other errors
+    res.status(500).json({ 
+      error: "Update failed", 
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
