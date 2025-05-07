@@ -162,29 +162,45 @@ const GuideProfile = () => {
         // Convert arrays back to strings for the API
         professionalDetails: {
           ...formData.professionalDetails,
-          specialties: formData.professionalDetails.specialties.join(', '),
-          languagesSpoken: formData.professionalDetails.languagesSpoken.join(', '),
-          tourRegions: formData.professionalDetails.tourRegions.join(', ')
+          specialties: Array.isArray(formData.professionalDetails.specialties) 
+            ? formData.professionalDetails.specialties.join(', ')
+            : formData.professionalDetails.specialties,
+          languagesSpoken: Array.isArray(formData.professionalDetails.languagesSpoken)
+            ? formData.professionalDetails.languagesSpoken.join(', ')
+            : formData.professionalDetails.languagesSpoken,
+          tourRegions: Array.isArray(formData.professionalDetails.tourRegions)
+            ? formData.professionalDetails.tourRegions.join(', ')
+            : formData.professionalDetails.tourRegions
         },
         pricing: {
           ...formData.pricing,
-          paymentMethods: formData.pricing.paymentMethods.join(', ')
+          paymentMethods: Array.isArray(formData.pricing.paymentMethods)
+            ? formData.pricing.paymentMethods.join(', ')
+            : formData.pricing.paymentMethods
         }
       };
 
-      await axios.put(
+      // Log the data being sent
+      console.log('Sending update data:', updateData);
+
+      const response = await axios.put(
         `${process.env.REACT_APP_API_BASE_URL}/guides/profile/update`,
         updateData,
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
       );
       
-      // Update the guide state with the new data
-      setGuide(updateData);
+      // Update the guide state with the response data
+      setGuide(response.data.guide);
       setEditing(false);
       alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Update failed:", error);
-      alert("Failed to update profile. Please try again.");
+      console.error("Update failed:", error.response?.data || error);
+      alert(error.response?.data?.error || "Failed to update profile. Please try again.");
     }
   };
 
