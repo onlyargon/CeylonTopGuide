@@ -26,18 +26,6 @@ function Header() {
         checkSession();
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guides/logout`, {}, {
-                withCredentials: true
-            });
-            setUserData(null);
-            navigate('/guideLogin');
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    };
-
     // Get first name from full name
     const getFirstName = (fullName) => {
         return fullName.split(' ')[0];
@@ -61,9 +49,9 @@ function Header() {
 
                 <div className="header-auth">
                     {userData ? (
-                        <button onClick={handleLogout} className="user-name-button">
+                        <Link to="/guideProfile" className="user-name-button">
                             {getFirstName(userData.fullName)}
-                        </button>
+                        </Link>
                     ) : (
                         <>
                             <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
