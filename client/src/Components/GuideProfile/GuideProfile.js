@@ -35,7 +35,10 @@ const GuideProfile = () => {
     availability: "",
     additionalInfo: {
       bio: ""
-    }
+    },
+    guideRank: "",
+    nationality: "",
+    profilePhoto: ""
   });
   const [showAllDetails, setShowAllDetails] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -43,6 +46,25 @@ const GuideProfile = () => {
   const [tourPhotos, setTourPhotos] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+
+  // Add these constants at the top of the component
+  const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
+  const districts = {
+    Western: ["Colombo", "Gampaha", "Kalutara"],
+    Central: ["Kandy", "Matale", "Nuwara Eliya"],
+    Southern: ["Galle", "Matara", "Hambantota"],
+    Uva: ["Badulla", "Monaragala"],
+    Northern: ["Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullativu"],
+    Sabaragamuwa: ["Kegalle", "Rathnapura"],
+    North_Western: ["Kurunagla", "Puttalam"],
+    North_Central: ["Anuradhapura", "Polonnaruwa"],
+    Eastern: ["Ampara", "Batticaloa", "Trincomalee"]
+  };
+
+  const availableLanguages = ["English", "Spanish", "French", "German", "Chinese", "Tamil", "Sinhala"];
+  const availableSpecialties = ["Cultural Tours", "Wildlife Safaris", "Adventure Travels", "Historical Sites", "Hiking", "Photography"];
+  const availableRegions = ["Colombo", "Kandy", "Ella", "Galle", "Sigiriya", "Nuwara Eliya", "All Island"];
 
   // Helper function to get Cloudinary URL
   const getCloudinaryUrl = (imagePath, width = 200, height = 200, crop = 'fill') => {
@@ -344,6 +366,96 @@ const GuideProfile = () => {
     return <div>{stars}</div>;
   };
 
+  const handleSelect = (e, field) => {
+    const selectedValue = e.target.value;
+    if (selectedValue) {
+      const [parent, child] = field.split('.');
+      setFormData(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: [...(prev[parent][child] || []), selectedValue]
+        }
+      }));
+    }
+  };
+
+  const handleAddCustom = (field, value) => {
+    const [parent, child] = field.split('.');
+    setFormData(prev => ({
+      ...prev,
+      [parent]: {
+        ...prev[parent],
+        [child]: [...(prev[parent][child] || []), value]
+      }
+    }));
+  };
+
+  const handleRemove = (field, item) => {
+    const [parent, child] = field.split('.');
+    setFormData(prev => ({
+      ...prev,
+      [parent]: {
+        ...prev[parent],
+        [child]: prev[parent][child].filter(i => i !== item)
+      }
+    }));
+  };
+
+  const handleProvinceChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        province: e.target.value,
+        district: "" // Reset district when province changes
+      }
+    }));
+  };
+
+  const handleDistrictChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        district: e.target.value
+      }
+    }));
+  };
+
+  const handleProfilePhotoChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'guide_photos');
+        formData.append('folder', 'profile_photos');
+
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        setFormData(prev => ({
+          ...prev,
+          profilePhoto: response.data.secure_url
+        }));
+      } catch (error) {
+        console.error('Upload error:', error);
+        alert('Failed to upload profile photo');
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
+
   if (!guide) return <div className="guide-profile-container"><h2>Loading...</h2></div>;
 
   return (
@@ -354,6 +466,33 @@ const GuideProfile = () => {
           <div className="edit-form">
             <h2>Edit Profile</h2>
             
+            {/* Profile Photo */}
+            <div className="edit-section">
+              <h3>Profile Photo</h3>
+              <div className="profile-photo-edit">
+                <img
+                  src={formData.profilePhoto || getCloudinaryUrl(guide?.profilePhoto)}
+                  alt="Profile Preview"
+                  className="profile-photo-preview"
+                />
+                <label className="file-input-wrapper">
+                  <span className="file-input-button">Choose New Photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfilePhotoChange}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                {uploading && (
+                  <div className="upload-progress">
+                    <div className="progress-bar"></div>
+                    <span>Uploading...</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Personal Information */}
             <div className="edit-section">
               <h3>Personal Information</h3>
@@ -364,18 +503,18 @@ const GuideProfile = () => {
                 onChange={handleChange}
                 placeholder="Full Name"
               />
+              <input
+                type="text"
+                name="nationality"
+                value={formData.nationality || ""}
+                onChange={handleChange}
+                placeholder="Nationality"
+              />
             </div>
 
             {/* Contact Information */}
             <div className="edit-section">
               <h3>Contact Information</h3>
-              <input
-                type="email"
-                name="contact.email"
-                value={formData.contact?.email || ""}
-                onChange={handleChange}
-                placeholder="Email"
-              />
               <input
                 type="text"
                 name="contact.phone"
@@ -402,25 +541,46 @@ const GuideProfile = () => {
                 onChange={handleChange}
                 placeholder="City"
               />
-              <input
-                type="text"
-                name="address.district"
-                value={formData.address?.district || ""}
-                onChange={handleChange}
-                placeholder="District"
-              />
-              <input
-                type="text"
+              <select
                 name="address.province"
                 value={formData.address?.province || ""}
-                onChange={handleChange}
-                placeholder="Province"
-              />
+                onChange={handleProvinceChange}
+              >
+                <option value="">Select Province</option>
+                {provinces.map((province) => (
+                  <option key={province} value={province}>{province}</option>
+                ))}
+              </select>
+              {formData.address?.province && (
+                <select
+                  name="address.district"
+                  value={formData.address?.district || ""}
+                  onChange={handleDistrictChange}
+                >
+                  <option value="">Select District</option>
+                  {districts[formData.address.province].map((district) => (
+                    <option key={district} value={district}>{district}</option>
+                  ))}
+                </select>
+              )}
             </div>
 
             {/* Professional Details */}
             <div className="edit-section">
               <h3>Professional Details</h3>
+              <select
+                name="guideRank"
+                value={formData.guideRank || ""}
+                onChange={handleChange}
+              >
+                <option value="">Select Guide Rank</option>
+                <option value="National Guide">National Guide</option>
+                <option value="Provincial Guide">Provincial Guide</option>
+                <option value="Chauffer Guide">Chauffer Guide</option>
+                <option value="Driver Guide">Driver Guide</option>
+                <option value="Site Guide">Site Guide</option>
+                <option value="Unregistered Guide">Unregistered Guide</option>
+              </select>
               <input
                 type="number"
                 name="professionalDetails.experienceYears"
@@ -428,32 +588,112 @@ const GuideProfile = () => {
                 onChange={handleChange}
                 placeholder="Years of Experience"
               />
-              <input
-                type="text"
-                name="professionalDetails.specialties"
-                value={formData.professionalDetails?.specialties?.join(", ") || ""}
-                onChange={handleChange}
-                placeholder="Specialties (comma-separated)"
-              />
-              <input
-                type="text"
-                name="professionalDetails.languagesSpoken"
-                value={formData.professionalDetails?.languagesSpoken?.join(", ") || ""}
-                onChange={handleChange}
-                placeholder="Languages (comma-separated)"
-              />
-              <input
-                type="text"
-                name="professionalDetails.tourRegions"
-                value={formData.professionalDetails?.tourRegions?.join(", ") || ""}
-                onChange={handleChange}
-                placeholder="Tour Regions (comma-separated)"
-              />
+              <div className="tags-input">
+                <select onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}>
+                  <option value="">Select Language</option>
+                  {availableLanguages.map((lang) => (
+                    <option key={lang} value={lang}>{lang}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Add custom language"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const value = e.target.value.trim();
+                      if (value) {
+                        handleAddCustom("professionalDetails.languagesSpoken", value);
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                />
+                <div className="tags-container">
+                  {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
+                    <span key={index} className="tag">
+                      {lang}
+                      <button onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}>×</button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="tags-input">
+                <select onChange={(e) => handleSelect(e, "professionalDetails.specialties")}>
+                  <option value="">Select Specialty</option>
+                  {availableSpecialties.map((spec) => (
+                    <option key={spec} value={spec}>{spec}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Add custom specialty"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const value = e.target.value.trim();
+                      if (value) {
+                        handleAddCustom("professionalDetails.specialties", value);
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                />
+                <div className="tags-container">
+                  {formData.professionalDetails?.specialties?.map((spec, index) => (
+                    <span key={index} className="tag">
+                      {spec}
+                      <button onClick={() => handleRemove("professionalDetails.specialties", spec)}>×</button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="tags-input">
+                <select onChange={(e) => handleSelect(e, "professionalDetails.tourRegions")}>
+                  <option value="">Select Region</option>
+                  {availableRegions.map((region) => (
+                    <option key={region} value={region}>{region}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Add custom region"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const value = e.target.value.trim();
+                      if (value) {
+                        handleAddCustom("professionalDetails.tourRegions", value);
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                />
+                <div className="tags-container">
+                  {formData.professionalDetails?.tourRegions?.map((region, index) => (
+                    <span key={index} className="tag">
+                      {region}
+                      <button onClick={() => handleRemove("professionalDetails.tourRegions", region)}>×</button>
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Pricing and Availability */}
             <div className="edit-section">
               <h3>Pricing and Availability</h3>
+              <select
+                name="availability"
+                value={formData.availability || ""}
+                onChange={handleChange}
+              >
+                <option value="">Select Availability</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Weekends Only">Weekends Only</option>
+                <option value="On-Request">On-Request</option>
+              </select>
               <select
                 name="pricing.rateType"
                 value={formData.pricing?.rateType || ""}
@@ -477,24 +717,36 @@ const GuideProfile = () => {
                 onChange={handleChange}
                 placeholder="Daily Rate ($)"
               />
-              <input
-                type="text"
-                name="pricing.paymentMethods"
-                value={formData.pricing?.paymentMethods?.join(", ") || ""}
-                onChange={handleChange}
-                placeholder="Payment Methods (comma-separated)"
-              />
-              <select
-                name="availability"
-                value={formData.availability || ""}
-                onChange={handleChange}
-              >
-                <option value="">Select Availability</option>
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Weekends Only">Weekends Only</option>
-                <option value="On-Request">On-Request</option>
-              </select>
+              <div className="tags-input">
+                <select onChange={(e) => handleSelect(e, "pricing.paymentMethods")}>
+                  <option value="">Select Payment Method</option>
+                  {["Cash", "Credit Card", "PayPal", "Bank Transfer"].map((method) => (
+                    <option key={method} value={method}>{method}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Add custom payment method"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const value = e.target.value.trim();
+                      if (value) {
+                        handleAddCustom("pricing.paymentMethods", value);
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                />
+                <div className="tags-container">
+                  {formData.pricing?.paymentMethods?.map((method, index) => (
+                    <span key={index} className="tag">
+                      {method}
+                      <button onClick={() => handleRemove("pricing.paymentMethods", method)}>×</button>
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* About Me */}
