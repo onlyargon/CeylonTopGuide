@@ -1,9 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Header.css'
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Header() {
+    const [userData, setUserData] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check if user is logged in by fetching session data
+        const checkSession = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/session`, {
+                    withCredentials: true
+                });
+                if (response.data.user) {
+                    setUserData(response.data.user);
+                }
+            } catch (error) {
+                console.error('Session check failed:', error);
+                setUserData(null);
+            }
+        };
+
+        checkSession();
+    }, []);
+
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guides/logout`, {}, {
+                withCredentials: true
+            });
+            setUserData(null);
+            navigate('/guideLogin');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
     return (
         <header className="site-header">
             <div className="header-container">
@@ -21,8 +55,18 @@ function Header() {
                 </nav>
 
                 <div className="header-auth">
-                    <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
-                    <Link to="/guideLogin" className="auth-link">Login</Link>
+                    {userData ? (
+                        <>
+                            <span className="user-welcome">Welcome, {userData.fullName}</span>
+                            <Link to="/guideProfile" className="auth-link">Profile</Link>
+                            <button onClick={handleLogout} className="auth-link logout-button">Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
+                            <Link to="/guideLogin" className="auth-link">Login</Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>

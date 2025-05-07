@@ -115,3 +115,22 @@
       margin-top: 15px;
     }
   }
+
+.user-welcome {
+    color: white;
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.logout-button {
+    background: none;
+    border: 1px solid white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.logout-button:hover {
+    background-color: #2c5d3f;
+    color: white;
+}

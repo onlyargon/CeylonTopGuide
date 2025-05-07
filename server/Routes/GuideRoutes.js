@@ -60,7 +60,6 @@ router.use(session({
 
 router.post("/login", async (req, res) => {
   try {
-
     const { email, password } = req.body;
 
     const guide = await Guide.findOne({ "contact.email": email });
@@ -79,14 +78,20 @@ router.post("/login", async (req, res) => {
       return res.status(403).json({ error: "Your account is awaiting approval." });
     }
 
+    // Store both guideId and guide data in session
+    req.session.guideId = guide._id;
     req.session.guide = {
       id: guide._id,
       fullName: guide.fullName,
-      email: guide.email,
+      email: guide.contact.email,
       isVerified: guide.account.isVerified
-    }
+    };
 
-    res.cookie("sessionID", req.sessionID, { httpOnly: true, secure: false });
+    res.cookie("sessionID", req.sessionID, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
 
     console.log('New session:', req.sessionID);
     console.log('Set-Cookie header:', req.headers['set-cookie']);
@@ -96,7 +101,7 @@ router.post("/login", async (req, res) => {
     console.log("Login error:", error);
     res.status(500).json({ error: "Login failed." });
   }
-})
+});
 
 // Logout Route
 router.post('/logout', (req, res) => {
@@ -938,5 +943,25 @@ router.get('/fix-active-status', async (req, res) => {
   }
 });
 
+// Add this route to check session status
+router.get('/session', async (req, res) => {
+    try {
+        if (req.session && req.session.guideId) {
+            const guide = await Guide.findById(req.session.guideId).select('fullName email');
+            if (guide) {
+                return res.json({ 
+                    user: {
+                        fullName: guide.fullName,
+                        email: guide.email
+                    }
+                });
+            }
+        }
+        res.json({ user: null });
+    } catch (error) {
+        console.error('Session check error:', error);
+        res.status(500).json({ error: 'Failed to check session' });
+    }
+});
 
 export default router;
