@@ -159,6 +159,11 @@ const GuideProfile = () => {
       // Prepare the data for submission
       const updateData = {
         ...formData,
+        // Preserve the existing email
+        contact: {
+          ...formData.contact,
+          email: guide.contact.email // Keep the existing email
+        },
         // Convert arrays back to strings for the API
         professionalDetails: {
           ...formData.professionalDetails,
@@ -179,6 +184,9 @@ const GuideProfile = () => {
             : formData.pricing.paymentMethods
         }
       };
+
+      // Remove gender field if it exists
+      delete updateData.gender;
 
       // Log the data being sent
       console.log('Sending update data:', updateData);
