@@ -38,6 +38,11 @@ function Header() {
         }
     };
 
+    // Get first name from full name
+    const getFirstName = (fullName) => {
+        return fullName.split(' ')[0];
+    };
+
     return (
         <header className="site-header">
             <div className="header-container">
@@ -56,11 +61,9 @@ function Header() {
 
                 <div className="header-auth">
                     {userData ? (
-                        <>
-                            <span className="user-welcome">Welcome, {userData.fullName}</span>
-                            <Link to="/guideProfile" className="auth-link">Profile</Link>
-                            <button onClick={handleLogout} className="auth-link logout-button">Logout</button>
-                        </>
+                        <button onClick={handleLogout} className="user-name-button">
+                            {getFirstName(userData.fullName)}
+                        </button>
                     ) : (
                         <>
                             <Link to="/guideRegister" className="register-button">Register as a Guide</Link>

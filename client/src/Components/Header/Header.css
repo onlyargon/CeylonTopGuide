@@ -134,3 +134,21 @@
     background-color: #2c5d3f;
     color: white;
 }
+
+.user-name-button {
+    background-color: #2c5d3f;
+    color: white;
+    border: 1px solid white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.user-name-button:hover {
+    background-color: white;
+    color: #2c5d3f;
+}
