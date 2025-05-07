@@ -10,6 +10,7 @@ const LandingPage = () => {
     const carouselRef = useRef(null);
     const [topGuides, setTopGuides] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [userData, setUserData] = useState(null);
 
     const slides = [
         'slide1.jpg',
@@ -23,6 +24,25 @@ const LandingPage = () => {
         'slide9.jpg',
         'slide10.jpg',
     ];
+
+    useEffect(() => {
+        // Check if user is logged in by fetching session data
+        const checkSession = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/session`, {
+                    withCredentials: true
+                });
+                if (response.data.user) {
+                    setUserData(response.data.user);
+                }
+            } catch (error) {
+                console.error('Session check failed:', error);
+                setUserData(null);
+            }
+        };
+
+        checkSession();
+    }, []);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -71,6 +91,10 @@ const LandingPage = () => {
         return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/${imagePath}`;
     };
 
+    const getFirstName = (fullName) => {
+        return fullName.split(' ')[0];
+    };
+
     return (
         <div>
             <header className="site-header">
@@ -89,8 +113,16 @@ const LandingPage = () => {
                     </nav>
 
                     <div className="header-auth">
-                        <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
-                        <Link to="/guideLogin" className="auth-link">Login</Link>
+                        {userData ? (
+                            <Link to="/guideProfile" className="user-name-button">
+                                {getFirstName(userData.fullName)}
+                            </Link>
+                        ) : (
+                            <>
+                                <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
+                                <Link to="/guideLogin" className="auth-link">Login</Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </header>
@@ -248,7 +280,7 @@ const LandingPage = () => {
                             <div className="tour-guide-step">
                                 <div className="step-icon">
                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-                                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                     </svg>
                                 </div>
                                 <h3 className="step-title">STEP 1:</h3>
@@ -262,7 +294,7 @@ const LandingPage = () => {
                             <div className="tour-guide-step">
                                 <div className="step-icon">
                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
                                     </svg>
                                 </div>
                                 <h3 className="step-title">STEP 2:</h3>
@@ -277,7 +309,7 @@ const LandingPage = () => {
                             <div className="tour-guide-step">
                                 <div className="step-icon">
                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                                     </svg>
                                 </div>
                                 <h3 className="step-title">STEP 3:</h3>
