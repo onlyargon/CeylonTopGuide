@@ -144,6 +144,32 @@ html {
     font-family: 'Roboto', sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.banner-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.banner-button {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: 2px solid white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.banner-button:hover {
+    background-color: white;
+    color: #2c5d3f;
 }
 
 /* Article Sections */
@@ -744,6 +770,17 @@ html {
 
     .ceylon-banner-container {
         margin-top: 120px; /* More space for stacked header */
+    }
+
+    .banner-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .banner-button {
+        width: 80%;
+        text-align: center;
     }
 }
 

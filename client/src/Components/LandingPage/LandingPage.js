@@ -140,6 +140,10 @@ const LandingPage = () => {
                                 <h1 className="ceylon-welcome-text">Welcome to</h1>
                                 <h1 className="ceylon-brand-name">CEYLON TOPGUIDE</h1>
                                 <p className="ceylon-tagline">Connecting Travelers with Sri Lanka's Best Tour Guides</p>
+                                <div className="banner-buttons">
+                                    <Link to="/guideList" className="banner-button find-guide">Find a Guide</Link>
+                                    <Link to="/guideRegister" className="banner-button register-guide">Register as a Guide</Link>
+                                </div>
                             </div>
                         </div>
                     ))}
