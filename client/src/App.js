@@ -15,7 +15,7 @@ import ForgotPassword from './Components/GuideForgotPassword/GuideForgotPassword
 import ResetPassword from './Components/GuideResetPassword/GuideResetPassword';
 import AdminLogin from './Components/AdminLogin/AdminLogin';
 import RegistrationSuccess from './Components/RegistrationSuccess/RegistrationSuccess';
-
+import PublicGuideProfileLocal from './Components/PublicGuideProfile/PublicGuideProfileLocal';
 
 
 function App() {
@@ -37,6 +37,7 @@ function App() {
          <Route path="/reset-password/:token" element={<ResetPassword/>}/>
          <Route path="/adminLogin" element={<AdminLogin/>}/>
          <Route path="/registration-confirmation" element={<RegistrationSuccess/>}/>
+         <Route path="/public-guide-profile" element={<PublicGuideProfileLocal/>}/>
         </Routes>
       </React.Fragment>
     </div>

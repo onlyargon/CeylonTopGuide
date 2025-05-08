@@ -12,7 +12,7 @@
   margin-top: 50px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 
 .guide-profile-header {
@@ -400,5 +400,443 @@
   .guide-button {
     width: 100%;
     margin-bottom: 10px;
+  }
+}
+
+.local-guide-container-background {
+  position: relative;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.background-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.background-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.background-slide.active {
+  opacity: 0.15;
+}
+
+.local-guide-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.local-guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.local-guide-details {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.local-guide-name {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.local-guide-rating {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.local-guide-rating-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.local-guide-years-number,
+.local-guide-ratings-number,
+.local-guide-hours-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.local-guide-rating-title {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.local-guide-contact-info {
+  margin-top: 1rem;
+}
+
+.local-guide-phone {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.whatsapp-icon {
+  color: #25D366;
+}
+
+.local-guide-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.local-guide-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.local-guide-divider {
+  height: 1px;
+  background-color: #ddd;
+  margin: 2rem 0;
+}
+
+.local-guide-about {
+  margin-bottom: 2rem;
+}
+
+.local-guide-about h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.about-content {
+  position: relative;
+  max-height: 100px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.about-content.expanded {
+  max-height: 1000px;
+}
+
+.see-more-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.local-guide-toggle-section {
+  margin-bottom: 2rem;
+}
+
+.local-guide-toggle-slider {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  position: relative;
+  background-color: #f0f0f0;
+  border-radius: 25px;
+  padding: 5px;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1rem;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.toggle-option.active {
+  color: #fff;
+}
+
+.toggle-icon {
+  font-size: 1.2rem;
+}
+
+.slider {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  height: calc(100% - 10px);
+  background-color: #3498db;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.slider.right {
+  transform: translateX(100%);
+}
+
+.local-guide-photos {
+  margin-top: 2rem;
+}
+
+.local-guide-photos-title {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.local-guide-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.local-guide-photo-card {
+  position: relative;
+  padding-bottom: 75%;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.local-guide-photo-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.local-guide-photo-card:hover .local-guide-photo-img {
+  transform: scale(1.05);
+}
+
+.local-guide-professional {
+  padding: 1rem;
+}
+
+.local-guide-professional h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.local-guide-professional p {
+  margin-bottom: 0.75rem;
+  color: #444;
+}
+
+.local-guide-highlighted-rate {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.reviews-section {
+  margin-top: 2rem;
+}
+
+.reviews-title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.reviews-subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: normal;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.review-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.reviewer-details {
+  flex: 1;
+}
+
+.reviewer-name {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.reviewer-title {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.verified-badge {
+  display: inline-block;
+  background-color: #2ecc71;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.review-text {
+  color: #444;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stars {
+  color: #f1c40f;
+}
+
+.rating-number {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.rating-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.write-review {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.write-review:hover {
+  background-color: #2980b9;
+}
+
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.image-modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.image-modal-img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .local-guide-header {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .local-guide-details {
+    padding-right: 0;
+    margin-top: 1rem;
+  }
+
+  .local-guide-rating {
+    justify-content: center;
+  }
+
+  .local-guide-photo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .local-guide-container {
+    padding: 1rem;
   }
 }
