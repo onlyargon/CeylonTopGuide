@@ -31,7 +31,7 @@ const PublicGuideProfileLocal = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-        }, 4*5000);
+        }, 4 * 5000);
 
         return () => clearInterval(interval);
     }, []);
@@ -201,14 +201,14 @@ const PublicGuideProfileLocal = () => {
                                 className={`toggle-option ${showPhotos ? 'active' : ''}`}
                                 onClick={() => setShowPhotos(true)}
                             >
-                                <FaImages className="toggle-icon" />
+                                <FaImages className="toggle-icon" color={showPhotos ? "white" : "inherit"} />
                                 <span className="toggle-text">Tour Photos</span>
                             </button>
                             <button
                                 className={`toggle-option ${!showPhotos ? 'active' : ''}`}
                                 onClick={() => setShowPhotos(false)}
                             >
-                                <FaUserTie className="toggle-icon" />
+                                <FaUserTie className="toggle-icon" color={!showPhotos ? "white" : "inherit"} />
                                 <span className="toggle-text">Professional Details</span>
                             </button>
                             <div className={`slider ${showPhotos ? 'left' : 'right'}`}></div>

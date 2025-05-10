@@ -403,7 +403,7 @@
   }
 }
 
-.local-guide-container-background {
+.public-guide-container-background {
   position: relative;
   min-height: 100vh;
   background-color: #f5f5f5;
@@ -436,7 +436,7 @@
   opacity: 0.15;
 }
 
-.local-guide-container {
+.public-guide-container {
   position: relative;
   z-index: 1;
   max-width: 1200px;
@@ -447,54 +447,54 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.local-guide-header {
+.public-guide-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
 }
 
-.local-guide-details {
+.public-guide-details {
   flex: 1;
   padding-right: 2rem;
 }
 
-.local-guide-name {
+.public-guide-name {
   font-size: 2.5rem;
   color: #333;
   margin-bottom: 1rem;
 }
 
-.local-guide-rating {
+.public-guide-rating {
   display: flex;
   gap: 2rem;
   margin-bottom: 1rem;
 }
 
-.local-guide-rating-item {
+.public-guide-rating-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.local-guide-years-number,
-.local-guide-ratings-number,
-.local-guide-hours-number {
+.public-guide-years-number,
+.public-guide-ratings-number,
+.public-guide-hours-number {
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
 }
 
-.local-guide-rating-title {
+.public-guide-rating-title {
   font-size: 0.9rem;
   color: #666;
 }
 
-.local-guide-contact-info {
+.public-guide-contact-info {
   margin-top: 1rem;
 }
 
-.local-guide-phone {
+.public-guide-phone {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -506,7 +506,7 @@
   color: #25D366;
 }
 
-.local-guide-photo {
+.public-guide-photo {
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -514,23 +514,23 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.local-guide-photo img {
+.public-guide-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.local-guide-divider {
+.public-guide-divider {
   height: 1px;
   background-color: #ddd;
   margin: 2rem 0;
 }
 
-.local-guide-about {
+.public-guide-about {
   margin-bottom: 2rem;
 }
 
-.local-guide-about h2 {
+.public-guide-about h2 {
   color: #2c3e50;
   margin-bottom: 1rem;
 }
@@ -555,86 +555,174 @@
   font-size: 0.9rem;
 }
 
-.local-guide-toggle-section {
-  margin-bottom: 2rem;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* --- Unique Slider Styles for PublicGuideProfile --- */
+.public-guide-toggle-section-unique {
+  margin: 30px 0;
 }
 
-.local-guide-toggle-slider {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+.public-guide-toggle-slider-unique {
   position: relative;
-  background-color: #f0f0f0;
-  border-radius: 25px;
-  padding: 5px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+    display: flex;
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    padding: 5px;
+    margin-bottom: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
-.toggle-option {
+.public-guide-toggle-slider-unique:hover {
+  background-color: #e0e0e0;
+}
+
+.toggle-option-unique {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: #666;
-  font-size: 1rem;
-  z-index: 1;
-  transition: color 0.3s ease;
-  width: 50%;
-  justify-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    color: #555;
 }
 
-.toggle-option.active {
-  color: #fff;
+.toggle-option-unique .toggle-text-unique {
+  opacity: 0;
+    width: 0;
+    transition: all 0.3s ease;
+    margin-left: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.toggle-icon {
-  font-size: 1.2rem;
+.local-guide-toggle-slider-unique:hover .toggle-text-unique {
+  opacity: 1;
+  width: auto;
+  margin-left: 8px;
 }
 
-.slider {
+.toggle-option-unique.active {
+  color: white;
+}
+
+.toggle-option-unique:hover {
+  color: #2c3e50;
+}
+
+.toggle-option-unique.active:hover {
+  color: white;
+}
+
+.toggle-icon-unique {
+  font-size: 16px;
+}
+
+.slider-unique {
   position: absolute;
-  top: 5px;
-  left: 5px;
-  width: calc(50% - 5px);
-  height: calc(100% - 10px);
-  background-color: #3498db;
-  border-radius: 20px;
-  transition: transform 0.3s ease;
+  bottom: 0px;
+  top: 0px;
+  border-radius: 25px;
+  background-color: #3a724a;
+  transition: all 0.3s ease;
+  z-index: 0;
+  min-width: 40px;
 }
 
-.slider.right {
-  transform: translateX(100%);
+.slider-unique.left {
+  left: 0px;
+  width: 55px;
 }
 
-.local-guide-photos {
+.slider-unique.right {
+  left: calc(100% - 55px);
+  width: 55px;
+}
+
+.local-guide-toggle-slider-unique:hover .slider-unique.left {
+  width: calc(50% - 20px);
+}
+
+.local-guide-toggle-slider-unique:hover .slider-unique.right {
+  width: calc(100%);
+  left: calc(50% - 30px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .public-guide-toggle-slider-unique {
+    width: 110px;
+    height: 45px;
+  }
+  .public-guide-toggle-slider-unique:hover {
+    width: 320px;
+  }
+  .toggle-option-unique {
+    font-size: 15px;
+    padding: 0 12px;
+  }
+  .toggle-icon-unique {
+    font-size: 16px;
+  }
+  .toggle-text-unique {
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .public-guide-toggle-slider-unique {
+    width: 100px;
+    height: 42px;
+  }
+  .public-guide-toggle-slider-unique:hover {
+    width: 280px;
+  }
+  .toggle-option-unique {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+  .toggle-icon-unique {
+    font-size: 15px;
+  }
+  .toggle-text-unique {
+    font-size: 13px;
+  }
+}
+/* Remove/override old slider styles if needed */
+.public-guide-toggle-section,
+.public-guide-toggle-slider,
+.toggle-option,
+.toggle-icon,
+.toggle-text,
+.slider {
+  all: unset;
+}
+
+.public-guide-photos {
   margin-top: 2rem;
   text-align: center;
 }
 
-.local-guide-photos-title {
+.public-guide-photos-title {
   color: #2c3e50;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.local-guide-photos-grid {
+.public-guide-photos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
   padding: 0 1rem;
 }
 
-.local-guide-photo-card {
+.public-guide-photo-card {
   position: relative;
   padding-bottom: 75%;
   overflow: hidden;
@@ -643,32 +731,32 @@
   transition: transform 0.3s ease;
 }
 
-.local-guide-photo-card:hover {
+.public-guide-photo-card:hover {
   transform: translateY(-5px);
 }
 
-.local-guide-photo-img {
+.public-guide-photo-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit:fill;
   transition: transform 0.3s ease;
 }
 
-.local-guide-photo-card:hover .local-guide-photo-img {
+.public-guide-photo-card:hover .public-guide-photo-img {
   transform: scale(1.05);
 }
 
-.local-guide-professional {
+.public-guide-professional {
   padding: 1.5rem;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.local-guide-professional h2 {
+.public-guide-professional h2 {
   color: #2c3e50;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
@@ -676,7 +764,7 @@
   text-align: center;
 }
 
-.local-guide-professional p {
+.public-guide-professional p {
   margin-bottom: 1rem;
   color: #444;
   line-height: 1.6;
@@ -684,17 +772,17 @@
   border-bottom: 1px solid #eee;
 }
 
-.local-guide-professional p:last-child {
+.public-guide-professional p:last-child {
   border-bottom: none;
 }
 
-.local-guide-professional p strong {
+.public-guide-professional p strong {
   color: #2c3e50;
   font-weight: 600;
   margin-right: 0.5rem;
 }
 
-.local-guide-highlighted-rate {
+.public-guide-highlighted-rate {
   color: #3498db;
   font-weight: bold;
   background-color: #f8f9fa;
@@ -856,27 +944,27 @@
 }
 
 @media (max-width: 768px) {
-  .local-guide-header {
+  .public-guide-header {
     flex-direction: column-reverse;
     align-items: center;
     text-align: center;
   }
 
-  .local-guide-details {
+  .public-guide-details {
     padding-right: 0;
     margin-top: 1rem;
   }
 
-  .local-guide-rating {
+  .public-guide-rating {
     justify-content: center;
   }
 
-  .local-guide-photo {
+  .public-guide-photo {
     width: 150px;
     height: 150px;
   }
 
-  .local-guide-container {
+  .public-guide-container {
     padding: 1rem;
   }
 }

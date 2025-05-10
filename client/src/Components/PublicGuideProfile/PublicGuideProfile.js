@@ -112,12 +112,12 @@ const PublicGuideProfile = () => {
     setSelectedImage(null);
   };
 
-  if (!guide) return <div className="guide-profile-container"><h2>Loading...</h2></div>;
+  if (!guide) return <div className="public-guide-container"><h2>Loading...</h2></div>;
 
   return (
     <>
       <Header />
-      <div className="local-guide-container-background">
+      <div className="public-guide-container-background">
         <div className="background-slideshow">
           {slides.map((slide, index) => (
             <div
@@ -129,42 +129,42 @@ const PublicGuideProfile = () => {
             />
           ))}
         </div>
-        <div className="local-guide-container">
-          <div className="local-guide-header">
-            <div className="local-guide-details">
-              <h1 className="local-guide-name">{guide.fullName}</h1>
+        <div className="public-guide-container">
+          <div className="public-guide-header">
+            <div className="public-guide-details">
+              <h1 className="public-guide-name">{guide.fullName}</h1>
 
-              <div className="local-guide-rating">
-                <div className="local-guide-rating-item">
-                  <span className="local-guide-years-number">{guide.professionalDetails?.experienceYears || '0'}</span>
-                  <span className="local-guide-rating-title">Years</span>
+              <div className="public-guide-rating">
+                <div className="public-guide-rating-item">
+                  <span className="public-guide-years-number">{guide.professionalDetails?.experienceYears || '0'}</span>
+                  <span className="public-guide-rating-title">Years</span>
                 </div>
-                <div className="local-guide-rating-item">
-                  <span className="local-guide-ratings-number">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
-                  <span className="local-guide-rating-title">Rating</span>
+                <div className="public-guide-rating-item">
+                  <span className="public-guide-ratings-number">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
+                  <span className="public-guide-rating-title">Rating</span>
                 </div>
-                <div className="local-guide-rating-item">
-                  <span className="local-guide-hours-number">
+                <div className="public-guide-rating-item">
+                  <span className="public-guide-hours-number">
                     {guide.pricing?.rateType === 'hourly' ? (
                       `$${guide.pricing?.hourlyRate || "0"}`
                     ) : (
                       `$${guide.pricing?.dailyRate || "0"}`
                     )}
                   </span>
-                  <span className="local-guide-rating-title">
+                  <span className="public-guide-rating-title">
                     {guide.pricing?.rateType === 'hourly' ? 'Hourly Rate' : 'Daily Rate'}
                   </span>
                 </div>
               </div>
 
-              <div className="local-guide-contact-info">
-                <span className="local-guide-phone">
+              <div className="public-guide-contact-info">
+                <span className="public-guide-phone">
                   <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
                 </span>
               </div>
             </div>
 
-            <div className="local-guide-photo">
+            <div className="public-guide-photo">
               <img
                 src={getCloudinaryUrl(guide.profilePhoto)}
                 alt={guide.fullName}
@@ -176,9 +176,9 @@ const PublicGuideProfile = () => {
             </div>
           </div>
 
-          <div className="local-guide-divider"></div>
+          <div className="public-guide-divider"></div>
 
-          <div className="local-guide-about">
+          <div className="public-guide-about">
             <h2>About Me</h2>
             <div className={`about-content ${isAboutExpanded ? 'expanded' : 'collapsed'}`}>
               <p>{guide.additionalInfo?.bio || "No bio added yet."}</p>
@@ -191,38 +191,38 @@ const PublicGuideProfile = () => {
             </button>
           </div>
 
-          <div className="local-guide-divider"></div>
+          <div className="public-guide-divider"></div>
 
-          <div className="local-guide-toggle-section">
-            <div className="local-guide-toggle-slider">
+          <div className="public-guide-toggle-section-unique">
+            <div className="public-guide-toggle-slider-unique">
               <button
-                className={`toggle-option ${showPhotos ? 'active' : ''}`}
+                className={`toggle-option-unique ${showPhotos ? 'active' : ''}`}
                 onClick={() => setShowPhotos(true)}
               >
-                <FaImages className="toggle-icon" />
-                <span className="toggle-text">Tour Photos</span>
+                <FaImages className="toggle-icon-unique" />
+                <span className="toggle-text-unique">Tour Photos</span>
               </button>
               <button
-                className={`toggle-option ${!showPhotos ? 'active' : ''}`}
+                className={`toggle-option-unique ${!showPhotos ? 'active' : ''}`}
                 onClick={() => setShowPhotos(false)}
               >
-                <FaUserTie className="toggle-icon" />
-                <span className="toggle-text">Professional Details</span>
+                <FaUserTie className="toggle-icon-unique" />
+                <span className="toggle-text-unique">Professional Details</span>
               </button>
-              <div className={`slider ${showPhotos ? 'left' : 'right'}`}></div>
+              <div className={`slider-unique ${showPhotos ? 'left' : 'right'}`}></div>
             </div>
 
             {showPhotos ? (
-              <div className="local-guide-photos">
-                <h2 className="local-guide-photos-title">Tour Photos</h2>
-                <div className="local-guide-photos-grid">
+              <div className="public-guide-photos">
+                <h2 className="public-guide-photos-title">Tour Photos</h2>
+                <div className="public-guide-photos-grid">
                   {tourPhotos.length > 0 ? (
                     tourPhotos.map((photo, index) => (
-                      <div key={index} className="local-guide-photo-card">
+                      <div key={index} className="public-guide-photo-card">
                         <img
                           src={getCloudinaryUrl(photo.imagePath)}
                           alt="Tour"
-                          className="local-guide-photo-img"
+                          className="public-guide-photo-img"
                           loading="lazy"
                           onClick={() => handleImageClick(getCloudinaryUrl(photo.imagePath))}
                           style={{ cursor: 'pointer' }}
@@ -235,7 +235,7 @@ const PublicGuideProfile = () => {
                 </div>
               </div>
             ) : (
-              <div className="local-guide-professional">
+              <div className="public-guide-professional">
                 <h2>Professional Details</h2>
                 <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
                 <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
@@ -243,14 +243,14 @@ const PublicGuideProfile = () => {
                 <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
                 <p>
                   <strong>Hourly Rate:</strong>
-                  <span className={guide.pricing?.rateType === 'hourly' ? 'local-guide-highlighted-rate' : ''}>
+                  <span className={guide.pricing?.rateType === 'hourly' ? 'public-guide-highlighted-rate' : ''}>
                     ${guide.pricing?.hourlyRate || "0"}
                   </span>
                   {guide.pricing?.rateType === 'hourly' && ' (Selected)'}
                 </p>
                 <p>
                   <strong>Daily Rate:</strong>
-                  <span className={guide.pricing?.rateType === 'daily' ? 'local-guide-highlighted-rate' : ''}>
+                  <span className={guide.pricing?.rateType === 'daily' ? 'public-guide-highlighted-rate' : ''}>
                     ${guide.pricing?.dailyRate || "0"}
                   </span>
                   {guide.pricing?.rateType === 'daily' && ' (Selected)'}
@@ -260,7 +260,7 @@ const PublicGuideProfile = () => {
             )}
           </div>
 
-          <div className="local-guide-divider"></div>
+          <div className="public-guide-divider"></div>
 
           <div className="reviews-section">
             <h2 className="reviews-title">REVIEWS</h2>

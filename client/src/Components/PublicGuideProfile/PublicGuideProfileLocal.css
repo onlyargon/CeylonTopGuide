@@ -203,7 +203,7 @@
   .local-guide-photo-img {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: fill;
     transition: transform 0.2s;
   }
   
@@ -477,141 +477,7 @@
     text-decoration: underline;
   }
 
-  .local-guide-toggle-section {
-    padding: 20px 0;
-  }
-
-  .local-guide-toggle-slider {
-    position: relative;
-    display: flex;
-    width: 120px;
-    height: 40px;
-    background: #f0f0f0;
-    border-radius: 20px;
-    margin: 0 auto 30px;
-    overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-  }
-
-  .local-guide-toggle-slider:hover {
-    width: 380px;
-  }
-
-  .toggle-option {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: #666;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    z-index: 1;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    min-width: 60px;
-    gap: 8px;
-  }
-
-  .toggle-option:last-child {
-    flex: 1.2;
-  }
-
-  .toggle-icon {
-    font-size: 18px;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-  }
-
-  .toggle-text {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    font-size: 14px;
-    transform: translateX(-10px);
-    position: absolute;
-    left: 50%;
-  }
-
-  .local-guide-toggle-slider:hover .toggle-text {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-    position: static;
-  }
-
-  .toggle-option:hover .toggle-icon {
-    transform: scale(1.1);
-  }
-
-  .toggle-option.active {
-    color: white;
-  }
-
-  .toggle-option.active .toggle-icon {
-    transform: scale(1.1);
-  }
-
-  .slider {
-    position: absolute;
-    height: 100%;
-    background: #3D6949;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-  }
-
-  .slider.left {
-    width: 50%;
-    transform: translateX(0);
-  }
-
-  .slider.right {
-    width: 60%;
-    transform: translateX(70%);
-  }
-
-  @media (max-width: 768px) {
-    .local-guide-toggle-slider {
-      width: 90px;
-      height: 35px;
-    }
-    
-    .local-guide-toggle-slider:hover {
-      width: 300px;
-    }
-    
-    .toggle-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .local-guide-toggle-slider {
-      width: 90px;
-      height: 32px;
-    }
-    
-    .local-guide-toggle-slider:hover {
-      width: 250px;
-    }
-    
-    .toggle-icon {
-      font-size: 14px;
-      width: 14px;
-      height: 14px;
-    }
-  }
-
+  
   /* Image Modal Styles */
   .image-modal-overlay {
     position: fixed;
@@ -838,4 +704,102 @@
       width: 100%;
       margin-bottom: 10px;
     }
+  }
+
+  .local-guide-toggle-section {
+    margin: 30px 0;
+  }
+  
+  .local-guide-toggle-slider {
+    position: relative;
+    display: flex;
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    padding: 5px;
+    margin-bottom: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .local-guide-toggle-slider:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    color: #555;
+  }
+  
+  .toggle-option .toggle-text {
+    opacity: 0;
+    width: 0;
+    transition: all 0.3s ease;
+    margin-left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .local-guide-toggle-slider:hover .toggle-text {
+    opacity: 1;
+    width: auto;
+    margin-left: 8px;
+  }
+  
+  .toggle-option.active {
+    color: white;
+  }
+  
+  .toggle-option:hover {
+    color: #2c3e50;
+  }
+  
+  .toggle-option.active:hover {
+    color: white;
+  }
+  
+  .toggle-icon {
+    font-size: 16px;
+  }
+
+  .slider {
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    border-radius: 25px;
+    background-color: #3a724a;
+    transition: all 0.3s ease;
+    z-index: 0;
+    min-width: 40px;
+  }
+  
+  .slider.left {
+    left: 0px;
+    width: 55px;
+  }
+  
+  .slider.right {
+    left: calc(100% - 55px);
+    width: 55px;
+  }
+  
+  .local-guide-toggle-slider:hover .slider.left {
+    width: calc(50% - 20px);
+  }
+  
+  .local-guide-toggle-slider:hover .slider.right {
+    width: calc(100%);
+    left: calc(50% - 30px);
   }
