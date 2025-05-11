@@ -36,7 +36,6 @@ const GuideProfile = () => {
     additionalInfo: {
       bio: ""
     },
-    guideRank: "",
     nationality: "",
     profilePhoto: ""
   });
@@ -47,6 +46,10 @@ const GuideProfile = () => {
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [photoCaption, setPhotoCaption] = useState("");
+  const [showCaptionInput, setShowCaptionInput] = useState(false);
 
   // Add these constants at the top of the component
   const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
@@ -77,6 +80,12 @@ const GuideProfile = () => {
 
     // If it's just the public ID (without the full URL)
     return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/w_${width},h_${height},c_${crop}/${imagePath}`;
+  };
+
+  const validatePhoneNumber = (phone) => {
+    // Check if phone starts with 07 and has exactly 10 digits
+    const phoneRegex = /^07\d{8}$/;
+    return phoneRegex.test(phone);
   };
 
   useEffect(() => {
@@ -124,6 +133,49 @@ const GuideProfile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     
+    // Handle phone number validation
+    if (name === "contact.phone") {
+      // Only allow digits
+      const digitsOnly = value.replace(/\D/g, '');
+      
+      // If input is empty, clear error
+      if (!value) {
+        setPhoneError("");
+        setFormData(prev => ({
+          ...prev,
+          contact: {
+            ...prev.contact,
+            phone: ""
+          }
+        }));
+        return;
+      }
+
+      // If input doesn't start with 07, add it
+      let formattedPhone = digitsOnly;
+      if (digitsOnly.length > 0 && !digitsOnly.startsWith("07")) {
+        formattedPhone = "07" + digitsOnly.substring(0, 8);
+      }
+
+      // Validate the phone number
+      if (formattedPhone.length > 0) {
+        if (!validatePhoneNumber(formattedPhone)) {
+          setPhoneError("Phone number must start with 07 and have exactly 10 digits");
+        } else {
+          setPhoneError("");
+        }
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        contact: {
+          ...prev.contact,
+          phone: formattedPhone
+        }
+      }));
+      return;
+    }
+    
     // Handle nested fields
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
@@ -156,6 +208,12 @@ const GuideProfile = () => {
   };
 
   const handleUpdate = async () => {
+    // Validate phone number before submission
+    if (formData.contact.phone && !validatePhoneNumber(formData.contact.phone)) {
+      setPhoneError("Phone number must start with 07 and have exactly 10 digits");
+      return;
+    }
+
     try {
       // Prepare the data for submission
       const updateData = {
@@ -248,10 +306,21 @@ const GuideProfile = () => {
       return;
     }
 
+    setSelectedFile(file);
+    setShowCaptionInput(true);
+  };
+
+  const handleCaptionSubmit = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first");
+      return;
+    }
+
     // Create FormData for backend
     const formData = new FormData();
-    formData.append("photo", file); // Must match multer's field name
-    formData.append("guideId", guide._id); // Add guideId to form data
+    formData.append("photo", selectedFile);
+    formData.append("guideId", guide._id);
+    formData.append("caption", photoCaption);
 
     try {
       setUploadProgress(0);
@@ -274,12 +343,22 @@ const GuideProfile = () => {
 
       setTourPhotos([...tourPhotos, response.data]);
       alert("Photo uploaded successfully!");
+      // Reset states after successful upload
+      setSelectedFile(null);
+      setPhotoCaption("");
+      setShowCaptionInput(false);
     } catch (err) {
       console.error("Upload failed:", err.response?.data || err.message);
       alert(`Upload failed: ${err.response?.data?.error || err.message}`);
     } finally {
       setUploadProgress(0);
     }
+  };
+
+  const handleCancelUpload = () => {
+    setSelectedFile(null);
+    setPhotoCaption("");
+    setShowCaptionInput(false);
   };
 
   const handleDeletePhoto = async (photoId) => {
@@ -510,9 +589,6 @@ const GuideProfile = () => {
           : guide.pricing.paymentMethods.split(',').map(item => item.trim()))
       : [];
 
-    // Log the guide data to check address structure
-    console.log('Guide data:', guide);
-
     setFormData({
       fullName: guide.fullName || "",
       contact: {
@@ -541,14 +617,9 @@ const GuideProfile = () => {
       additionalInfo: {
         bio: guide.additionalInfo?.bio || ""
       },
-      guideRank: guide.guideRank || "",
       nationality: guide.nationality || "",
       profilePhoto: guide.profilePhoto || ""
     });
-
-    // Log the form data after setting it
-    console.log('Form data after setting:', formData);
-    
     setEditing(true);
   };
 
@@ -618,13 +689,17 @@ const GuideProfile = () => {
             {/* Contact Information */}
             <div className="edit-section">
               <h3>Contact Information</h3>
-              <input
-                type="text"
-                name="contact.phone"
-                value={formData.contact?.phone || ""}
-                onChange={handleChange}
-                placeholder="Phone Number"
-              />
+              <div className="input-group">
+                <input
+                  type="text"
+                  name="contact.phone"
+                  value={formData.contact?.phone || ""}
+                  onChange={handleChange}
+                  placeholder="Phone Number (07XXXXXXXX)"
+                  maxLength="10"
+                />
+                {phoneError && <span className="error-message">{phoneError}</span>}
+              </div>
             </div>
 
             {/* Address Information */}
@@ -635,7 +710,7 @@ const GuideProfile = () => {
                 name="address.street"
                 value={formData.address?.street || ""}
                 onChange={handleChange}
-                placeholder="Street Address"
+                placeholder="Address"
               />
               <input
                 type="text"
@@ -671,19 +746,6 @@ const GuideProfile = () => {
             {/* Professional Details */}
             <div className="edit-section">
               <h3>Professional Details</h3>
-              <select
-                name="guideRank"
-                value={formData.guideRank || ""}
-                onChange={handleChange}
-              >
-                <option value="">Select Guide Rank</option>
-                <option value="National Guide">National Guide</option>
-                <option value="Provincial Guide">Provincial Guide</option>
-                <option value="Chauffer Guide">Chauffer Guide</option>
-                <option value="Driver Guide">Driver Guide</option>
-                <option value="Site Guide">Site Guide</option>
-                <option value="Unregistered Guide">Unregistered Guide</option>
-              </select>
               <input
                 type="number"
                 name="professionalDetails.experienceYears"
@@ -1028,6 +1090,23 @@ const GuideProfile = () => {
                     style={{ display: "none" }}
                   />
                 </label>
+                {showCaptionInput && (
+                  <div className="caption-input-container">
+                    <input
+                      type="text"
+                      value={photoCaption}
+                      onChange={(e) => setPhotoCaption(e.target.value)}
+                      placeholder="Enter photo caption"
+                      className="caption-input"
+                    />
+                    <button onClick={handleCaptionSubmit} className="guide-button edit-button">
+                      Upload
+                    </button>
+                    <button onClick={handleCancelUpload} className="guide-button logout-button">
+                      Cancel
+                    </button>
+                  </div>
+                )}
                 {uploadProgress > 0 && (
                   <div className="upload-progress">
                     <div
@@ -1060,11 +1139,14 @@ const GuideProfile = () => {
                         onChange={() => handleSelectPhoto(photo._id)}
                       />
                       <img
-                        src={`${photo.imagePath}?w=400&h=300&c_fill`} // Cloudinary URL with transformations
-                        alt="Tour"
+                        src={`${photo.imagePath}?w=400&h=300&c_fill`}
+                        alt={photo.caption || "Tour"}
                         className="tour-photo"
                         loading="lazy"
                       />
+                      {photo.caption && (
+                        <div className="photo-caption">{photo.caption}</div>
+                      )}
                     </div>
                   ))
                 ) : (

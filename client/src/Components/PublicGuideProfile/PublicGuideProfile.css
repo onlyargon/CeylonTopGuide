@@ -724,29 +724,31 @@
 
 .public-guide-photo-card {
   position: relative;
-  padding-bottom: 75%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   overflow: hidden;
-  border-radius: 10px;
+  background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.public-guide-photo-card:hover {
-  transform: translateY(-5px);
 }
 
 .public-guide-photo-img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit:fill;
-  transition: transform 0.3s ease;
+  height: 200px;
+  object-fit: cover;
+  display: block;
 }
 
-.public-guide-photo-card:hover .public-guide-photo-img {
-  transform: scale(1.05);
+.public-guide-photo-caption {
+  padding: 10px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .public-guide-professional {

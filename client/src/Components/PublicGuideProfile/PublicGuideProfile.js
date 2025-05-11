@@ -221,12 +221,15 @@ const PublicGuideProfile = () => {
                       <div key={index} className="public-guide-photo-card">
                         <img
                           src={getCloudinaryUrl(photo.imagePath)}
-                          alt="Tour"
+                          alt={photo.caption || "Tour"}
                           className="public-guide-photo-img"
                           loading="lazy"
                           onClick={() => handleImageClick(getCloudinaryUrl(photo.imagePath))}
                           style={{ cursor: 'pointer' }}
                         />
+                        {photo.caption && (
+                          <div className="public-guide-photo-caption">{photo.caption}</div>
+                        )}
                       </div>
                     ))
                   ) : (
