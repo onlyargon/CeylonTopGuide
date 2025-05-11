@@ -138,6 +138,7 @@ const GuideProfile = () => {
           }
         }));
       } else {
+        // Handle nested object fields (like address)
         setFormData(prev => ({
           ...prev,
           [parent]: {
@@ -427,22 +428,24 @@ const GuideProfile = () => {
   };
 
   const handleProvinceChange = (e) => {
+    const value = e.target.value;
     setFormData(prev => ({
       ...prev,
       address: {
         ...prev.address,
-        province: e.target.value,
+        province: value,
         district: "" // Reset district when province changes
       }
     }));
   };
 
   const handleDistrictChange = (e) => {
+    const value = e.target.value;
     setFormData(prev => ({
       ...prev,
       address: {
         ...prev.address,
-        district: e.target.value
+        district: value
       }
     }));
   };
@@ -507,6 +510,9 @@ const GuideProfile = () => {
           : guide.pricing.paymentMethods.split(',').map(item => item.trim()))
       : [];
 
+    // Log the guide data to check address structure
+    console.log('Guide data:', guide);
+
     setFormData({
       fullName: guide.fullName || "",
       contact: {
@@ -539,8 +545,19 @@ const GuideProfile = () => {
       nationality: guide.nationality || "",
       profilePhoto: guide.profilePhoto || ""
     });
+
+    // Log the form data after setting it
+    console.log('Form data after setting:', formData);
+    
     setEditing(true);
   };
+
+  // Add this useEffect to log form data changes
+  useEffect(() => {
+    if (editing) {
+      console.log('Form data in edit mode:', formData);
+    }
+  }, [editing, formData]);
 
   if (!guide) return <div className="guide-profile-container"><h2>Loading...</h2></div>;
 
