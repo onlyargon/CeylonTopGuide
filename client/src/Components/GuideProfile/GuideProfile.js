@@ -480,6 +480,68 @@ const GuideProfile = () => {
     }
   };
 
+  // Add this new function to handle entering edit mode
+  const handleEnterEditMode = () => {
+    // Convert string arrays to actual arrays if they exist
+    const specialties = guide.professionalDetails?.specialties 
+      ? (Array.isArray(guide.professionalDetails.specialties) 
+          ? guide.professionalDetails.specialties 
+          : guide.professionalDetails.specialties.split(',').map(item => item.trim()))
+      : [];
+    
+    const languagesSpoken = guide.professionalDetails?.languagesSpoken
+      ? (Array.isArray(guide.professionalDetails.languagesSpoken)
+          ? guide.professionalDetails.languagesSpoken
+          : guide.professionalDetails.languagesSpoken.split(',').map(item => item.trim()))
+      : [];
+    
+    const tourRegions = guide.professionalDetails?.tourRegions
+      ? (Array.isArray(guide.professionalDetails.tourRegions)
+          ? guide.professionalDetails.tourRegions
+          : guide.professionalDetails.tourRegions.split(',').map(item => item.trim()))
+      : [];
+    
+    const paymentMethods = guide.pricing?.paymentMethods
+      ? (Array.isArray(guide.pricing.paymentMethods)
+          ? guide.pricing.paymentMethods
+          : guide.pricing.paymentMethods.split(',').map(item => item.trim()))
+      : [];
+
+    setFormData({
+      fullName: guide.fullName || "",
+      contact: {
+        phone: guide.contact?.phone || "",
+        email: guide.contact?.email || ""
+      },
+      address: {
+        street: guide.address?.street || "",
+        city: guide.address?.city || "",
+        district: guide.address?.district || "",
+        province: guide.address?.province || ""
+      },
+      professionalDetails: {
+        specialties: specialties,
+        languagesSpoken: languagesSpoken,
+        experienceYears: guide.professionalDetails?.experienceYears || 0,
+        tourRegions: tourRegions
+      },
+      pricing: {
+        rateType: guide.pricing?.rateType || "",
+        hourlyRate: guide.pricing?.hourlyRate || "",
+        dailyRate: guide.pricing?.dailyRate || "",
+        paymentMethods: paymentMethods
+      },
+      availability: guide.availability || "",
+      additionalInfo: {
+        bio: guide.additionalInfo?.bio || ""
+      },
+      guideRank: guide.guideRank || "",
+      nationality: guide.nationality || "",
+      profilePhoto: guide.profilePhoto || ""
+    });
+    setEditing(true);
+  };
+
   if (!guide) return <div className="guide-profile-container"><h2>Loading...</h2></div>;
 
   return (
@@ -851,7 +913,7 @@ const GuideProfile = () => {
               )}
 
               <div className="button-container">
-                <button onClick={() => setEditing(true)} className="guide-button edit-button">
+                <button onClick={handleEnterEditMode} className="guide-button edit-button">
                   Edit Profile
                 </button>
 
