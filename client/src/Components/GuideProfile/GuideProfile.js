@@ -52,6 +52,7 @@ const GuideProfile = () => {
   const [photoCaption, setPhotoCaption] = useState("");
   const [showCaptionInput, setShowCaptionInput] = useState(false);
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
+  const [showPhotos, setShowPhotos] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -1051,110 +1052,129 @@ const GuideProfile = () => {
 
               <div className="guide-profile-divider"></div>
 
-              <div className="guide-profile-photos">
-                <h2>Tour Photos</h2>
-                <div className="upload-container">
-                  <label className="upload-button">
-                    Choose Photo
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoUpload}
-                      style={{ display: "none" }}
-                    />
-                  </label>
-                  {showCaptionInput && (
-                    <div className="caption-input-container">
-                      <input
-                        type="text"
-                        value={photoCaption}
-                        onChange={(e) => setPhotoCaption(e.target.value)}
-                        placeholder="Enter photo caption"
-                        className="caption-input"
-                      />
-                      <button onClick={handleCaptionSubmit} className="guide-button edit-button">
-                        Upload
-                      </button>
-                      <button onClick={handleCancelUpload} className="guide-button logout-button">
-                        Cancel
-                      </button>
-                    </div>
-                  )}
-                  {uploadProgress > 0 && (
-                    <div className="upload-progress">
-                      <div
-                        className="progress-bar"
-                        style={{ width: `${uploadProgress}%` }}
-                      ></div>
-                      <span>{uploadProgress}%</span>
-                    </div>
-                  )}
-                </div>
-
-                {selectedPhotos.length > 0 && (
+              <div className="guide-profile-toggle-section">
+                <div className="guide-profile-toggle-slider">
                   <button
-                    onClick={handleDeleteSelectedPhotos}
-                    className="guide-button delete-button"
-                    style={{ marginBottom: "20px" }}
+                    className={`toggle-option ${showPhotos ? 'active' : ''}`}
+                    onClick={() => setShowPhotos(true)}
                   >
-                    Delete Selected ({selectedPhotos.length})
+                    <FaImages className="toggle-icon" />
+                    <span className="toggle-text">Tour Photos</span>
                   </button>
-                )}
-
-                <div className="guide-profile-photos-grid">
-                  {tourPhotos.length > 0 ? (
-                    tourPhotos.map((photo) => (
-                      <div key={photo._id} className="guide-profile-photo-card">
-                        <input
-                          type="checkbox"
-                          className="photo-checkbox"
-                          checked={selectedPhotos.includes(photo._id)}
-                          onChange={() => handleSelectPhoto(photo._id)}
-                        />
-                        <img
-                          src={`${photo.imagePath}?w=400&h=300&c_fill`}
-                          alt={photo.caption || "Tour"}
-                          className="guide-profile-photo-img"
-                          loading="lazy"
-                          onClick={() => handleImageClick(photo.imagePath)}
-                        />
-                        {photo.caption && (
-                          <div className="guide-profile-photo-caption">{photo.caption}</div>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No tour photos uploaded yet.</p>
-                  )}
+                  <button
+                    className={`toggle-option ${!showPhotos ? 'active' : ''}`}
+                    onClick={() => setShowPhotos(false)}
+                  >
+                    <FaUserTie className="toggle-icon" />
+                    <span className="toggle-text">Professional Details</span>
+                  </button>
+                  <div className={`slider ${showPhotos ? 'left' : 'right'}`}></div>
                 </div>
-              </div>
 
-              <div className="guide-profile-divider"></div>
+                {showPhotos ? (
+                  <div className="guide-profile-photos">
+                    <div className="upload-container">
+                      <label className="upload-button">
+                        Choose Photo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          style={{ display: "none" }}
+                        />
+                      </label>
+                      {showCaptionInput && (
+                        <div className="caption-input-container">
+                          <input
+                            type="text"
+                            value={photoCaption}
+                            onChange={(e) => setPhotoCaption(e.target.value)}
+                            placeholder="Enter photo caption"
+                            className="caption-input"
+                          />
+                          <button onClick={handleCaptionSubmit} className="guide-button edit-button">
+                            Upload
+                          </button>
+                          <button onClick={handleCancelUpload} className="guide-button logout-button">
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                      {uploadProgress > 0 && (
+                        <div className="upload-progress">
+                          <div
+                            className="progress-bar"
+                            style={{ width: `${uploadProgress}%` }}
+                          ></div>
+                          <span>{uploadProgress}%</span>
+                        </div>
+                      )}
+                    </div>
 
-              <div className="guide-profile-professional">
-                <h2>Professional Details</h2>
-                <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
-                <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
-                <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
-                <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
-                {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                  <p>
-                    <strong>Hourly Rate:</strong>
-                    <span className="guide-profile-highlighted-rate">
-                      ${guide.pricing.hourlyRate}
-                    </span>
-                  </p>
-                ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                  <p>
-                    <strong>Daily Rate:</strong>
-                    <span className="guide-profile-highlighted-rate">
-                      ${guide.pricing.dailyRate}
-                    </span>
-                  </p>
+                    {selectedPhotos.length > 0 && (
+                      <button
+                        onClick={handleDeleteSelectedPhotos}
+                        className="guide-button delete-button"
+                        style={{ marginBottom: "20px" }}
+                      >
+                        Delete Selected ({selectedPhotos.length})
+                      </button>
+                    )}
+
+                    <div className="guide-profile-photos-grid">
+                      {tourPhotos.length > 0 ? (
+                        tourPhotos.map((photo) => (
+                          <div key={photo._id} className="guide-profile-photo-card">
+                            <input
+                              type="checkbox"
+                              className="photo-checkbox"
+                              checked={selectedPhotos.includes(photo._id)}
+                              onChange={() => handleSelectPhoto(photo._id)}
+                            />
+                            <img
+                              src={`${photo.imagePath}?w=400&h=300&c_fill`}
+                              alt={photo.caption || "Tour"}
+                              className="guide-profile-photo-img"
+                              loading="lazy"
+                              onClick={() => handleImageClick(photo.imagePath)}
+                            />
+                            {photo.caption && (
+                              <div className="guide-profile-photo-caption">{photo.caption}</div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <p>No tour photos uploaded yet.</p>
+                      )}
+                    </div>
+                  </div>
                 ) : (
-                  <p><strong>Rate:</strong> Not set</p>
+                  <div className="guide-profile-professional">
+                    <h2>Professional Details</h2>
+                    <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
+                    <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
+                    <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
+                    <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
+                    {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                      <p>
+                        <strong>Hourly Rate:</strong>
+                        <span className="guide-profile-highlighted-rate">
+                          ${guide.pricing.hourlyRate}
+                        </span>
+                      </p>
+                    ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                      <p>
+                        <strong>Daily Rate:</strong>
+                        <span className="guide-profile-highlighted-rate">
+                          ${guide.pricing.dailyRate}
+                        </span>
+                      </p>
+                    ) : (
+                      <p><strong>Rate:</strong> Not set</p>
+                    )}
+                    <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
+                  </div>
                 )}
-                <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
               </div>
 
               <div className="guide-profile-divider"></div>
