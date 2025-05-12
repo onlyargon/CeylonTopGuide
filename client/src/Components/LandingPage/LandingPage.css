@@ -319,8 +319,8 @@ html {
   /* Guide Card */
   .guide-card {
     position: relative;
-    width: 180px; /* Adjust as needed */
-    max-height: 180px; /* Adjust as needed */
+    width: 150px; /* Reduced from 180px */
+    max-height: 150px; /* Reduced from 180px */
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -354,27 +354,27 @@ html {
     right: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
     color: white;
-    padding: 15px;
+    padding: 10px; /* Reduced from 15px */
     text-align: center;
   }
   
   .guide-label {
-    font-size: 12px;
+    font-size: 11px; /* Reduced from 12px */
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 3px; /* Reduced from 5px */
   }
   
   .guide-name {
-    font-size: 16px;
+    font-size: 14px; /* Reduced from 16px */
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 3px; /* Reduced from 5px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   
   .guide-rating {
-    font-size: 14px;
+    font-size: 12px; /* Reduced from 14px */
   }
   
   /* Optional: Add navigation arrows if needed */
