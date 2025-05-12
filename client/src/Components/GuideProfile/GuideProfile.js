@@ -969,15 +969,20 @@ const GuideProfile = () => {
                 </div>
                 <div className="rating-item">
                   <span className="hours-number">
-                    {guide.pricing?.rateType === "hourly" ? (
+                    {guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 ? (
                       <>
-                        ${guide.pricing?.hourlyRate || "0"}
+                        ${guide.pricing.hourlyRate}
                         <span className="rating-title">Hourly Rate</span>
+                      </>
+                    ) : guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 ? (
+                      <>
+                        ${guide.pricing.dailyRate}
+                        <span className="rating-title">Daily Rate</span>
                       </>
                     ) : (
                       <>
-                        ${guide.pricing?.dailyRate || "0"}
-                        <span className="rating-title">Daily Rate</span>
+                        $0
+                        <span className="rating-title">Rate</span>
                       </>
                     )}
                   </span>
