@@ -36,7 +36,7 @@ const ResetPassword = () => {
           <div className="reset-logo-title">
             {/* Replace below with your actual logo SVG if available */}
             <div className="reset-logo">
-              <img src="/Logo/Logo.png" alt="Logo" />
+              <img src="/Logo/LogoBlack.png" alt="Logo" className="reset-logo" />
             </div>
             <div className="reset-title-main">CEYLON</div>
             <div className="reset-title-main">TOPGUIDE</div>
