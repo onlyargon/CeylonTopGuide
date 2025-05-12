@@ -26,7 +26,7 @@ const AddReviewForm = () => {
         guideId,
         ...formData,
       });
-      alert("Thank you for your review! It has been submitted successfully.");
+      alert("Please check your emails for a verification link. If you have trouble finding it , check your spam folder .");
       navigate(-1); // Go back to previous page
     } catch (err) {
       console.error("Failed to submit review", err);

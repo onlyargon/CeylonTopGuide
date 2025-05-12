@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import "./GuideResetPassword.css";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -18,20 +19,47 @@ const ResetPassword = () => {
     }
   };
 
+  // Determine alert type
+  const isSuccess = message && message.toLowerCase().includes("success");
+  const isError = message && !isSuccess;
+
   return (
-    <div>
-      <h2>Reset Your Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="New password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Reset Password</button>
-      </form>
-      <p>{message}</p>
+    <div className="reset-bg">
+      {/* Alert message */}
+      {message && (
+        <div className={`reset-alert${isSuccess ? " success" : " error"}`}>
+          {message}
+        </div>
+      )}
+      <div className="reset-center">
+        <div className="reset-card">
+          <div className="reset-logo-title">
+            {/* Replace below with your actual logo SVG if available */}
+            <div className="reset-logo">
+              <img src="/Logo/Logo.png" alt="Logo" />
+            </div>
+            <div className="reset-title-main">CEYLON</div>
+            <div className="reset-title-main">TOPGUIDE</div>
+          </div>
+          <h2 className="reset-heading">Enter a new password here</h2>
+          <form onSubmit={handleSubmit} className="reset-form">
+            <input
+              type="password"
+              placeholder="New password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="reset-input"
+            />
+            <button type="submit" className="reset-btn">Reset Password</button>
+          </form>
+        </div>
+      </div>
+      <footer className="reset-footer">
+        © 2025 CeylonTopGuide. All rights reserved. |
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms & Conditions</a>
+      </footer>
     </div>
   );
 };
