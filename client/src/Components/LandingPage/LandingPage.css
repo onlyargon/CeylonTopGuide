@@ -322,16 +322,16 @@ html {
 
 .guide-image {
     position: relative;
-    width: 500px;
-    height: 500px;
+    width: 250px;
+    height: 250px;
     overflow: hidden;
     box-sizing: 50%;
     border-radius: 50%;
 }
 
 .guide-photo {
-    width: 500px;
-    height: 500px;
+    width: 250px;
+    height: 250px;
     object-fit:fill;
     transition: transform 0.5s ease;
     border-radius: 50%;
