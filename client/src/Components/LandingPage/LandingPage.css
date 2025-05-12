@@ -313,7 +313,7 @@ html {
     position: relative;
     width: 320px;
     transition: transform 0.3s ease;
-    height: auto;
+    height:fit-content;
 }
 
 .guide-card:hover {
@@ -325,12 +325,13 @@ html {
     width: 100%;
     height: 250px;
     overflow: hidden;
+    box-sizing: 50%;
 }
 
 .guide-photo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit:fill;
     transition: transform 0.5s ease;
     border-radius: 50%;
     padding: 10px;
