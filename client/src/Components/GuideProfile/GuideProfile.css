@@ -215,7 +215,7 @@
 }
 
 .slider.right {
-  transform: translateX(50%);
+  transform: translateX(20%);
 }
 
 .guide-profile-photos {
