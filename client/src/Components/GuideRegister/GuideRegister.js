@@ -172,6 +172,12 @@ const Register = () => {
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Check file size (5MB = 5 * 1024 * 1024 bytes)
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Image size should not exceed 5MB. Please choose a smaller image.");
+                e.target.value = ''; // Clear the file input
+                return;
+            }
             setUploading(true);
             try {
                 const url = await uploadToCloudinary(file);
@@ -214,6 +220,12 @@ const Register = () => {
         const fileName = e.target.name;
 
         if (file) {
+            // Check file size (5MB = 5 * 1024 * 1024 bytes)
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Image size should not exceed 5MB. Please choose a smaller image.");
+                e.target.value = ''; // Clear the file input
+                return;
+            }
             try {
                 const url = await uploadToCloudinary(file);
                 setFormData(prev => ({
@@ -368,6 +380,10 @@ const Register = () => {
             const data = await response.json();
 
             if (!response.ok) {
+                if (data.message && data.message.toLowerCase().includes('email already exists')) {
+                    alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
+                    return;
+                }
                 throw new Error(data.message || "Failed to register");
             }
 
