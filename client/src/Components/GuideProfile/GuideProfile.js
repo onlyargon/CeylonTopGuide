@@ -1051,17 +1051,17 @@ const GuideProfile = () => {
                   </p>
                   <p>
                     <strong>Hourly Rate:</strong>
-                    <span className={guide.pricing?.rateType === "hourly" ? "highlighted-rate" : ""}>
+                    <span className={guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 ? "highlighted-rate" : ""}>
                       ${guide.pricing?.hourlyRate || "0"}
                     </span>
-                    {guide.pricing?.rateType === "hourly" && " (Selected)"}
+                    {guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 && " (Selected)"}
                   </p>
                   <p>
                     <strong>Daily Rate:</strong>
-                    <span className={guide.pricing?.rateType === "daily" ? "highlighted-rate" : ""}>
+                    <span className={guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 ? "highlighted-rate" : ""}>
                       ${guide.pricing?.dailyRate || "0"}
                     </span>
-                    {guide.pricing?.rateType === "daily" && " (Selected)"}
+                    {guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 && " (Selected)"}
                   </p>
                   <p>
                     <strong>Availability:</strong> {guide.availability || "Not specified"}
