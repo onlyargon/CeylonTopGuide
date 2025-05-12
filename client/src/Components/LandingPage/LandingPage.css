@@ -306,77 +306,71 @@ html {
 }
 
 .guide-card {
-    flex: 0 0 250px;
-    max-height: 320px;
-    border-radius: 12px;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-    width: 320px;
-    transition: transform 0.3s ease; /* Add smooth transition */
+    transition: transform 0.3s ease;
+    background-color: white;
 }
 
 .guide-card:hover {
-    transform: scale(1.02); /* Slight zoom on hover */
+    transform: scale(1.05);
 }
 
 .guide-image {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    min-height: 320px;
+    height: 100%;
+    position: relative;
     overflow: hidden;
 }
 
 .guide-photo {
     width: 100%;
-    min-height: 320px;
+    height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease; /* Add zoom transition */
+    transition: transform 0.3s ease;
 }
 
 .guide-card:hover .guide-photo {
-    transform: scale(1.05); /* Zoom effect on hover */
+    transform: scale(1.1);
 }
 
 .guide-overlay {
     position: absolute;
-    bottom: 0;
+    bottom: -60px;
     left: 0;
     right: 0;
-    padding: 15px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
-    color: white;
-    z-index: 2; /* Ensure overlay stays above image */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    text-align: center;
+    transition: bottom 0.3s ease;
 }
 
-.guide-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: inline-block;
-    margin: 0 10px;
-    transition: all 0.3s ease;
-}
-
-.guide-card-link:hover {
-    transform: translateY(-5px);
+.guide-card:hover .guide-overlay {
+    bottom: 0;
 }
 
 .guide-label {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 12px;
+    color: #2c5d3f;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
 .guide-name {
     font-size: 16px;
-    font-weight: 700;
+    color: #333;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
 .guide-rating {
     font-size: 14px;
+    color: #666;
 }
 
 .find-guide-nav-button {
