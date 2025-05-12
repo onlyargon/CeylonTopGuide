@@ -145,14 +145,16 @@ const PublicGuideProfile = () => {
                 </div>
                 <div className="public-guide-rating-item">
                   <span className="public-guide-hours-number">
-                    {guide.pricing?.rateType === 'hourly' ? (
-                      `$${guide.pricing?.hourlyRate || "0"}`
+                    {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                      `$${guide.pricing.hourlyRate}/hr`
+                    ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                      `$${guide.pricing.dailyRate}/day`
                     ) : (
-                      `$${guide.pricing?.dailyRate || "0"}`
+                      "Rate not set"
                     )}
                   </span>
                   <span className="public-guide-rating-title">
-                    {guide.pricing?.rateType === 'hourly' ? 'Hourly Rate' : 'Daily Rate'}
+                    {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
                   </span>
                 </div>
               </div>
@@ -244,20 +246,23 @@ const PublicGuideProfile = () => {
                 <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
                 <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
                 <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
-                <p>
-                  <strong>Hourly Rate:</strong>
-                  <span className={guide.pricing?.rateType === 'hourly' ? 'public-guide-highlighted-rate' : ''}>
-                    ${guide.pricing?.hourlyRate || "0"}
-                  </span>
-                  {guide.pricing?.rateType === 'hourly' && ' (Selected)'}
-                </p>
-                <p>
-                  <strong>Daily Rate:</strong>
-                  <span className={guide.pricing?.rateType === 'daily' ? 'public-guide-highlighted-rate' : ''}>
-                    ${guide.pricing?.dailyRate || "0"}
-                  </span>
-                  {guide.pricing?.rateType === 'daily' && ' (Selected)'}
-                </p>
+                {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                  <p>
+                    <strong>Hourly Rate:</strong>
+                    <span className="public-guide-highlighted-rate">
+                      ${guide.pricing.hourlyRate}/hr
+                    </span>
+                  </p>
+                ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                  <p>
+                    <strong>Daily Rate:</strong>
+                    <span className="public-guide-highlighted-rate">
+                      ${guide.pricing.dailyRate}/day
+                    </span>
+                  </p>
+                ) : (
+                  <p><strong>Rate:</strong> Not set</p>
+                )}
                 <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
               </div>
             )}
