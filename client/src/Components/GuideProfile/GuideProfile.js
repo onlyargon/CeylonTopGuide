@@ -54,24 +54,6 @@ const GuideProfile = () => {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
   const [showPhotos, setShowPhotos] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Add slideshow images
-  const slides = [
-    "Background1.png",
-    "Background2.png",
-    "Background3.png",
-    "Background4.png",
-    "Background5.png"
-  ];
-
-  // Add slideshow effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Add these constants at the top of the component
   const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
@@ -666,17 +648,6 @@ const GuideProfile = () => {
     <>
       <Header />
       <div className="guide-profile-container-background">
-        <div className="background-slideshow">
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`background-slide ${index === currentSlide ? 'active' : ''}`}
-              style={{
-                backgroundImage: `url(/Slideshow/${slide})`,
-              }}
-            />
-          ))}
-        </div>
         <div className="guide-profile-container">
           {editing ? (
             <div className="edit-form">
