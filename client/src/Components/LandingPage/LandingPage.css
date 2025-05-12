@@ -326,6 +326,7 @@ html {
     height: 250px;
     overflow: hidden;
     box-sizing: 50%;
+    border-radius: 50%;
 }
 
 .guide-photo {
