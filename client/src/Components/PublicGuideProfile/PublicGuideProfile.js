@@ -146,9 +146,9 @@ const PublicGuideProfile = () => {
                 <div className="public-guide-rating-item">
                   <span className="public-guide-hours-number">
                     {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                      `$${guide.pricing.hourlyRate}/hr`
+                      `$${guide.pricing.hourlyRate}`
                     ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                      `$${guide.pricing.dailyRate}/day`
+                      `$${guide.pricing.dailyRate}`
                     ) : (
                       "Rate not set"
                     )}
@@ -250,14 +250,14 @@ const PublicGuideProfile = () => {
                   <p>
                     <strong>Hourly Rate:</strong>
                     <span className="public-guide-highlighted-rate">
-                      ${guide.pricing.hourlyRate}/hr
+                      ${guide.pricing.hourlyRate}
                     </span>
                   </p>
                 ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
                   <p>
                     <strong>Daily Rate:</strong>
                     <span className="public-guide-highlighted-rate">
-                      ${guide.pricing.dailyRate}/day
+                      ${guide.pricing.dailyRate}
                     </span>
                   </p>
                 ) : (
