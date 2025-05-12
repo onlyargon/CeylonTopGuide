@@ -3,37 +3,115 @@
   font-family: "Work Sans", Helvetica, Arial, sans-serif;
 }
 
+.guide-profile-container-background {
+  position: relative;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.background-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.background-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.background-slide.active {
+  opacity: 0.15;
+}
+
 .guide-profile-container {
   position: relative;
-  max-width: 1000px;
+  z-index: 1;
+  max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Arial', sans-serif;
-  color: #333;
-  padding: 20px;
-  margin-top: 50px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .guide-profile-header {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.guide-profile-details {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.guide-profile-name {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.guide-profile-rating {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.guide-profile-rating-item {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
-  text-align: center;
+}
+
+.guide-profile-years-number,
+.guide-profile-ratings-number,
+.guide-profile-hours-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.guide-profile-rating-title {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.guide-profile-contact-info {
+  margin-top: 1rem;
+}
+
+.guide-profile-phone {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.whatsapp-icon {
+  color: #25D366;
 }
 
 .guide-profile-photo {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  object-fit: cover;
-  background-color: #eff6fc;
-  border: 2px solid #ddd;
-  padding: 5px;
-  margin-bottom: 10px;
   overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .guide-profile-photo img {
@@ -42,721 +120,517 @@
   object-fit: cover;
 }
 
-.guide-profile-name1 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
+.guide-profile-divider {
+  height: 1px;
+  background-color: #ddd;
+  margin: 2rem 0;
 }
 
-.guide-profile-rating {
-  display: flex;
-  justify-content: center;
-  gap: 30px; /* Adjust spacing between items */
-  margin-bottom: 20px;
-  width: 100%;
+.guide-profile-about {
+  margin-bottom: 2rem;
 }
 
-.rating-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px; /* Space between number and title */
+.guide-profile-about h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
 }
 
-.years-number, 
-.ratings-number, 
-.hours-number {
-  font-size: 22px;
-  font-weight: 600;
+.about-content {
+  position: relative;
+  max-height: 100px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 }
 
-.highlighted-rate {
-  font-weight: bold;
-  color: #4CAF50;
-  background-color: #f8f8f8;
-  padding: 2px 5px;
-  border-radius: 3px;
+.about-content.expanded {
+  max-height: 1000px;
 }
 
-.rating-title {
-  display: block;
+.see-more-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  padding: 0.5rem 0;
   font-size: 0.9rem;
+}
+
+.guide-profile-toggle-section {
+  margin: 30px 0;
+}
+
+.guide-profile-toggle-slider {
+  position: relative;
+  display: flex;
+  background-color: #f0f0f0;
+  border-radius: 30px;
+  padding: 5px;
+  margin-bottom: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.toggle-option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: none;
+  background: none;
   color: #666;
-  margin-top: 3px;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-/* If you want to maintain the star color */
-.ratings-number {
-  color: #ffc107; /* Gold/yellow color for stars */
+.toggle-option.active {
+  color: white;
 }
 
-.rating-item {
-  min-width: 80px; /* Give each item equal width */
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-}
-
-/* For responsive design */
-@media (max-width: 768px) {
-  .guide-profile-rating {
-    gap: 15px;
-  }
-  
-  .years-number, 
-  .ratings-number, 
-  .hours-number {
-    font-size: 18px;
-  }
-  
-  .rating-title {
-    font-size: 12px;
-  }
-}
-
-.star-rating {
-  color: #ffc107;
+.toggle-icon {
   font-size: 18px;
-  letter-spacing: 2px;
 }
 
-.button-container {
+.toggle-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.slider {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(50% - 10px);
+  height: calc(100% - 10px);
+  background-color: #3498db;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+}
+
+.slider.right {
+  transform: translateX(100%);
+}
+
+.guide-profile-photos {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.guide-profile-photos-title {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.guide-profile-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+.guide-profile-photo-card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.guide-profile-photo-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.guide-profile-photo-img:hover {
+  transform: scale(1.05);
+}
+
+.guide-profile-photo-caption {
+  padding: 10px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-profile-professional {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.guide-profile-professional h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.guide-profile-professional p {
+  margin-bottom: 1rem;
+  color: #444;
+  line-height: 1.6;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.guide-profile-professional p:last-child {
+  border-bottom: none;
+}
+
+.guide-profile-professional p strong {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.guide-profile-highlighted-rate {
+  color: #3498db;
+  font-weight: bold;
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.guide-profile-reviews {
+  margin-top: 2rem;
+}
+
+.guide-profile-reviews-title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.guide-profile-reviews-subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: normal;
+}
+
+.guide-profile-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.guide-profile-review-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.guide-profile-reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.guide-profile-reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.guide-profile-reviewer-details {
+  flex: 1;
+}
+
+.guide-profile-reviewer-name {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.guide-profile-reviewer-title {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.guide-profile-review-text {
+  color: #444;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.guide-profile-review-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.guide-profile-stars {
+  color: #f1c40f;
+}
+
+.guide-profile-rating-number {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.guide-profile-rating-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.guide-profile-button-container {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .guide-button {
-  padding: 8px 20px;
-  border-radius: 20px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
   font-weight: 500;
   cursor: pointer;
-  font-size: 14px;
-  text-align: center;
   transition: all 0.3s ease;
-  text-decoration: none;
   border: none;
+  font-size: 0.9rem;
 }
 
 .edit-button {
-  background-color: #3a724a;
+  background-color: #3498db;
+  color: white;
+}
+
+.deactivate-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.reactivate-button {
+  background-color: #2ecc71;
   color: white;
 }
 
 .delete-button {
-  background-color: #d9534f;
+  background-color: #c0392b;
   color: white;
 }
 
 .logout-button {
-  background-color: #f0ad4e;
+  background-color: #95a5a6;
   color: white;
 }
-
-.section-divider {
-  border-top: 1px solid #ddd;
-  margin: 30px 0;
-}
-
-.tour-photos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 40px;
-}
-
-.tour-photo-card {
-  position: relative;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.tour-photo {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 5px;
-}
-
-.photo-checkbox {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 1;
-}
-
-.photo-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.about-section, .professional-details-section {
-  margin: 40px 0;
-  text-align: center;
-}
-
-.about-section h2, .professional-details-section h2 {
-  font-size: 22px;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
-.about-section p, .professional-details-section p {
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-/* Reviews Section - Updated to match reference image */
-.reviews-section {
-  padding: 40px 0;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  margin-top: 30px;
-}
-
-.reviews-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.reviews-subtitle {
-  font-size: 16px;
-  color: #718096;
-  margin-bottom: 30px;
-  font-weight: 400;
-  text-transform: none;
-}
-
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  padding: 0 20px;
-}
-
-.review-card {
-  background: white;
-  border-radius: 8px;
-  padding: 25px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  text-align: center;
-  transition: all 0.3s ease;
-  border: 1px solid #e2e8f0;
-}
-
-.review-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.reviewer-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.reviewer-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #3a724a;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.reviewer-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-  color: #2d3748;
-}
-
-.reviewer-title {
-  font-size: 13px;
-  color: #718096;
-  margin: 5px 0 0;
-  font-weight: 400;
-}
-
-.review-text {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #4a5568;
-  font-style: normal;
-  margin: 20px 0;
-  position: relative;
-  padding: 0 10px;
-}
-
-.review-rating {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 15px;
-}
-
-.stars {
-  color: #FFD700;
-  font-size: 18px;
-  margin-bottom: 5px;
-  letter-spacing: 2px;
-}
-
-.rating-number {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 3px;
-}
-
-.rating-label {
-  font-size: 12px;
-  color: #718096;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.no-reviews {
-  font-size: 16px;
-  color: #718096;
-  grid-column: 1 / -1;
-  padding: 20px;
-}
-
-/* Star rating adjustments */
-.star-rating {
-  color: #FFD700;
-  font-size: 18px;
-  letter-spacing: 2px;
-}
-
-.empty-star {
-  color: #e2e8f0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .reviews-section {
-    padding: 30px 15px;
-  }
-  
-  .reviews-title {
-    font-size: 24px;
-  }
-  
-  .reviews-subtitle {
-    font-size: 15px;
-  }
-  
-  .reviews-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .review-card {
-    padding: 20px;
-  }
-}
-/* Add these styles to your GuideProfile.css */
 
 .verification-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.guide-profile-header {
-  position: relative; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-  text-align: center;
-  padding-top: 10px; 
-}
-
-.verification-status {
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 5px;
-  margin-right: 0;
-}
-
-.verified {
-  background-color: #5cb85c;
-  color: white;
-}
-
-.unverified {
-  background-color: #f0ad4e;
-  color: white;
-}
-
-.details-toggle {
-  color: #3a724a;
-  cursor: pointer;
-  font-weight: 500;
-  margin-top: 10px;
-  display: inline-block;
-}
-
-.additional-details {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px dashed #ddd;
-}
-/* Account status styles */
+.verification-status,
 .account-status {
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 5px;
-  margin-right: 0;
-  margin-left: 5px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.verification-status.verified {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.verification-status.unverified {
+  background-color: #e74c3c;
+  color: white;
 }
 
 .account-status.active {
-  background-color: #5cb85c;
+  background-color: #2ecc71;
   color: white;
 }
 
 .account-status.inactive {
-  background-color: #f44336;
+  background-color: #e74c3c;
   color: white;
 }
 
-/* Button styles */
-.guide-button.deactivate-button {
-  background-color: #ff9800;
-  color: white;
-}
-
-.guide-button.deactivate-button:hover {
-  background-color: #e68a00;
-}
-
-.guide-button.reactivate-button 
-{
-  background-color: #4CAF50;
-  color: white;
-}
-
-.guide-button.reactivate-button:hover {
-  background-color: #3e8e41;
-}
-
-/* Verification container */
-.verification-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-/* Responsive styles */
-@media (max-width: 768px) {
-  .tour-photos-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .button-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .guide-button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-
-.edit-form {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.edit-section {
-  margin-bottom: 30px;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 6px;
-}
-
-.edit-section h3 {
-  margin-bottom: 15px;
-  color: #333;
-  font-size: 1.2em;
-}
-
-.edit-form input,
-.edit-form select,
-.edit-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1em;
-}
-
-.edit-form textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.edit-form select {
-  background-color: white;
-  cursor: pointer;
-}
-
-.edit-form input:focus,
-.edit-form select:focus,
-.edit-form textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.edit-form .button-container {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.edit-form .guide-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.edit-form .edit-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.edit-form .edit-button:hover {
-  background-color: #218838;
-}
-
-.edit-form .logout-button {
-  background-color: #6c757d;
-  color: white;
-}
-
-.edit-form .logout-button:hover {
-  background-color: #5a6268;
-}
-
-.tags-input {
-  margin-bottom: 15px;
-}
-
-.tags-input select,
-.tags-input input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1em;
-}
-
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  background-color: #e9ecef;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #495057;
-}
-
-.tag button {
-  background: none;
-  border: none;
-  color: #6c757d;
-  margin-left: 6px;
-  padding: 0 4px;
-  cursor: pointer;
-  font-size: 1.2em;
-  line-height: 1;
-}
-
-.tag button:hover {
-  color: #dc3545;
-}
-
-.edit-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1em;
-  background-color: white;
-  cursor: pointer;
-}
-
-.edit-form select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.profile-photo-edit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.profile-photo-preview {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ddd;
-  padding: 5px;
-  background-color: #fff;
-}
-
-.file-input-wrapper {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-}
-
-.file-input-button {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #3a724a;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.file-input-button:hover {
-  background-color: #2d5a3a;
-}
-
-.upload-progress {
-  width: 100%;
-  max-width: 200px;
-  margin-top: 10px;
-}
-
-.progress-bar {
-  height: 4px;
-  background-color: #e9ecef;
-  border-radius: 2px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-bar::after {
-  content: '';
-  position: absolute;
+.image-modal-overlay {
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
-  background-color: #3a724a;
-  animation: progress 1s ease-in-out infinite;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-@keyframes progress {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+.image-modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
 }
 
-.upload-progress span {
-  display: block;
-  text-align: center;
-  margin-top: 5px;
-  font-size: 0.9em;
-  color: #666;
+.image-modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.image-modal-img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.upload-container {
+  margin-bottom: 2rem;
+}
+
+.upload-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #2980b9;
 }
 
 .caption-input-container {
-  margin: 15px 0;
+  margin-top: 1rem;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   align-items: center;
 }
 
 .caption-input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
 }
 
-.caption-input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+.upload-progress {
+  margin-top: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.photo-caption {
+.progress-bar {
+  height: 4px;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
+
+.photo-checkbox {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 8px;
-  font-size: 14px;
-  text-align: center;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
 }
 
-.upload-button{
-  border: #2d5a3a 1px solid;
-  border-radius: 15px;
-  padding: 5px 10px;
+@media (max-width: 768px) {
+  .guide-profile-header {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .guide-profile-details {
+    padding-right: 0;
+    margin-top: 1rem;
+  }
+
+  .guide-profile-rating {
+    justify-content: center;
+  }
+
+  .guide-profile-photo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .guide-profile-container {
+    padding: 1rem;
+  }
+
+  .guide-profile-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-profile-photos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-profile-button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .guide-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .caption-input-container {
+    flex-direction: column;
+  }
+
+  .caption-input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .guide-profile-toggle-slider {
+    width: 100%;
+  }
+
+  .toggle-option {
+    padding: 8px 12px;
+  }
+
+  .toggle-icon {
+    font-size: 16px;
+  }
+
+  .toggle-text {
+    font-size: 12px;
+  }
 }

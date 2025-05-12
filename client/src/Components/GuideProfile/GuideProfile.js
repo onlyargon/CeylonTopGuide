@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./GuideProfile.css";
 import Header from "../Header/Header";
 import instance from "../Instance/Instance";
+import { FaWhatsapp, FaImages, FaUserTie } from "react-icons/fa";
 
 const GuideProfile = () => {
   const [guide, setGuide] = useState(null);
@@ -50,6 +51,27 @@ const GuideProfile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [photoCaption, setPhotoCaption] = useState("");
   const [showCaptionInput, setShowCaptionInput] = useState(false);
+  const [isAboutExpanded, setIsAboutExpanded] = useState(false);
+  const [showPhotos, setShowPhotos] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Add slideshow images
+  const slides = [
+    "Background1.png",
+    "Background2.png",
+    "Background3.png",
+    "Background4.png",
+    "Background5.png"
+  ];
+
+  // Add slideshow effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Add these constants at the top of the component
   const provinces = ["Western", "Central", "Southern", "Northern", "North_Western", "Uva", "North_Central", "Sabaragamuwa", "Eastern"];
@@ -630,373 +652,571 @@ const GuideProfile = () => {
     }
   }, [editing, formData]);
 
+  const handleImageClick = (imagePath) => {
+    setSelectedImage(imagePath);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+  };
+
   if (!guide) return <div className="guide-profile-container"><h2>Loading...</h2></div>;
 
   return (
     <>
       <Header />
-      <div className="guide-profile-container">
-        {editing ? (
-          <div className="edit-form">
-            <h2>Edit Profile</h2>
-            
-            {/* Profile Photo */}
-            <div className="edit-section">
-              <h3>Profile Photo</h3>
-              <div className="profile-photo-edit">
-                <img
-                  src={formData.profilePhoto || getCloudinaryUrl(guide?.profilePhoto)}
-                  alt="Profile Preview"
-                  className="profile-photo-preview"
-                />
-                <label className="file-input-wrapper">
-                  <span className="file-input-button">Choose New Photo</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleProfilePhotoChange}
-                    style={{ display: 'none' }}
+      <div className="guide-profile-container-background">
+        <div className="background-slideshow">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`background-slide ${index === currentSlide ? 'active' : ''}`}
+              style={{
+                backgroundImage: `url(/Slideshow/${slide})`,
+              }}
+            />
+          ))}
+        </div>
+        <div className="guide-profile-container">
+          {editing ? (
+            <div className="edit-form">
+              <h2>Edit Profile</h2>
+              
+              {/* Profile Photo */}
+              <div className="edit-section">
+                <h3>Profile Photo</h3>
+                <div className="profile-photo-edit">
+                  <img
+                    src={formData.profilePhoto || getCloudinaryUrl(guide?.profilePhoto)}
+                    alt="Profile Preview"
+                    className="profile-photo-preview"
                   />
-                </label>
-                {uploading && (
-                  <div className="upload-progress">
-                    <div className="progress-bar"></div>
-                    <span>Uploading...</span>
+                  <label className="file-input-wrapper">
+                    <span className="file-input-button">Choose New Photo</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleProfilePhotoChange}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                  {uploading && (
+                    <div className="upload-progress">
+                      <div className="progress-bar"></div>
+                      <span>Uploading...</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Personal Information */}
+              <div className="edit-section">
+                <h3>Personal Information</h3>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName || ""}
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                />
+                <input
+                  type="text"
+                  name="nationality"
+                  value={formData.nationality || ""}
+                  onChange={handleChange}
+                  placeholder="Nationality"
+                />
+              </div>
+
+              {/* Contact Information */}
+              <div className="edit-section">
+                <h3>Contact Information</h3>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    name="contact.phone"
+                    value={formData.contact?.phone || ""}
+                    onChange={handleChange}
+                    placeholder="Phone Number (07XXXXXXXX)"
+                    maxLength="10"
+                  />
+                  {phoneError && <span className="error-message">{phoneError}</span>}
+                </div>
+              </div>
+
+              {/* Address Information */}
+              <div className="edit-section">
+                <h3>Address</h3>
+                <input
+                  type="text"
+                  name="address.street"
+                  value={formData.address?.street || ""}
+                  onChange={handleChange}
+                  placeholder="Address"
+                />
+                <input
+                  type="text"
+                  name="address.city"
+                  value={formData.address?.city || ""}
+                  onChange={handleChange}
+                  placeholder="City"
+                />
+                <select
+                  name="address.province"
+                  value={formData.address?.province || ""}
+                  onChange={handleProvinceChange}
+                >
+                  <option value="">Select Province</option>
+                  {provinces.map((province) => (
+                    <option key={province} value={province}>{province}</option>
+                  ))}
+                </select>
+                {formData.address?.province && (
+                  <select
+                    name="address.district"
+                    value={formData.address?.district || ""}
+                    onChange={handleDistrictChange}
+                  >
+                    <option value="">Select District</option>
+                    {districts[formData.address.province].map((district) => (
+                      <option key={district} value={district}>{district}</option>
+                    ))}
+                  </select>
+                )}
+              </div>
+
+              {/* Professional Details */}
+              <div className="edit-section">
+                <h3>Professional Details</h3>
+                <input
+                  type="number"
+                  name="professionalDetails.experienceYears"
+                  value={formData.professionalDetails?.experienceYears || ""}
+                  onChange={handleChange}
+                  placeholder="Years of Experience"
+                />
+                <div className="tags-input">
+                  <select onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}>
+                    <option value="">Select Language</option>
+                    {availableLanguages.map((lang) => (
+                      <option key={lang} value={lang}>{lang}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Add custom language"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const value = e.target.value.trim();
+                        if (value) {
+                          handleAddCustom("professionalDetails.languagesSpoken", value);
+                          e.target.value = '';
+                        }
+                      }
+                    }}
+                  />
+                  <div className="tags-container">
+                    {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
+                      <span key={index} className="tag">
+                        {lang}
+                        <button onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}>×</button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="tags-input">
+                  <select onChange={(e) => handleSelect(e, "professionalDetails.specialties")}>
+                    <option value="">Select Specialty</option>
+                    {availableSpecialties.map((spec) => (
+                      <option key={spec} value={spec}>{spec}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Add custom specialty"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const value = e.target.value.trim();
+                        if (value) {
+                          handleAddCustom("professionalDetails.specialties", value);
+                          e.target.value = '';
+                        }
+                      }
+                    }}
+                  />
+                  <div className="tags-container">
+                    {formData.professionalDetails?.specialties?.map((spec, index) => (
+                      <span key={index} className="tag">
+                        {spec}
+                        <button onClick={() => handleRemove("professionalDetails.specialties", spec)}>×</button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="tags-input">
+                  <select onChange={(e) => handleSelect(e, "professionalDetails.tourRegions")}>
+                    <option value="">Select Region</option>
+                    {availableRegions.map((region) => (
+                      <option key={region} value={region}>{region}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Add custom region"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const value = e.target.value.trim();
+                        if (value) {
+                          handleAddCustom("professionalDetails.tourRegions", value);
+                          e.target.value = '';
+                        }
+                      }
+                    }}
+                  />
+                  <div className="tags-container">
+                    {formData.professionalDetails?.tourRegions?.map((region, index) => (
+                      <span key={index} className="tag">
+                        {region}
+                        <button onClick={() => handleRemove("professionalDetails.tourRegions", region)}>×</button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pricing and Availability */}
+              <div className="edit-section">
+                <h3>Pricing and Availability</h3>
+                <select
+                  name="availability"
+                  value={formData.availability || ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Availability</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Weekends Only">Weekends Only</option>
+                  <option value="On-Request">On-Request</option>
+                </select>
+                <select
+                  name="pricing.rateType"
+                  value={formData.pricing?.rateType || ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Rate Type</option>
+                  <option value="hourly">Hourly Rate</option>
+                  <option value="daily">Daily Rate</option>
+                </select>
+                <input
+                  type="number"
+                  name="pricing.hourlyRate"
+                  value={formData.pricing?.hourlyRate || ""}
+                  onChange={handleChange}
+                  placeholder="Hourly Rate ($)"
+                />
+                <input
+                  type="number"
+                  name="pricing.dailyRate"
+                  value={formData.pricing?.dailyRate || ""}
+                  onChange={handleChange}
+                  placeholder="Daily Rate ($)"
+                />
+                <div className="tags-input">
+                  <select onChange={(e) => handleSelect(e, "pricing.paymentMethods")}>
+                    <option value="">Select Payment Method</option>
+                    {["Cash", "Credit Card", "PayPal", "Bank Transfer"].map((method) => (
+                      <option key={method} value={method}>{method}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Add custom payment method"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const value = e.target.value.trim();
+                        if (value) {
+                          handleAddCustom("pricing.paymentMethods", value);
+                          e.target.value = '';
+                        }
+                      }
+                    }}
+                  />
+                  <div className="tags-container">
+                    {formData.pricing?.paymentMethods?.map((method, index) => (
+                      <span key={index} className="tag">
+                        {method}
+                        <button onClick={() => handleRemove("pricing.paymentMethods", method)}>×</button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* About Me */}
+              <div className="edit-section">
+                <h3>About Me</h3>
+                <textarea
+                  name="additionalInfo.bio"
+                  value={formData.additionalInfo?.bio || ""}
+                  onChange={handleChange}
+                  placeholder="Tell us about yourself"
+                  rows="4"
+                />
+              </div>
+
+              <div className="button-container">
+                <button onClick={handleUpdate} className="guide-button edit-button">
+                  Save Changes
+                </button>
+                <button onClick={() => setEditing(false)} className="guide-button logout-button">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="guide-profile-header">
+                <div className="verification-container">
+                  <span className={`verification-status ${guide.account?.isVerified ? "verified" : "unverified"}`}>
+                    {guide.account?.isVerified ? "Verified" : "Unverified"}
+                  </span>
+                  <span className={`account-status ${guide.isActive ? "active" : "inactive"}`}>
+                    {guide.isActive ? "Active" : "Inactive"}
+                  </span>
+                </div>
+                <div className="guide-profile-details">
+                  <h1 className="guide-profile-name">{guide.fullName}</h1>
+
+                  <div className="guide-profile-rating">
+                    <div className="guide-profile-rating-item">
+                      <span className="guide-profile-years-number">{guide.professionalDetails?.experienceYears || '0'}</span>
+                      <span className="guide-profile-rating-title">Years</span>
+                    </div>
+                    <div className="guide-profile-rating-item">
+                      <span className="guide-profile-ratings-number">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
+                      <span className="guide-profile-rating-title">Rating</span>
+                    </div>
+                    <div className="guide-profile-rating-item">
+                      <span className="guide-profile-hours-number">
+                        {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                          `$${guide.pricing.hourlyRate}`
+                        ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                          `$${guide.pricing.dailyRate}`
+                        ) : (
+                          "Rate not set"
+                        )}
+                      </span>
+                      <span className="guide-profile-rating-title">
+                        {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="guide-profile-contact-info">
+                    <span className="guide-profile-phone">
+                      <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="guide-profile-photo">
+                  <img
+                    src={getCloudinaryUrl(guide.profilePhoto)}
+                    alt={guide.fullName}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/default-profile.png';
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="guide-profile-divider"></div>
+
+              <div className="guide-profile-about">
+                <h2>About Me</h2>
+                <div className={`about-content ${isAboutExpanded ? 'expanded' : 'collapsed'}`}>
+                  <p>{guide.additionalInfo?.bio || "No bio added yet."}</p>
+                </div>
+                <button
+                  className="see-more-button"
+                  onClick={() => setIsAboutExpanded(!isAboutExpanded)}
+                >
+                  {isAboutExpanded ? 'See Less' : 'See More'}
+                </button>
+              </div>
+
+              <div className="guide-profile-divider"></div>
+
+              <div className="guide-profile-toggle-section">
+                <div className="guide-profile-toggle-slider">
+                  <button
+                    className={`toggle-option ${showPhotos ? 'active' : ''}`}
+                    onClick={() => setShowPhotos(true)}
+                  >
+                    <FaImages className="toggle-icon" />
+                    <span className="toggle-text">Tour Photos</span>
+                  </button>
+                  <button
+                    className={`toggle-option ${!showPhotos ? 'active' : ''}`}
+                    onClick={() => setShowPhotos(false)}
+                  >
+                    <FaUserTie className="toggle-icon" />
+                    <span className="toggle-text">Professional Details</span>
+                  </button>
+                  <div className={`slider ${showPhotos ? 'left' : 'right'}`}></div>
+                </div>
+
+                {showPhotos ? (
+                  <div className="guide-profile-photos">
+                    <div className="upload-container">
+                      <label className="upload-button">
+                        Choose Photo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          style={{ display: "none" }}
+                        />
+                      </label>
+                      {showCaptionInput && (
+                        <div className="caption-input-container">
+                          <input
+                            type="text"
+                            value={photoCaption}
+                            onChange={(e) => setPhotoCaption(e.target.value)}
+                            placeholder="Enter photo caption"
+                            className="caption-input"
+                          />
+                          <button onClick={handleCaptionSubmit} className="guide-button edit-button">
+                            Upload
+                          </button>
+                          <button onClick={handleCancelUpload} className="guide-button logout-button">
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                      {uploadProgress > 0 && (
+                        <div className="upload-progress">
+                          <div
+                            className="progress-bar"
+                            style={{ width: `${uploadProgress}%` }}
+                          ></div>
+                          <span>{uploadProgress}%</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedPhotos.length > 0 && (
+                      <button
+                        onClick={handleDeleteSelectedPhotos}
+                        className="guide-button delete-button"
+                        style={{ marginBottom: "20px" }}
+                      >
+                        Delete Selected ({selectedPhotos.length})
+                      </button>
+                    )}
+
+                    <div className="guide-profile-photos-grid">
+                      {tourPhotos.length > 0 ? (
+                        tourPhotos.map((photo) => (
+                          <div key={photo._id} className="guide-profile-photo-card">
+                            <input
+                              type="checkbox"
+                              className="photo-checkbox"
+                              checked={selectedPhotos.includes(photo._id)}
+                              onChange={() => handleSelectPhoto(photo._id)}
+                            />
+                            <img
+                              src={`${photo.imagePath}?w=400&h=300&c_fill`}
+                              alt={photo.caption || "Tour"}
+                              className="guide-profile-photo-img"
+                              loading="lazy"
+                              onClick={() => handleImageClick(photo.imagePath)}
+                            />
+                            {photo.caption && (
+                              <div className="guide-profile-photo-caption">{photo.caption}</div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <p>No tour photos uploaded yet.</p>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="guide-profile-professional">
+                    <h2>Professional Details</h2>
+                    <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
+                    <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
+                    <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
+                    <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
+                    {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                      <p>
+                        <strong>Hourly Rate:</strong>
+                        <span className="guide-profile-highlighted-rate">
+                          ${guide.pricing.hourlyRate}
+                        </span>
+                      </p>
+                    ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                      <p>
+                        <strong>Daily Rate:</strong>
+                        <span className="guide-profile-highlighted-rate">
+                          ${guide.pricing.dailyRate}
+                        </span>
+                      </p>
+                    ) : (
+                      <p><strong>Rate:</strong> Not set</p>
+                    )}
+                    <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
                   </div>
                 )}
               </div>
-            </div>
 
-            {/* Personal Information */}
-            <div className="edit-section">
-              <h3>Personal Information</h3>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName || ""}
-                onChange={handleChange}
-                placeholder="Full Name"
-              />
-              <input
-                type="text"
-                name="nationality"
-                value={formData.nationality || ""}
-                onChange={handleChange}
-                placeholder="Nationality"
-              />
-            </div>
+              <div className="guide-profile-divider"></div>
 
-            {/* Contact Information */}
-            <div className="edit-section">
-              <h3>Contact Information</h3>
-              <div className="input-group">
-                <input
-                  type="text"
-                  name="contact.phone"
-                  value={formData.contact?.phone || ""}
-                  onChange={handleChange}
-                  placeholder="Phone Number (07XXXXXXXX)"
-                  maxLength="10"
-                />
-                {phoneError && <span className="error-message">{phoneError}</span>}
-              </div>
-            </div>
+              <div className="guide-profile-reviews">
+                <h2 className="guide-profile-reviews-title">REVIEWS</h2>
+                <h3 className="guide-profile-reviews-subtitle">
+                  What Fellow Tourist Say About {guide.fullName}
+                </h3>
 
-            {/* Address Information */}
-            <div className="edit-section">
-              <h3>Address</h3>
-              <input
-                type="text"
-                name="address.street"
-                value={formData.address?.street || ""}
-                onChange={handleChange}
-                placeholder="Address"
-              />
-              <input
-                type="text"
-                name="address.city"
-                value={formData.address?.city || ""}
-                onChange={handleChange}
-                placeholder="City"
-              />
-              <select
-                name="address.province"
-                value={formData.address?.province || ""}
-                onChange={handleProvinceChange}
-              >
-                <option value="">Select Province</option>
-                {provinces.map((province) => (
-                  <option key={province} value={province}>{province}</option>
-                ))}
-              </select>
-              {formData.address?.province && (
-                <select
-                  name="address.district"
-                  value={formData.address?.district || ""}
-                  onChange={handleDistrictChange}
-                >
-                  <option value="">Select District</option>
-                  {districts[formData.address.province].map((district) => (
-                    <option key={district} value={district}>{district}</option>
-                  ))}
-                </select>
-              )}
-            </div>
-
-            {/* Professional Details */}
-            <div className="edit-section">
-              <h3>Professional Details</h3>
-              <input
-                type="number"
-                name="professionalDetails.experienceYears"
-                value={formData.professionalDetails?.experienceYears || ""}
-                onChange={handleChange}
-                placeholder="Years of Experience"
-              />
-              <div className="tags-input">
-                <select onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}>
-                  <option value="">Select Language</option>
-                  {availableLanguages.map((lang) => (
-                    <option key={lang} value={lang}>{lang}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="Add custom language"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      const value = e.target.value.trim();
-                      if (value) {
-                        handleAddCustom("professionalDetails.languagesSpoken", value);
-                        e.target.value = '';
-                      }
-                    }
-                  }}
-                />
-                <div className="tags-container">
-                  {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
-                    <span key={index} className="tag">
-                      {lang}
-                      <button onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}>×</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="tags-input">
-                <select onChange={(e) => handleSelect(e, "professionalDetails.specialties")}>
-                  <option value="">Select Specialty</option>
-                  {availableSpecialties.map((spec) => (
-                    <option key={spec} value={spec}>{spec}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="Add custom specialty"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      const value = e.target.value.trim();
-                      if (value) {
-                        handleAddCustom("professionalDetails.specialties", value);
-                        e.target.value = '';
-                      }
-                    }
-                  }}
-                />
-                <div className="tags-container">
-                  {formData.professionalDetails?.specialties?.map((spec, index) => (
-                    <span key={index} className="tag">
-                      {spec}
-                      <button onClick={() => handleRemove("professionalDetails.specialties", spec)}>×</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="tags-input">
-                <select onChange={(e) => handleSelect(e, "professionalDetails.tourRegions")}>
-                  <option value="">Select Region</option>
-                  {availableRegions.map((region) => (
-                    <option key={region} value={region}>{region}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="Add custom region"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      const value = e.target.value.trim();
-                      if (value) {
-                        handleAddCustom("professionalDetails.tourRegions", value);
-                        e.target.value = '';
-                      }
-                    }
-                  }}
-                />
-                <div className="tags-container">
-                  {formData.professionalDetails?.tourRegions?.map((region, index) => (
-                    <span key={index} className="tag">
-                      {region}
-                      <button onClick={() => handleRemove("professionalDetails.tourRegions", region)}>×</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing and Availability */}
-            <div className="edit-section">
-              <h3>Pricing and Availability</h3>
-              <select
-                name="availability"
-                value={formData.availability || ""}
-                onChange={handleChange}
-              >
-                <option value="">Select Availability</option>
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Weekends Only">Weekends Only</option>
-                <option value="On-Request">On-Request</option>
-              </select>
-              <select
-                name="pricing.rateType"
-                value={formData.pricing?.rateType || ""}
-                onChange={handleChange}
-              >
-                <option value="">Select Rate Type</option>
-                <option value="hourly">Hourly Rate</option>
-                <option value="daily">Daily Rate</option>
-              </select>
-              <input
-                type="number"
-                name="pricing.hourlyRate"
-                value={formData.pricing?.hourlyRate || ""}
-                onChange={handleChange}
-                placeholder="Hourly Rate ($)"
-              />
-              <input
-                type="number"
-                name="pricing.dailyRate"
-                value={formData.pricing?.dailyRate || ""}
-                onChange={handleChange}
-                placeholder="Daily Rate ($)"
-              />
-              <div className="tags-input">
-                <select onChange={(e) => handleSelect(e, "pricing.paymentMethods")}>
-                  <option value="">Select Payment Method</option>
-                  {["Cash", "Credit Card", "PayPal", "Bank Transfer"].map((method) => (
-                    <option key={method} value={method}>{method}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="Add custom payment method"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      const value = e.target.value.trim();
-                      if (value) {
-                        handleAddCustom("pricing.paymentMethods", value);
-                        e.target.value = '';
-                      }
-                    }
-                  }}
-                />
-                <div className="tags-container">
-                  {formData.pricing?.paymentMethods?.map((method, index) => (
-                    <span key={index} className="tag">
-                      {method}
-                      <button onClick={() => handleRemove("pricing.paymentMethods", method)}>×</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* About Me */}
-            <div className="edit-section">
-              <h3>About Me</h3>
-              <textarea
-                name="additionalInfo.bio"
-                value={formData.additionalInfo?.bio || ""}
-                onChange={handleChange}
-                placeholder="Tell us about yourself"
-                rows="4"
-              />
-            </div>
-
-            <div className="button-container">
-              <button onClick={handleUpdate} className="guide-button edit-button">
-                Save Changes
-              </button>
-              <button onClick={() => setEditing(false)} className="guide-button logout-button">
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="guide-profile-header">
-              <div className="verification-container">
-                <span className={`verification-status ${guide.account?.isVerified ? "verified" : "unverified"}`}>
-                  {guide.account?.isVerified ? "Verified" : "Unverified"}
-                </span>
-                <span className={`account-status ${guide.isActive ? "active" : "inactive"}`}>
-                  {guide.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-              <div className="guide-profile-photo">
-                <img
-                  src={getCloudinaryUrl(guide.profilePhoto)}
-                  alt="Profile"
-                  onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite loop if default image fails
-                    e.target.src = '/default-profile.png';
-                  }}
-                />
-              </div>
-              <h1 className="guide-profile-name1">{guide.fullName}</h1>
-
-              <div className="guide-profile-rating">
-                <div className="rating-item">
-                  <span className="years-number">{guide.professionalDetails?.experienceYears || "0"}</span>
-                  <span className="rating-title">Years</span>
-                </div>
-                <div className="rating-item">
-                  <span className="ratings-number"> ★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
-                  <span className="rating-title">Rating</span>
-                </div>
-                <div className="rating-item">
-                  <span className="hours-number">
-                    {guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 ? (
-                      <>
-                        ${guide.pricing.hourlyRate}
-                        <span className="rating-title">Hourly Rate</span>
-                      </>
-                    ) : guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 ? (
-                      <>
-                        ${guide.pricing.dailyRate}
-                        <span className="rating-title">Daily Rate</span>
-                      </>
-                    ) : (
-                      <>
-                        $0
-                        <span className="rating-title">Rate</span>
-                      </>
-                    )}
-                  </span>
+                <div className="guide-profile-reviews-grid">
+                  {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                      <div key={review._id} className="guide-profile-review-card">
+                        <div className="guide-profile-reviewer-info">
+                          <div className="guide-profile-reviewer-avatar">
+                            {review.reviewerEmail.charAt(0).toUpperCase()}
+                          </div>
+                          <div className="guide-profile-reviewer-details">
+                            <h4 className="guide-profile-reviewer-name">
+                              {review.reviewerName || review.reviewerEmail.split("@")[0]}
+                            </h4>
+                            <p className="guide-profile-reviewer-title">
+                              {review.reviewerTitle || "Client"}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="guide-profile-review-text">"{review.reviewText}"</p>
+                        <div className="guide-profile-review-rating">
+                          <div className="guide-profile-stars">{renderStars(review.rating)}</div>
+                          <div className="guide-profile-rating-number">{review.rating.toFixed(1)}</div>
+                          <span className="guide-profile-rating-label">Rating</span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="guide-profile-no-reviews">No reviews yet.</p>
+                  )}
                 </div>
               </div>
 
-              {!guide.isActive && (
-                <div className="account-status-message">
-                  <p>Your account is currently inactive and not visible to travelers.</p>
-                  <br />
-                </div>
-              )}
-
-              <div className="button-container">
+              <div className="guide-profile-button-container">
                 <button onClick={handleEnterEditMode} className="guide-button edit-button">
                   Edit Profile
                 </button>
@@ -1018,189 +1238,19 @@ const GuideProfile = () => {
                   Logout
                 </button>
               </div>
-            </div>
-
-            <div className="section-divider"></div>
-
-            <div className="about-section">
-              <h2>About Me</h2>
-              <p>{guide.additionalInfo?.bio || "No bio added yet."}</p>
-            </div>
-
-            <div className="section-divider"></div>
-
-            <div className="professional-details-section">
-              <h2>Professional Details</h2>
-              <p>
-                <strong>Specialties:</strong>{" "}
-                {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
-              </p>
-              <p>
-                <strong>Languages:</strong>{" "}
-                {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
-              </p>
-              <p>
-                <strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years
-              </p>
-
-              {showAllDetails && (
-                <div className="additional-details">
-                  <p>
-                    <strong>Tour Regions:</strong>{" "}
-                    {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
-                  </p>
-                  <p>
-                    <strong>Hourly Rate:</strong>
-                    <span className={guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 ? "highlighted-rate" : ""}>
-                      ${guide.pricing?.hourlyRate || "0"}
-                    </span>
-                    {guide.pricing?.hourlyRate && Number(guide.pricing.hourlyRate) > 0 && " (Selected)"}
-                  </p>
-                  <p>
-                    <strong>Daily Rate:</strong>
-                    <span className={guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 ? "highlighted-rate" : ""}>
-                      ${guide.pricing?.dailyRate || "0"}
-                    </span>
-                    {guide.pricing?.dailyRate && Number(guide.pricing.dailyRate) > 0 && " (Selected)"}
-                  </p>
-                  <p>
-                    <strong>Availability:</strong> {guide.availability || "Not specified"}
-                  </p>
-                  <p>
-                    <strong>Payment Methods:</strong>{" "}
-                    {guide.pricing?.paymentMethods?.join(", ") || "Not specified"}
-                  </p>
-                </div>
-              )}
-
-              <span
-                className="details-toggle"
-                onClick={() => setShowAllDetails(!showAllDetails)}
-              >
-                {showAllDetails ? "Hide Details" : "Show More Details"}
-              </span>
-            </div>
-
-            <div className="section-divider"></div>
-
-            <div className="tour-photos-section">
-              <h2>Tour Photos</h2>
-              <div className="upload-container">
-                <label className="upload-button">
-                  Choose Photo
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                    style={{ display: "none" }}
-                  />
-                </label>
-                {showCaptionInput && (
-                  <div className="caption-input-container">
-                    <input
-                      type="text"
-                      value={photoCaption}
-                      onChange={(e) => setPhotoCaption(e.target.value)}
-                      placeholder="Enter photo caption"
-                      className="caption-input"
-                    />
-                    <button onClick={handleCaptionSubmit} className="guide-button edit-button">
-                      Upload
-                    </button>
-                    <button onClick={handleCancelUpload} className="guide-button logout-button">
-                      Cancel
-                    </button>
-                  </div>
-                )}
-                {uploadProgress > 0 && (
-                  <div className="upload-progress">
-                    <div
-                      className="progress-bar"
-                      style={{ width: `${uploadProgress}%` }}
-                    ></div>
-                    <span>{uploadProgress}%</span>
-                  </div>
-                )}
-              </div>
-
-              {selectedPhotos.length > 0 && (
-                <button
-                  onClick={handleDeleteSelectedPhotos}
-                  className="guide-button delete-button"
-                  style={{ marginBottom: "20px" }}
-                >
-                  Delete Selected ({selectedPhotos.length})
-                </button>
-              )}
-
-              <div className="tour-photos-grid">
-                {tourPhotos.length > 0 ? (
-                  tourPhotos.map((photo) => (
-                    <div key={photo._id} className="tour-photo-card">
-                      <input
-                        type="checkbox"
-                        className="photo-checkbox"
-                        checked={selectedPhotos.includes(photo._id)}
-                        onChange={() => handleSelectPhoto(photo._id)}
-                      />
-                      <img
-                        src={`${photo.imagePath}?w=400&h=300&c_fill`}
-                        alt={photo.caption || "Tour"}
-                        className="tour-photo"
-                        loading="lazy"
-                      />
-                      {photo.caption && (
-                        <div className="photo-caption">{photo.caption}</div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <p>No tour photos uploaded yet.</p>
-                )}
-              </div>
-            </div>
-
-            <div className="section-divider"></div>
-
-            <div className="reviews-section">
-              <h2 className="reviews-title">REVIEWS</h2>
-              <h3 className="reviews-subtitle">
-                What Fellow Tourist Say About {guide.fullName}
-              </h3>
-
-              <div className="reviews-grid">
-                {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div key={review._id} className="review-card">
-                      <div className="reviewer-info">
-                        <div className="reviewer-avatar">
-                          {review.reviewerEmail.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="reviewer-details">
-                          <h4 className="reviewer-name">
-                            {review.reviewerName || review.reviewerEmail.split("@")[0]}
-                          </h4>
-                          <p className="reviewer-title">
-                            {review.reviewerTitle || "Client"}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="review-text">"{review.reviewText}"</p>
-                      <div className="review-rating">
-                        <div className="stars">{renderStars(review.rating)}</div>
-                        <div className="rating-number">{review.rating.toFixed(1)}</div>
-                        <span className="rating-label">Rating</span>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="no-reviews">No reviews yet.</p>
-                )}
-              </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
+
+      {selectedImage && (
+        <div className="image-modal-overlay" onClick={handleCloseModal}>
+          <div className="image-modal-content">
+            <button className="image-modal-close" onClick={handleCloseModal}>×</button>
+            <img src={selectedImage} alt="Full size" className="image-modal-img" />
+          </div>
+        </div>
+      )}
     </>
   );
 };
