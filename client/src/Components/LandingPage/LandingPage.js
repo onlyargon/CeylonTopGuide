@@ -29,6 +29,7 @@ const LandingPage = () => {
         // Check if user is logged in by fetching session data
         const checkSession = async () => {
             try {
+                // Try the original API URL first
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/session`, {
                     withCredentials: true
                 });
@@ -36,8 +37,19 @@ const LandingPage = () => {
                     setUserData(response.data.user);
                 }
             } catch (error) {
-                console.error('Session check failed:', error);
-                setUserData(null);
+                console.error('Primary session check failed, trying localhost:', error);
+                try {
+                    // Fallback to localhost:5000
+                    const localResponse = await axios.get('http://localhost:5000/guides/session', {
+                        withCredentials: true
+                    });
+                    if (localResponse.data.user) {
+                        setUserData(localResponse.data.user);
+                    }
+                } catch (localError) {
+                    console.error('Local session check also failed:', localError);
+                    setUserData(null);
+                }
             }
         };
 
@@ -57,14 +69,27 @@ const LandingPage = () => {
     }, []);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/top-rated`)
-            .then(res => {
-                // Filter for active guides (double check)
-                const activeGuides = res.data.filter(guide => guide.isActive !== false);
-                // Take only first 5 guides
+        const fetchTopGuides = async () => {
+            try {
+                // Try the original API URL first
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/top-rated`);
+                const activeGuides = response.data.filter(guide => guide.isActive !== false);
                 setTopGuides(activeGuides.slice(0, 5));
-            })
-            .catch(err => console.error("Failed to fetch top guides:", err));
+            } catch (error) {
+                console.error('Primary top-rated guides fetch failed, trying localhost:', error);
+                try {
+                    // Fallback to localhost:5000
+                    const localResponse = await axios.get('http://localhost:5000/guides/top-rated');
+                    const activeGuides = localResponse.data.filter(guide => guide.isActive !== false);
+                    setTopGuides(activeGuides.slice(0, 5));
+                } catch (localError) {
+                    console.error('Local top-rated guides fetch also failed:', localError);
+                    setTopGuides([]);
+                }
+            }
+        };
+
+        fetchTopGuides();
     }, []);
 
     const scrollLeft = () => {
