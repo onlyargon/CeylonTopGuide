@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 
 const GuideList = () => {
   const [guides, setGuides] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
     rank: 'All',
     language: 'All',
@@ -28,6 +29,10 @@ const GuideList = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const fetchGuides = async () => {
     try {
       const params = {};
@@ -37,11 +42,26 @@ const GuideList = () => {
         }
       }
 
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/verified/sort`, { params });
+      const baseUrl = process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5000'
+        : process.env.REACT_APP_API_BASE_URL;
+
+      const response = await axios.get(`${baseUrl}/guides/verified/sort`, { params });
       let data = response.data;
 
       if (filters.experience === '10+') {
         data = data.filter(g => g.professionalDetails?.experienceYears >= 10);
+      }
+
+      // Apply search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        data = data.filter(guide =>
+          guide.fullName.toLowerCase().includes(query) ||
+          guide.professionalDetails?.tourRegions?.some(region =>
+            region.toLowerCase().includes(query)
+          )
+        );
       }
 
       data.sort((a, b) => b.averageRating - a.averageRating);
@@ -53,7 +73,7 @@ const GuideList = () => {
 
   useEffect(() => {
     fetchGuides();
-  }, [filters]);
+  }, [filters, searchQuery]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,7 +89,12 @@ const GuideList = () => {
   const getCloudinaryUrl = (imagePath, width = 200, height = 200, crop = 'fill') => {
     if (!imagePath) return '/default-profile.png';
     if (imagePath.startsWith('http')) return imagePath;
-    return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/w_${width},h_${height},c_${crop}/${imagePath}`;
+
+    const baseUrl = process.env.NODE_ENV === 'development'
+      ? 'http://localhost:5000'
+      : `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+    return `${baseUrl}/w_${width},h_${height},c_${crop}/${imagePath}`;
   };
 
   return (
@@ -85,6 +110,15 @@ const GuideList = () => {
           </button>
 
           <div className="filter-content">
+            <div className="search-container mb-6 w-[300px] flex ">
+              <input
+                type="text"
+                placeholder="Search by guide name or region..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className=" w-[240px] p-2 border border-defaultGrey rounded-[5px] focus:outline-none focus:ring-[1px] focus:ring-primaryGreen text-xs "
+              />
+            </div>
             <h3>Filter By</h3>
             <div className="filter-group">
               <label>Rank</label>
@@ -190,28 +224,35 @@ const GuideList = () => {
           </div>
         </div>
 
-        <div className="main-content">
-          <div className="guide-grid">
+        <div className="w-[200vh]">
+          <div className="grid grid-cols-4 gap-[50px]">
             {guides.map(guide => (
-              <div key={guide._id} className="guide-card">
-                <img
-                  src={getCloudinaryUrl(guide.profilePhoto)}
-                  alt={guide.fullName}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/default-profile.png';
-                  }}
-                />
-                <div className="guide-card-content">
-                  <h4>{guide.fullName}</h4>
-                  <p>Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
-                  <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
-                  <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
-                  <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
-                  <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
-                  <p>Hourly: ${guide.pricing?.hourlyRate}</p>
-                  <p>Daily: ${guide.pricing?.dailyRate}</p>
-                  <Link to={`/guides/${guide._id}`}>View Details</Link>
+              <div key={guide._id} className="w-[320px] h-[500px] rounded-[15px] p-4 bg-default-gradient shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out">
+                <div className="flex justify-center">
+                  <img
+                    className="w-[200px] h-[200px] object-cover rounded-full border-[1px] border-primaryGreen shadow-md"
+                    src={getCloudinaryUrl(guide.profilePhoto)}
+                    alt={guide.fullName}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/default-profile.png';
+                    }}
+                  />
+                </div>
+                <div className="text-center items-center mt-[20px]">
+                  <p className="text-[18px] uppercase">{guide.fullName}</p>
+                  <p className="text-[14px]">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
+                  <span className="text-[12px]">
+                    <p className="mt-[20px]">Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
+                    <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
+                    <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
+                    <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
+                    <p>Hourly: ${guide.pricing?.hourlyRate}</p>
+                    <p>Daily: ${guide.pricing?.dailyRate}</p>
+                  </span>
+                  <button className="mt-[10px] p-2 border-[1px] shadow-md bg-primaryGreen text-pureWhite hover:text-primaryGreen hover:bg-pureWhite transition duration-300 ease-in-out rounded-[5px] text-[14px] uppercase">
+                    <Link to={`/guides/${guide._id}`}>View Details</Link>
+                  </button>
                 </div>
               </div>
             ))}
