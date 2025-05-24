@@ -218,6 +218,7 @@ const LandingPage = () => {
                                             stiffness: 80,
                                             damping: 6
                                         }}
+                                        className=""
                                     >
                                         <Link to="/guideList" className="banner-button find-guide">Find a Guide</Link>
                                     </motion.div>
@@ -232,6 +233,7 @@ const LandingPage = () => {
                                             stiffness: 120,
                                             damping: 6
                                         }}
+                                        className=""
                                     >
                                         <Link to="/guideRegister" className="banner-button register-guide">Register as a Guide</Link>
                                     </motion.div>
@@ -374,7 +376,7 @@ const LandingPage = () => {
 
                                     return (
                                         <MotionLink
-                                            to={`/guideDetail/${guide._id}`}
+                                            to={`/guides/${guide._id}`}
                                             key={`${guide._id}-${i}`}
                                             className={`snap-center flex-shrink-0 w-72 max-h-[370px] p-4 rounded-lg shadow-md hover:scale-105 transition duration-300 ease-in-out ${guideIndex === 0
                                                 ? 'bg-gold-gradient'

@@ -43,11 +43,20 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchGuideWithRecalculation = async () => {
       try {
+        // Try the original API URL first
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/reviews/recalculate/${id}`);
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/verified/${id}`);
         setGuide(res.data);
       } catch (error) {
-        console.error("Error fetching guide profile or recalculating rating:", error);
+        console.error("Primary guide profile fetch failed, trying localhost:", error);
+        try {
+          // Fallback to localhost:5000
+          await axios.post(`http://localhost:5000/reviews/recalculate/${id}`);
+          const localRes = await axios.get(`http://localhost:5000/guides/verified/${id}`);
+          setGuide(localRes.data);
+        } catch (localError) {
+          console.error("Local guide profile fetch also failed:", localError);
+        }
       }
     };
 
@@ -57,10 +66,19 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
+        // Try the original API URL first
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/reviews/guide/${id}?verified=true`);
         setReviews(res.data);
-      } catch (err) {
-        console.error("Failed to load reviews", err);
+      } catch (error) {
+        console.error("Primary reviews fetch failed, trying localhost:", error);
+        try {
+          // Fallback to localhost:5000
+          const localRes = await axios.get(`http://localhost:5000/reviews/guide/${id}?verified=true`);
+          setReviews(localRes.data);
+        } catch (localError) {
+          console.error("Local reviews fetch also failed:", localError);
+          setReviews([]);
+        }
       }
     };
 
@@ -70,10 +88,19 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchTourPhotos = async () => {
       try {
+        // Try the original API URL first
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/tourPhotos/guide/${id}`);
         setTourPhotos(res.data);
-      } catch (err) {
-        console.error("Failed to load tour photos", err);
+      } catch (error) {
+        console.error("Primary tour photos fetch failed, trying localhost:", error);
+        try {
+          // Fallback to localhost:5000
+          const localRes = await axios.get(`http://localhost:5000/tourPhotos/guide/${id}`);
+          setTourPhotos(localRes.data);
+        } catch (localError) {
+          console.error("Local tour photos fetch also failed:", localError);
+          setTourPhotos([]);
+        }
       }
     };
 
@@ -295,6 +322,7 @@ const PublicGuideProfile = () => {
                       <div className="stars">{renderStars(review.rating)}</div>
                       <div className="rating-number">{review.rating.toFixed(1)}</div>
                       <span className="rating-label">Rating</span>
+                      <p className="text-[12px] text-[#718096]">{new Date(review.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                 ))

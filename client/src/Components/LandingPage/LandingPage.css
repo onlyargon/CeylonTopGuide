@@ -915,17 +915,29 @@ html {
     .banner-buttons {
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: 3;
     }
     
     .banner-button {
         width: 80%;
         text-align: center;
+        margin-bottom: 100px;
+        margin-top: 100px;
     }
 }
 
 /* Very small screens */
 @media (max-width: 400px) {
+    .banner-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .banner-button {
+        width: 80%;
+        text-align: center;
+        margin-bottom: 100px;
+    }
     .ceylon-welcome-text {
         font-size: 1.8rem;
     }
