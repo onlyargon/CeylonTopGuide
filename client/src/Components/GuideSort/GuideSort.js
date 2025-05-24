@@ -6,13 +6,14 @@ import Footer from '../Footer/Footer';
 
 const GuideList = () => {
   const [guides, setGuides] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
     rank: 'All',
-    language: 'All',
+    language: [],
     experience: 'All',
-    specialty: 'All',
-    region: 'All',
+    specialty: [],
+    region: [],
     availability: 'All',
     paymentMethod: 'All',
     maxHourlyRate: '',
@@ -25,7 +26,29 @@ const GuideList = () => {
   };
 
   const handleChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    
+    if (type === 'checkbox') {
+      setFilters(prev => {
+        const currentValues = prev[name];
+        if (checked) {
+          return {
+            ...prev,
+            [name]: [...currentValues, value]
+          };
+        } else {
+          return {
+            ...prev,
+            [name]: currentValues.filter(item => item !== value)
+          };
+        }
+      });
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSearch = (e) => {
@@ -33,10 +56,11 @@ const GuideList = () => {
   };
 
   const fetchGuides = async () => {
+    setIsLoading(true);
     try {
       const params = {};
       for (const key in filters) {
-        if (filters[key] !== 'All' && filters[key] !== '') {
+        if (filters[key] !== 'All' && filters[key] !== '' && filters[key].length !== 0) {
           params[key] = filters[key];
         }
       }
@@ -63,10 +87,48 @@ const GuideList = () => {
         );
       }
 
+      // Apply multiple selection filters
+      if (filters.language.length > 0) {
+        data = data.filter(guide => {
+          const guideLanguages = guide.professionalDetails?.languagesSpoken || [];
+          console.log('Guide Languages:', guideLanguages);
+          console.log('Selected Languages:', filters.language);
+          return filters.language.some(selectedLang => 
+            guideLanguages.some(guideLang => 
+              guideLang.toLowerCase() === selectedLang.toLowerCase()
+            )
+          );
+        });
+      }
+
+      if (filters.region.length > 0) {
+        data = data.filter(guide => {
+          const guideRegions = guide.professionalDetails?.tourRegions || [];
+          return filters.region.some(selectedRegion => 
+            guideRegions.some(guideRegion => 
+              guideRegion.toLowerCase() === selectedRegion.toLowerCase()
+            )
+          );
+        });
+      }
+
+      if (filters.specialty.length > 0) {
+        data = data.filter(guide => {
+          const guideSpecialties = guide.professionalDetails?.specialties || [];
+          return filters.specialty.some(selectedSpecialty => 
+            guideSpecialties.some(guideSpecialty => 
+              guideSpecialty.toLowerCase() === selectedSpecialty.toLowerCase()
+            )
+          );
+        });
+      }
+
       data.sort((a, b) => b.averageRating - a.averageRating);
       setGuides(data);
     } catch (err) {
       console.error('Error fetching guides:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -142,14 +204,14 @@ const GuideList = () => {
               {/* Language Filter */}
               <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
                 <label className="block font-semibold mb-2 text-sm text-gray-700">Language</label>
-                {languages.map(lang => (
+                {languages.filter(lang => lang !== 'All').map(lang => (
                   <div key={lang} className="mb-1 text-sm">
                     <input
-                      type="radio"
+                      type="checkbox"
                       name="language"
                       value={lang}
                       onChange={handleChange}
-                      checked={filters.language === lang}
+                      checked={filters.language.includes(lang)}
                       className="mr-2 accent-[#2c5d3f]"
                     /> {lang}
                   </div>
@@ -176,31 +238,35 @@ const GuideList = () => {
               {/* Specialty Filter */}
               <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
                 <label className="block font-semibold mb-2 text-sm text-gray-700">Specialty</label>
-                <select 
-                  name="specialty" 
-                  value={filters.specialty} 
-                  onChange={handleChange}
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
-                >
-                  {specialtyOptions.map(opt => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
+                {specialtyOptions.filter(opt => opt !== 'All').map(opt => (
+                  <div key={opt} className="mb-1 text-sm">
+                    <input
+                      type="checkbox"
+                      name="specialty"
+                      value={opt}
+                      onChange={handleChange}
+                      checked={filters.specialty.includes(opt)}
+                      className="mr-2 accent-[#2c5d3f]"
+                    /> {opt}
+                  </div>
+                ))}
               </div>
 
               {/* Region Filter */}
               <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
                 <label className="block font-semibold mb-2 text-sm text-gray-700">Region</label>
-                <select 
-                  name="region" 
-                  value={filters.region} 
-                  onChange={handleChange}
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
-                >
-                  {tourRegions.map(r => (
-                    <option key={r} value={r}>{r}</option>
-                  ))}
-                </select>
+                {tourRegions.filter(region => region !== 'All').map(r => (
+                  <div key={r} className="mb-1 text-sm">
+                    <input
+                      type="checkbox"
+                      name="region"
+                      value={r}
+                      onChange={handleChange}
+                      checked={filters.region.includes(r)}
+                      className="mr-2 accent-[#2c5d3f]"
+                    /> {r}
+                  </div>
+                ))}
               </div>
 
               {/* Availability Filter */}
@@ -266,42 +332,74 @@ const GuideList = () => {
 
         <div className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {guides.map(guide => (
-              <div 
-                key={guide._id} 
-                className="bg-default-gradient rounded-lg p-6 shadow-md hover:-translate-y-1 transition-all duration-300 border border-[#e0e0e0] flex flex-col min-h-[600px] md:min-h-[550px]"
-              >
-                <div className="flex justify-center">
-                  <img
-                    className="w-[200px] h-[200px] object-cover rounded-full border border-[#2c5d3f] shadow-md"
-                    src={getCloudinaryUrl(guide.profilePhoto)}
-                    alt={guide.fullName}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/default-profile.png';
-                    }}
-                  />
-                </div>
-                <div className="text-center mt-5">
-                  <h4 className="text-lg font-semibold text-[#2c5d3f] mb-2">{guide.fullName}</h4>
-                  <p className="text-sm text-gray-600 mb-4">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
-                  <div className="text-xs text-gray-600 space-y-2">
-                    <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
-                    <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
-                    <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
-                    <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
-                    <p>Hourly: ${guide.pricing?.hourlyRate}</p>
-                    <p>Daily: ${guide.pricing?.dailyRate}</p>
+            {isLoading ? (
+              // Loading skeleton cards
+              Array(8).fill().map((_, index) => (
+                <div 
+                  key={index}
+                  className="bg-white rounded-lg p-6 shadow-md border border-[#e0e0e0] flex flex-col min-h-[600px] md:min-h-[550px] animate-pulse"
+                >
+                  <div className="flex justify-center">
+                    <div className="w-[200px] h-[200px] rounded-full bg-gray-200" />
                   </div>
-                  <Link 
-                    to={`/guides/${guide._id}`}
-                    className="inline-block mt-6 bg-[#2c5d3f] text-pureWhite font-semibold px-4 py-2 rounded-md hover:bg-[#224830] transition-colors duration-300"
-                  >
-                    View Details
-                  </Link>
+                  <div className="text-center mt-5 space-y-4">
+                    <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto" />
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-200 rounded w-5/6 mx-auto" />
+                      <div className="h-3 bg-gray-200 rounded w-4/6 mx-auto" />
+                      <div className="h-3 bg-gray-200 rounded w-5/6 mx-auto" />
+                      <div className="h-3 bg-gray-200 rounded w-4/6 mx-auto" />
+                      <div className="h-3 bg-gray-200 rounded w-3/6 mx-auto" />
+                      <div className="h-3 bg-gray-200 rounded w-4/6 mx-auto" />
+                    </div>
+                    <div className="h-10 bg-gray-200 rounded w-2/3 mx-auto mt-6" />
+                  </div>
                 </div>
+              ))
+            ) : guides.length > 0 ? (
+              guides.map(guide => (
+                <div 
+                  key={guide._id} 
+                  className="bg-default-gradient rounded-lg p-6 shadow-md hover:-translate-y-1 transition-all duration-300 border border-[#e0e0e0] flex flex-col min-h-[600px] md:min-h-[550px]"
+                >
+                  <div className="flex justify-center">
+                    <img
+                      className="w-[200px] h-[200px] object-cover rounded-full border border-[#2c5d3f] shadow-md"
+                      src={getCloudinaryUrl(guide.profilePhoto)}
+                      alt={guide.fullName}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/default-profile.png';
+                      }}
+                    />
+                  </div>
+                  <div className="text-center mt-5">
+                    <h4 className="text-lg font-semibold text-[#2c5d3f] mb-2">{guide.fullName}</h4>
+                    <p className="text-sm text-gray-600 mb-4">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
+                    <div className="text-xs text-gray-600 space-y-2">
+                      <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
+                      <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
+                      <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
+                      <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
+                      <p>Hourly: ${guide.pricing?.hourlyRate}</p>
+                      <p>Daily: ${guide.pricing?.dailyRate}</p>
+                    </div>
+                    <Link 
+                      to={`/guides/${guide._id}`}
+                      className="inline-block mt-6 bg-[#2c5d3f] text-pureWhite font-semibold px-4 py-2 rounded-md hover:bg-[#224830] transition-colors duration-300"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">No guides found</h3>
+                <p className="text-gray-500">Try adjusting your filters to find more guides</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
