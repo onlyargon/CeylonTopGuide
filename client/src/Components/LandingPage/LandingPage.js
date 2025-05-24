@@ -289,7 +289,7 @@ const LandingPage = () => {
             <div className="ceylon-features-container">
                 <h1 className="ceylon-features-title">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
 
-                <div className="ceylon-feature-box">
+                <div className="ceylon-feature-box hover:scale-105 transition duration-300 ease-in-out">
                     <div className="ceylon-feature-text">
                         <span className="ceylon-feature-highlight">VERIFIED EXPERTS</span> - All tour guides are vetted and approved.
                     </div>
@@ -300,7 +300,7 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                <div className="ceylon-feature-box">
+                <div className="ceylon-feature-box hover:scale-105 transition duration-300 ease-in-out">
                     <div className="ceylon-feature-text">
                         <span className="ceylon-feature-highlight">EASY SEARCH</span> - Filter by location, language, expertise, and reviews.
                     </div>
@@ -312,7 +312,7 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                <div className="ceylon-feature-box">
+                <div className="ceylon-feature-box hover:scale-105 transition duration-300 ease-in-out">
                     <div className="ceylon-feature-text">
                         <span className="ceylon-feature-highlight">REAL REVIEWS</span> - See traveler ratings & feedback before booking.
                     </div>
@@ -323,7 +323,7 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                <div className="ceylon-feature-box">
+                <div className="ceylon-feature-box hover:scale-105 transition duration-300 ease-in-out">
                     <div className="ceylon-feature-text">
                         <span className="ceylon-feature-highlight">NO HIDDEN FEES</span> - Transparent connections between travelers and guides.
                     </div>

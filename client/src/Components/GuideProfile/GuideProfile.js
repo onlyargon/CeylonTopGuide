@@ -679,59 +679,65 @@ const GuideProfile = () => {
         </div>
         <div className="guide-profile-container">
           {editing ? (
-            <div className="edit-form">
-              <h2>Edit Profile</h2>
+            <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+              <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Profile</h2>
               
               {/* Profile Photo */}
-              <div className="edit-section">
-                <h3>Profile Photo</h3>
-                <div className="profile-photo-edit">
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Profile Photo</h3>
+                <div className="flex flex-col items-center space-y-4">
                   <img
                     src={formData.profilePhoto || getCloudinaryUrl(guide?.profilePhoto)}
                     alt="Profile Preview"
-                    className="profile-photo-preview"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
                   />
-                  <label className="file-input-wrapper">
-                    <span className="file-input-button">Choose New Photo</span>
+                  <label className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200">
+                    <span>Choose New Photo</span>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleProfilePhotoChange}
-                      style={{ display: 'none' }}
+                      className="hidden"
                     />
                   </label>
                   {uploading && (
-                    <div className="upload-progress">
-                      <div className="progress-bar"></div>
-                      <span>Uploading...</span>
+                    <div className="w-full max-w-xs">
+                      <div className="h-2 bg-gray-200 rounded-full">
+                        <div className="h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      </div>
+                      <span className="text-sm text-gray-600 mt-2">Uploading...</span>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* Personal Information */}
-              <div className="edit-section">
-                <h3>Personal Information</h3>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName || ""}
-                  onChange={handleChange}
-                  placeholder="Full Name"
-                />
-                <input
-                  type="text"
-                  name="nationality"
-                  value={formData.nationality || ""}
-                  onChange={handleChange}
-                  placeholder="Nationality"
-                />
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName || ""}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input
+                    type="text"
+                    name="nationality"
+                    value={formData.nationality || ""}
+                    onChange={handleChange}
+                    placeholder="Nationality"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
 
               {/* Contact Information */}
-              <div className="edit-section">
-                <h3>Contact Information</h3>
-                <div className="input-group">
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Contact Information</h3>
+                <div className="space-y-2">
                   <input
                     type="text"
                     name="contact.phone"
@@ -739,240 +745,224 @@ const GuideProfile = () => {
                     onChange={handleChange}
                     placeholder="Phone Number (07XXXXXXXX)"
                     maxLength="10"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  {phoneError && <span className="error-message">{phoneError}</span>}
+                  {phoneError && <span className="text-red-500 text-sm">{phoneError}</span>}
                 </div>
               </div>
 
               {/* Address Information */}
-              <div className="edit-section">
-                <h3>Address</h3>
-                <input
-                  type="text"
-                  name="address.street"
-                  value={formData.address?.street || ""}
-                  onChange={handleChange}
-                  placeholder="Address"
-                />
-                <input
-                  type="text"
-                  name="address.city"
-                  value={formData.address?.city || ""}
-                  onChange={handleChange}
-                  placeholder="City"
-                />
-                <select
-                  name="address.province"
-                  value={formData.address?.province || ""}
-                  onChange={handleProvinceChange}
-                >
-                  <option value="">Select Province</option>
-                  {provinces.map((province) => (
-                    <option key={province} value={province}>{province}</option>
-                  ))}
-                </select>
-                {formData.address?.province && (
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Address</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="address.street"
+                    value={formData.address?.street || ""}
+                    onChange={handleChange}
+                    placeholder="Address"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input
+                    type="text"
+                    name="address.city"
+                    value={formData.address?.city || ""}
+                    onChange={handleChange}
+                    placeholder="City"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
                   <select
-                    name="address.district"
-                    value={formData.address?.district || ""}
-                    onChange={handleDistrictChange}
+                    name="address.province"
+                    value={formData.address?.province || ""}
+                    onChange={handleProvinceChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="">Select District</option>
-                    {districts[formData.address.province].map((district) => (
-                      <option key={district} value={district}>{district}</option>
+                    <option value="">Select Province</option>
+                    {provinces.map((province) => (
+                      <option key={province} value={province}>{province}</option>
                     ))}
                   </select>
-                )}
+                  {formData.address?.province && (
+                    <select
+                      name="address.district"
+                      value={formData.address?.district || ""}
+                      onChange={handleDistrictChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select District</option>
+                      {districts[formData.address.province].map((district) => (
+                        <option key={district} value={district}>{district}</option>
+                      ))}
+                    </select>
+                  )}
+                </div>
               </div>
 
               {/* Professional Details */}
-              <div className="edit-section">
-                <h3>Professional Details</h3>
-                <input
-                  type="number"
-                  name="professionalDetails.experienceYears"
-                  value={formData.professionalDetails?.experienceYears || ""}
-                  onChange={handleChange}
-                  placeholder="Years of Experience"
-                />
-                <div className="tags-input">
-                  <select onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}>
-                    <option value="">Select Language</option>
-                    {availableLanguages.map((lang) => (
-                      <option key={lang} value={lang}>{lang}</option>
-                    ))}
-                  </select>
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Professional Details</h3>
+                <div className="space-y-4">
                   <input
-                    type="text"
-                    placeholder="Add custom language"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const value = e.target.value.trim();
-                        if (value) {
-                          handleAddCustom("professionalDetails.languagesSpoken", value);
-                          e.target.value = '';
-                        }
-                      }
-                    }}
+                    type="number"
+                    name="professionalDetails.experienceYears"
+                    value={formData.professionalDetails?.experienceYears || ""}
+                    onChange={handleChange}
+                    placeholder="Years of Experience"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <div className="tags-container">
-                    {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
-                      <span key={index} className="tag">
-                        {lang}
-                        <button onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}>×</button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="tags-input">
-                  <select onChange={(e) => handleSelect(e, "professionalDetails.specialties")}>
-                    <option value="">Select Specialty</option>
-                    {availableSpecialties.map((spec) => (
-                      <option key={spec} value={spec}>{spec}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="Add custom specialty"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const value = e.target.value.trim();
-                        if (value) {
-                          handleAddCustom("professionalDetails.specialties", value);
-                          e.target.value = '';
-                        }
-                      }
-                    }}
-                  />
-                  <div className="tags-container">
-                    {formData.professionalDetails?.specialties?.map((spec, index) => (
-                      <span key={index} className="tag">
-                        {spec}
-                        <button onClick={() => handleRemove("professionalDetails.specialties", spec)}>×</button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="tags-input">
-                  <select onChange={(e) => handleSelect(e, "professionalDetails.tourRegions")}>
-                    <option value="">Select Region</option>
-                    {availableRegions.map((region) => (
-                      <option key={region} value={region}>{region}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="Add custom region"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const value = e.target.value.trim();
-                        if (value) {
-                          handleAddCustom("professionalDetails.tourRegions", value);
-                          e.target.value = '';
-                        }
-                      }
-                    }}
-                  />
-                  <div className="tags-container">
-                    {formData.professionalDetails?.tourRegions?.map((region, index) => (
-                      <span key={index} className="tag">
-                        {region}
-                        <button onClick={() => handleRemove("professionalDetails.tourRegions", region)}>×</button>
-                      </span>
-                    ))}
+                  <div className="space-y-4">
+                    <div className="flex flex-col space-y-2">
+                      <select 
+                        onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select Language</option>
+                        {availableLanguages.map((lang) => (
+                          <option key={lang} value={lang}>{lang}</option>
+                        ))}
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Add custom language"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const value = e.target.value.trim();
+                            if (value) {
+                              handleAddCustom("professionalDetails.languagesSpoken", value);
+                              e.target.value = '';
+                            }
+                          }
+                        }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
+                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                            {lang}
+                            <button 
+                              onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}
+                              className="ml-2 text-blue-600 hover:text-blue-800"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col space-y-2">
+                      <select 
+                        onChange={(e) => handleSelect(e, "professionalDetails.specialties")}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select Specialty</option>
+                        {availableSpecialties.map((spec) => (
+                          <option key={spec} value={spec}>{spec}</option>
+                        ))}
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Add custom specialty"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const value = e.target.value.trim();
+                            if (value) {
+                              handleAddCustom("professionalDetails.specialties", value);
+                              e.target.value = '';
+                            }
+                          }
+                        }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        {formData.professionalDetails?.specialties?.map((spec, index) => (
+                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            {spec}
+                            <button 
+                              onClick={() => handleRemove("professionalDetails.specialties", spec)}
+                              className="ml-2 text-green-600 hover:text-green-800"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Pricing and Availability */}
-              <div className="edit-section">
-                <h3>Pricing and Availability</h3>
-                <select
-                  name="availability"
-                  value={formData.availability || ""}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Availability</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Weekends Only">Weekends Only</option>
-                  <option value="On-Request">On-Request</option>
-                </select>
-                <select
-                  name="pricing.rateType"
-                  value={formData.pricing?.rateType || ""}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Rate Type</option>
-                  <option value="hourly">Hourly Rate</option>
-                  <option value="daily">Daily Rate</option>
-                </select>
-                <input
-                  type="number"
-                  name="pricing.hourlyRate"
-                  value={formData.pricing?.hourlyRate || ""}
-                  onChange={handleChange}
-                  placeholder="Hourly Rate ($)"
-                />
-                <input
-                  type="number"
-                  name="pricing.dailyRate"
-                  value={formData.pricing?.dailyRate || ""}
-                  onChange={handleChange}
-                  placeholder="Daily Rate ($)"
-                />
-                <div className="tags-input">
-                  <select onChange={(e) => handleSelect(e, "pricing.paymentMethods")}>
-                    <option value="">Select Payment Method</option>
-                    {["Cash", "Credit Card", "PayPal", "Bank Transfer"].map((method) => (
-                      <option key={method} value={method}>{method}</option>
-                    ))}
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Pricing and Availability</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <select
+                    name="availability"
+                    value={formData.availability || ""}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Availability</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Weekends Only">Weekends Only</option>
+                    <option value="On-Request">On-Request</option>
+                  </select>
+                  <select
+                    name="pricing.rateType"
+                    value={formData.pricing?.rateType || ""}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Rate Type</option>
+                    <option value="hourly">Hourly Rate</option>
+                    <option value="daily">Daily Rate</option>
                   </select>
                   <input
-                    type="text"
-                    placeholder="Add custom payment method"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const value = e.target.value.trim();
-                        if (value) {
-                          handleAddCustom("pricing.paymentMethods", value);
-                          e.target.value = '';
-                        }
-                      }
-                    }}
+                    type="number"
+                    name="pricing.hourlyRate"
+                    value={formData.pricing?.hourlyRate || ""}
+                    onChange={handleChange}
+                    placeholder="Hourly Rate ($)"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <div className="tags-container">
-                    {formData.pricing?.paymentMethods?.map((method, index) => (
-                      <span key={index} className="tag">
-                        {method}
-                        <button onClick={() => handleRemove("pricing.paymentMethods", method)}>×</button>
-                      </span>
-                    ))}
-                  </div>
+                  <input
+                    type="number"
+                    name="pricing.dailyRate"
+                    value={formData.pricing?.dailyRate || ""}
+                    onChange={handleChange}
+                    placeholder="Daily Rate ($)"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
                 </div>
               </div>
 
               {/* About Me */}
-              <div className="edit-section">
-                <h3>About Me</h3>
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">About Me</h3>
                 <textarea
                   name="additionalInfo.bio"
                   value={formData.additionalInfo?.bio || ""}
                   onChange={handleChange}
                   placeholder="Tell us about yourself"
                   rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="button-container">
-                <button onClick={handleUpdate} className="guide-button edit-button">
+              <div className="flex justify-center space-x-4">
+                <button 
+                  onClick={handleUpdate} 
+                  className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+                >
                   Save Changes
                 </button>
-                <button onClick={() => setEditing(false)} className="guide-button logout-button">
+                <button 
+                  onClick={() => setEditing(false)} 
+                  className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-200"
+                >
                   Cancel
                 </button>
               </div>

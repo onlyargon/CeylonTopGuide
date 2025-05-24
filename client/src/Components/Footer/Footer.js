@@ -44,10 +44,10 @@ function Footer() {
                     <div className="links-column">
                         <h3>Follow Us On:</h3>
                         <div className="social-icons">
-                            <a href="https://facebook.com"><FontAwesomeIcon icon={faFacebook} /></a>
-                            <a href="https://instagram.com"><FontAwesomeIcon icon={faInstagram} /></a>
-                            <a href="https://linkedin.com"><FontAwesomeIcon icon={faLinkedin} /></a>
-                            <a href="https://twitter.com"><FontAwesomeIcon icon={faTwitter} /></a>
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTwitter} /></a>
                         </div>
                     </div>
                 </div>
