@@ -5,6 +5,7 @@ import "./GuideProfile.css";
 import Header from "../Header/Header";
 import instance from "../Instance/Instance";
 import { FaWhatsapp, FaImages, FaUserTie } from "react-icons/fa";
+import { QRCodeSVG } from "qrcode.react";
 
 const GuideProfile = () => {
   const [guide, setGuide] = useState(null);
@@ -1163,6 +1164,17 @@ const GuideProfile = () => {
                       <p><strong>Rate:</strong> Not set</p>
                     )}
                     <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
+                    {guide._id && (
+                    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                      <QRCodeSVG
+                        value={`${window.location.origin}/guides/${guide._id}`}
+                        size={100}
+                        level="H"
+                        includeMargin={true}
+                      />
+                      <p className="text-left">Scan to view public profile</p>
+                    </div>
+                  )}
                   </div>
                 )}
               </div>

@@ -172,7 +172,7 @@ const LandingPage = () => {
                                         damping: 6
                                     }}
                                 >
-                                    <Link to="/guideRegister" className="register-button">Register as a Guide</Link>
+                                    <Link to="/guideRegister" className="register-button">Register</Link>
                                 </motion.div>
 
                                 <motion.div
@@ -186,7 +186,7 @@ const LandingPage = () => {
                                         damping: 6
                                     }}
                                 >
-                                    <Link to="/guideLogin" className="auth-link">Login</Link>
+                                    <Link to="/guideLogin" className="auth-link hover:bg-pureWhite hover:text-primaryGreen">Login</Link>
                                 </motion.div>
                             </div>
                         )}

@@ -5,6 +5,7 @@ import './PublicGuideProfile.css';
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer";
 import { FaWhatsapp, FaImages, FaUserTie, FaTimes } from 'react-icons/fa';
+import { QRCodeSVG } from "qrcode.react";
 
 const PublicGuideProfile = () => {
   const { id } = useParams();
@@ -35,7 +36,7 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 4*5000);
+    }, 4 * 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -202,6 +203,7 @@ const PublicGuideProfile = () => {
                   e.target.src = '/default-profile.png';
                 }}
               />
+
             </div>
           </div>
 
@@ -291,6 +293,19 @@ const PublicGuideProfile = () => {
                   <p><strong>Rate:</strong> Not set</p>
                 )}
                 <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
+                {/* QR Code for public profile */}
+                {guide._id && (
+                  <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                    <QRCodeSVG
+                      value={`${window.location.origin}/guides/${guide._id}`}
+                      size={100}
+                      level="H"
+                      includeMargin={true}
+                    />
+                    <p className="text-left">Scan to view this profile</p>
+                  </div>
+                )}
+
               </div>
             )}
           </div>
