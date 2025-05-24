@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './GuideList.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
@@ -100,137 +99,181 @@ const GuideList = () => {
   return (
     <>
       <Header />
-      <div className="guide-list-container">
-        <div className={`sidebar ${isFiltersExpanded ? 'expanded' : 'collapsed'}`}>
+      <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 lg:p-8 bg-[#f8f8f8] min-h-screen font-['Helvetica','Arial',sans-serif]">
+        <div className={`w-full md:w-[280px] lg:w-[300px] bg-white rounded-lg shadow-md border border-[#e0e0e0] p-0 md:p-5 lg:p-6 md:sticky md:top-20 md:h-[calc(100vh-100px)] md:overflow-y-auto relative ${isFiltersExpanded ? 'block' : 'block md:block'}`}>
           <button
-            className={`filter-toggle ${isFiltersExpanded ? 'expanded' : ''}`}
+            className={`w-full bg-pureWhite text-white border-none py-3 rounded-t-lg md:rounded-md mb-0 md:mb-4 font-semibold cursor-pointer relative transition-all duration-300 hover:bg-pureWhite md:hidden ${isFiltersExpanded ? 'after:content-["▲"]' : 'after:content-["▼"]'} after:absolute after:right-4 after:top-1/2 after:-translate-y-1/2 after:text-sm`}
             onClick={toggleFilters}
           >
             {isFiltersExpanded ? 'Hide Filters' : 'Show Filters'}
           </button>
 
-          <div className="filter-content">
-            <div className="search-container mb-6 w-[300px] flex ">
+          <div className={`${isFiltersExpanded ? 'block p-4' : 'hidden'} md:block md:p-0`}>
+            <div className="mb-6 w-full">
               <input
                 type="text"
                 placeholder="Search by guide name or region..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className=" w-[240px] p-2 border border-defaultGrey rounded-[5px] focus:outline-none focus:ring-[1px] focus:ring-primaryGreen text-xs "
+                className="w-full p-2 border border-[#e0e0e0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#2c5d3f] text-sm"
               />
             </div>
-            <h3>Filter By</h3>
-            <div className="filter-group">
-              <label>Rank</label>
-              {guideRanks.map(rank => (
-                <div key={rank}>
-                  <input
-                    type="radio"
-                    name="rank"
-                    value={rank}
-                    onChange={handleChange}
-                    checked={filters.rank === rank}
-                  /> {rank}
-                </div>
-              ))}
-            </div>
-
-            {/* Other filter groups remain the same */}
-            <div className="filter-group">
-              <label>Language</label>
-              {languages.map(lang => (
-                <div key={lang}>
-                  <input
-                    type="radio"
-                    name="language"
-                    value={lang}
-                    onChange={handleChange}
-                    checked={filters.language === lang}
-                  /> {lang}
-                </div>
-              ))}
-            </div>
-
-            <div className="filter-group">
-              <label>Experience</label>
-              <select name="experience" value={filters.experience} onChange={handleChange}>
-                {experienceOptions.map(exp => (
-                  <option key={exp} value={exp}>
-                    {exp === '10+' ? '10+ years' : `${exp} years`}
-                  </option>
+            <h3 className="text-[#2c5d3f] text-lg mb-4 pb-2 border-b-2 border-[#e0e0e0]">Filter By</h3>
+            
+            {/* Filter Groups */}
+            <div className="space-y-6">
+              {/* Rank Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Rank</label>
+                {guideRanks.map(rank => (
+                  <div key={rank} className="mb-1 text-sm">
+                    <input
+                      type="radio"
+                      name="rank"
+                      value={rank}
+                      onChange={handleChange}
+                      checked={filters.rank === rank}
+                      className="mr-2 accent-[#2c5d3f]"
+                    /> {rank}
+                  </div>
                 ))}
-              </select>
-            </div>
+              </div>
 
-            <div className="filter-group">
-              <label>Specialty</label>
-              <select name="specialty" value={filters.specialty} onChange={handleChange}>
-                {specialtyOptions.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
+              {/* Language Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Language</label>
+                {languages.map(lang => (
+                  <div key={lang} className="mb-1 text-sm">
+                    <input
+                      type="radio"
+                      name="language"
+                      value={lang}
+                      onChange={handleChange}
+                      checked={filters.language === lang}
+                      className="mr-2 accent-[#2c5d3f]"
+                    /> {lang}
+                  </div>
                 ))}
-              </select>
-            </div>
+              </div>
 
-            <div className="filter-group">
-              <label>Region</label>
-              <select name="region" value={filters.region} onChange={handleChange}>
-                {tourRegions.map(r => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
+              {/* Experience Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Experience</label>
+                <select 
+                  name="experience" 
+                  value={filters.experience} 
+                  onChange={handleChange}
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                >
+                  {experienceOptions.map(exp => (
+                    <option key={exp} value={exp}>
+                      {exp === '10+' ? '10+ years' : `${exp} years`}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="filter-group">
-              <label>Availability</label>
-              <select name="availability" value={filters.availability} onChange={handleChange}>
-                {availableDays.map(a => (
-                  <option key={a} value={a}>{a}</option>
-                ))}
-              </select>
-            </div>
+              {/* Specialty Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Specialty</label>
+                <select 
+                  name="specialty" 
+                  value={filters.specialty} 
+                  onChange={handleChange}
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                >
+                  {specialtyOptions.map(opt => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="filter-group">
-              <label>Hourly Rate (Max)</label>
-              <input
-                type="number"
-                name="maxHourlyRate"
-                value={filters.maxHourlyRate}
-                onChange={handleChange}
-                placeholder="Enter max rate"
-              />
-            </div>
+              {/* Region Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Region</label>
+                <select 
+                  name="region" 
+                  value={filters.region} 
+                  onChange={handleChange}
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                >
+                  {tourRegions.map(r => (
+                    <option key={r} value={r}>{r}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="filter-group">
-              <label>Daily Rate (Max)</label>
-              <input
-                type="number"
-                name="maxDailyRate"
-                value={filters.maxDailyRate}
-                onChange={handleChange}
-                placeholder="Enter max rate"
-              />
-            </div>
+              {/* Availability Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Availability</label>
+                <select 
+                  name="availability" 
+                  value={filters.availability} 
+                  onChange={handleChange}
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                >
+                  {availableDays.map(a => (
+                    <option key={a} value={a}>{a}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="filter-group">
-              <label>Payment Method</label>
-              <select name="paymentMethod" value={filters.paymentMethod} onChange={handleChange}>
-                <option value="All">All</option>
-                <option value="Cash">Cash</option>
-                <option value="Credit Card">Credit Card</option>
-                <option value="PayPal">PayPal</option>
-                <option value="Bank Transfer">Bank Transfer</option>
-              </select>
+              {/* Hourly Rate Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Hourly Rate (Max)</label>
+                <input
+                  type="number"
+                  name="maxHourlyRate"
+                  value={filters.maxHourlyRate}
+                  onChange={handleChange}
+                  placeholder="Enter max rate"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                />
+              </div>
+
+              {/* Daily Rate Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Daily Rate (Max)</label>
+                <input
+                  type="number"
+                  name="maxDailyRate"
+                  value={filters.maxDailyRate}
+                  onChange={handleChange}
+                  placeholder="Enter max rate"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                />
+              </div>
+
+              {/* Payment Method Filter */}
+              <div className="bg-[#f9f9f9] p-4 rounded-md border border-[#e0e0e0]">
+                <label className="block font-semibold mb-2 text-sm text-gray-700">Payment Method</label>
+                <select 
+                  name="paymentMethod" 
+                  value={filters.paymentMethod} 
+                  onChange={handleChange}
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                >
+                  <option value="All">All</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Credit Card">Credit Card</option>
+                  <option value="PayPal">PayPal</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="w-[200vh]">
-          <div className="grid grid-cols-4 gap-[50px]">
+        <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {guides.map(guide => (
-              <div key={guide._id} className="w-[320px] h-[500px] rounded-[15px] p-4 bg-default-gradient shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out">
+              <div 
+                key={guide._id} 
+                className="bg-default-gradient rounded-lg p-6 shadow-md hover:-translate-y-1 transition-all duration-300 border border-[#e0e0e0] flex flex-col min-h-[600px] md:min-h-[550px]"
+              >
                 <div className="flex justify-center">
                   <img
-                    className="w-[200px] h-[200px] object-cover rounded-full border-[1px] border-primaryGreen shadow-md"
+                    className="w-[200px] h-[200px] object-cover rounded-full border border-[#2c5d3f] shadow-md"
                     src={getCloudinaryUrl(guide.profilePhoto)}
                     alt={guide.fullName}
                     onError={(e) => {
@@ -239,20 +282,23 @@ const GuideList = () => {
                     }}
                   />
                 </div>
-                <div className="text-center items-center mt-[20px]">
-                  <p className="text-[18px] uppercase">{guide.fullName}</p>
-                  <p className="text-[14px]">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
-                  <span className="text-[12px]">
-                    <p className="mt-[20px]">Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
+                <div className="text-center mt-5">
+                  <h4 className="text-lg font-semibold text-[#2c5d3f] mb-2">{guide.fullName}</h4>
+                  <p className="text-sm text-gray-600 mb-4">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
+                  <div className="text-xs text-gray-600 space-y-2">
+                    <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
                     <p>Experience: {guide.professionalDetails?.experienceYears} yrs</p>
                     <p>Specialty: {guide.professionalDetails?.specialties?.join(', ')}</p>
                     <p>Region: {guide.professionalDetails?.tourRegions?.join(', ')}</p>
                     <p>Hourly: ${guide.pricing?.hourlyRate}</p>
                     <p>Daily: ${guide.pricing?.dailyRate}</p>
-                  </span>
-                  <button className="mt-[10px] p-2 border-[1px] shadow-md bg-primaryGreen text-pureWhite hover:text-primaryGreen hover:bg-pureWhite transition duration-300 ease-in-out rounded-[5px] text-[14px] uppercase">
-                    <Link to={`/guides/${guide._id}`}>View Details</Link>
-                  </button>
+                  </div>
+                  <Link 
+                    to={`/guides/${guide._id}`}
+                    className="inline-block mt-6 bg-[#2c5d3f] text-pureWhite font-semibold px-4 py-2 rounded-md hover:bg-[#224830] transition-colors duration-300"
+                  >
+                    View Details
+                  </Link>
                 </div>
               </div>
             ))}
