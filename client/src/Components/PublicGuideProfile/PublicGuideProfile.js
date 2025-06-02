@@ -191,6 +191,9 @@ const PublicGuideProfile = () => {
                 <span className="public-guide-phone">
                   <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
                 </span>
+                <span className="guide-profile-phone">
+                      <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
+                    </span>
               </div>
             </div>
 
