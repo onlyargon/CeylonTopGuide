@@ -84,6 +84,7 @@
     width: 100%;
     padding: 12px;
     background-color: #eeeded;
+    color: #000000;
     border: 0px solid #000000;
     border-radius: 6px;
     transition: border-color 0.3s ease-in-out;
