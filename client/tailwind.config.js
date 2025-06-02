@@ -6,11 +6,14 @@ module.exports = {
   theme: {
     colors: {
       primaryGreen: '#2c5d3f',
+      secondaryGreen: '#4f946a',
       champYellow: '#ffd700',
       champSliver: '#C0C0C0',
       champBronze: '#804A00',
       pureWhite: '#ffffff',
-      defaultGrey: 'rgb(141, 141, 141)'
+      defaultGrey: 'rgb(141, 141, 141)',
+      defaultBlack: '#000000',
+      defaultRed: '#a1020a',
     },
     extend: {
       backgroundImage: {

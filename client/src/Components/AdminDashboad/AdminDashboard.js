@@ -24,18 +24,56 @@ const AdminPanel = () => {
   const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/guides/unverified`)
-      .then((res) => setGuides(res.data))
-      .catch((err) => console.error(err));
+    const fetchUnverifiedGuides = async () => {
+      try {
+        // Try the original API URL first
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/unverified`, {
+          withCredentials: true
+        });
+        setGuides(response.data);
+      } catch (error) {
+        console.error('Primary API call failed, trying localhost:', error);
+        try {
+          // Fallback to localhost:5000
+          const localResponse = await axios.get('http://localhost:5000/guides/unverified', {
+            withCredentials: true
+          });
+          setGuides(localResponse.data);
+        } catch (localError) {
+          console.error('Local API call also failed:', localError);
+          setGuides([]);
+        }
+      }
+    };
+
+    fetchUnverifiedGuides();
   }, []);
 
   useEffect(() => {
-    const endpoint = showAllGuides ? '/verified/all' : '/verified';
-    axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/guides${endpoint}`)
-      .then((res) => setVerifiedGuides(res.data))
-      .catch((err) => console.error(err));
+    const fetchVerifiedGuides = async () => {
+      const endpoint = showAllGuides ? '/guides/verified/all' : '/guides/verified';
+      try {
+        // Try the original API URL first
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, {
+          withCredentials: true
+        });
+        setVerifiedGuides(response.data);
+      } catch (error) {
+        console.error('Primary API call failed, trying localhost:', error);
+        try {
+          // Fallback to localhost:5000
+          const localResponse = await axios.get(`http://localhost:5000${endpoint}`, {
+            withCredentials: true
+          });
+          setVerifiedGuides(localResponse.data);
+        } catch (localError) {
+          console.error('Local API call also failed:', localError);
+          setVerifiedGuides([]);
+        }
+      }
+    };
+
+    fetchVerifiedGuides();
   }, [view, showAllGuides]);
 
   const getCloudinaryUrl = (publicId, width = 300) => {
@@ -236,10 +274,10 @@ const AdminPanel = () => {
         <button 
           onClick={() => setView("pending")} 
           disabled={view === "pending"}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+          className={`px-4 py-1.5 text-sm rounded-lg font-medium transition-colors ${
             view === "pending" 
-              ? "bg-blue-600 text-white cursor-not-allowed" 
-              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+              ? "bg-primaryGreen text-pureWhite cursor-not-allowed" 
+              : "bg-defaultGrey hover:defaultBlack text-pureWhite"
           }`}
         >
           Pending Requests
@@ -247,10 +285,10 @@ const AdminPanel = () => {
         <button 
           onClick={() => setView("verified")} 
           disabled={view === "verified"}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+          className={`px-4 py-1.5 text-sm rounded-lg font-medium transition-colors ${
             view === "verified" 
-              ? "bg-blue-600 text-white cursor-not-allowed" 
-              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+              ? "bg-primaryGreen text-pureWhite cursor-not-allowed" 
+              : "bg-defaultGrey hover:defaultBlack text-pureWhite"
           }`}
         >
           Verified Guides
@@ -334,7 +372,7 @@ const AdminPanel = () => {
                       <img
                         src={getCloudinaryUrl(guide.verificationDocuments.governmentID)}
                         alt="Government ID"
-                        className="w-40 h-40 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+                        className="w-100% h-100% object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                         onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.governmentID, 800))}
                       />
                     ) : (
@@ -348,7 +386,7 @@ const AdminPanel = () => {
                       <img
                         src={getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense)}
                         alt="Tour Guide License"
-                        className="w-40 h-40 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+                        className="w-100% h-100% object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                         onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense, 800))}
                       />
                     ) : (
@@ -361,13 +399,13 @@ const AdminPanel = () => {
               <div className="mt-6 flex gap-4">
                 <button 
                   onClick={() => approveGuide(guide._id)}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-primaryGreen text-pureWhite rounded-lg hover:secondaryGreen transition-colors"
                 >
                   Approve
                 </button>
                 <button 
                   onClick={() => handleRejectGuide(guide._id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-defaultRed text-pureWhite rounded-lg transition-colors"
                 >
                   Reject
                 </button>
@@ -376,8 +414,8 @@ const AdminPanel = () => {
           ))}
 
           {showRejectionModal && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4">
+            <div className="fixed inset-0 bg-pureBlack flex items-center justify-center z-50">
+              <div className="bg-pureWhite rounded-lg p-6 w-full max-w-lg mx-4 shadow-lg border border-defaultGrey">
                 <h3 className="text-xl font-semibold mb-4">Select Rejection Reasons</h3>
 
                 <div className="space-y-4">
@@ -445,7 +483,7 @@ const AdminPanel = () => {
                   </button>
                   <button
                     onClick={confirmRejection}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    className="px-4 py-2 bg-defaultRed text-pureWhite rounded-lg hover:bg-defaultRed transition-colors"
                   >
                     Confirm Rejection
                   </button>
@@ -511,14 +549,14 @@ const AdminPanel = () => {
                 {guide.isActive ? (
                   <button
                     onClick={() => deactivateGuide(guide._id)}
-                    className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
+                    className="px-3 py-1 text-sm bg-[#f44336] text-[#ffffff] rounded-lg hover:bg-[#f55549] transition-colors"
                   >
                     Deactivate
                   </button>
                 ) : (
                   <button
                     onClick={() => reactivateGuide(guide._id)}
-                    className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
+                    className="px-3 py-1 text-sm bg-[#4CAF50] text-[#ffffff] rounded-lg hover:bg-[#45a049] transition-colors"
                   >
                     Reactivate
                   </button>
@@ -526,7 +564,7 @@ const AdminPanel = () => {
 
                 <button
                   onClick={() => deleteGuide(guide._id, false)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-defaultRed text-pureWhite rounded-lg transition-colors"
                 >
                   Delete Guide
                 </button>
@@ -536,7 +574,7 @@ const AdminPanel = () => {
                     fetchReviewsForGuide(guide._id);
                     setExpandedGuideId(expandedGuideId === guide._id ? null : guide._id);
                   }}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-primaryGreen text-[#ffffff] rounded-lg hover:bg-[#45a049] transition-colors"
                 >
                   {expandedGuideId === guide._id ? 'Hide Reviews' : 'View Reviews'}
                 </button>
@@ -558,7 +596,7 @@ const AdminPanel = () => {
                           </div>
                           <button
                             onClick={() => deleteReview(review._id, guide._id)}
-                            className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                            className="px-2 py-0.5 text-xs bg-[#f44336] text-[#ffffff] rounded hover:bg-[#f55549] transition-colors"
                           >
                             Delete
                           </button>
