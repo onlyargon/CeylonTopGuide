@@ -30,10 +30,8 @@ const Register = () => {
         governmentID: "",
         tourGuideLicense: "",
         availability: "",
-        minHourlyRate: "",
-        maxHourlyRate: "",
-        minDailyRate: "",
-        maxDailyRate: "",
+        hourlyRate: "",
+        dailyRate: "",
         rateType: "",
         paymentMethods: [],
         username: "",
@@ -297,20 +295,24 @@ const Register = () => {
                 if (!formData.availability) errors.availability = "Availability is required";
                 if (!formData.rateType) errors.rateType = "Please select either hourly or daily rate";
                 if (formData.rateType === "hourly") {
-                    if (!formData.minHourlyRate || !formData.maxHourlyRate) {
+                    const minRate = document.querySelector('input[name="minHourlyRate"]')?.value;
+                    const maxRate = document.querySelector('input[name="maxHourlyRate"]')?.value;
+                    if (!minRate || !maxRate) {
                         errors.hourlyRate = "Hourly Rate range is required";
                     } else {
-                        const combinedRate = combineRates(formData.minHourlyRate, formData.maxHourlyRate);
+                        const combinedRate = combineRates(minRate, maxRate);
                         if (!combinedRate) {
                             errors.hourlyRate = "Please enter valid min and max rates";
                         }
                     }
                 }
                 if (formData.rateType === "daily") {
-                    if (!formData.minDailyRate || !formData.maxDailyRate) {
+                    const minRate = document.querySelector('input[name="minDailyRate"]')?.value;
+                    const maxRate = document.querySelector('input[name="maxDailyRate"]')?.value;
+                    if (!minRate || !maxRate) {
                         errors.dailyRate = "Daily Rate range is required";
                     } else {
-                        const combinedRate = combineRates(formData.minDailyRate, formData.maxDailyRate);
+                        const combinedRate = combineRates(minRate, maxRate);
                         if (!combinedRate) {
                             errors.dailyRate = "Please enter valid min and max rates";
                         }
@@ -386,6 +388,12 @@ const Register = () => {
         }
 
         try {
+            // Get the current min/max values from the form
+            const minHourlyRate = document.querySelector('input[name="minHourlyRate"]')?.value;
+            const maxHourlyRate = document.querySelector('input[name="maxHourlyRate"]')?.value;
+            const minDailyRate = document.querySelector('input[name="minDailyRate"]')?.value;
+            const maxDailyRate = document.querySelector('input[name="maxDailyRate"]')?.value;
+
             // Format the data before sending
             const requestData = {
                 ...formData,
@@ -397,14 +405,9 @@ const Register = () => {
                 experienceYears: Number(formData.experienceYears),
                 // Combine rates into single strings
                 hourlyRate: formData.rateType === 'hourly' ? 
-                    combineRates(formData.minHourlyRate, formData.maxHourlyRate) : null,
+                    combineRates(minHourlyRate, maxHourlyRate) : null,
                 dailyRate: formData.rateType === 'daily' ? 
-                    combineRates(formData.minDailyRate, formData.maxDailyRate) : null,
-                // Remove the individual rate fields
-                minHourlyRate: undefined,
-                maxHourlyRate: undefined,
-                minDailyRate: undefined,
-                maxDailyRate: undefined,
+                    combineRates(minDailyRate, maxDailyRate) : null,
                 // Ensure these are arrays
                 languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
                 specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
@@ -1083,8 +1086,6 @@ const Register = () => {
                                             type="number"
                                             name="minHourlyRate"
                                             placeholder="Min Rate ($)"
-                                            value={formData.minHourlyRate}
-                                            onChange={handleChange}
                                             min="0"
                                             step="0.01"
                                             required
@@ -1094,8 +1095,6 @@ const Register = () => {
                                             type="number"
                                             name="maxHourlyRate"
                                             placeholder="Max Rate ($)"
-                                            value={formData.maxHourlyRate}
-                                            onChange={handleChange}
                                             min="0"
                                             step="0.01"
                                             required
@@ -1115,8 +1114,6 @@ const Register = () => {
                                             type="number"
                                             name="minDailyRate"
                                             placeholder="Min Rate ($)"
-                                            value={formData.minDailyRate}
-                                            onChange={handleChange}
                                             min="0"
                                             step="0.01"
                                             required
@@ -1126,8 +1123,6 @@ const Register = () => {
                                             type="number"
                                             name="maxDailyRate"
                                             placeholder="Max Rate ($)"
-                                            value={formData.maxDailyRate}
-                                            onChange={handleChange}
                                             min="0"
                                             step="0.01"
                                             required
@@ -1369,9 +1364,9 @@ const Register = () => {
                                         <div>
                                             <strong>Rate:</strong>
                                             <p>{formData.rateType === 'hourly' ? 
-                                                `$${formData.minHourlyRate}-$${formData.maxHourlyRate}/hour` : 
+                                                `$${document.querySelector('input[name="minHourlyRate"]')?.value}-$${document.querySelector('input[name="maxHourlyRate"]')?.value}/hour` : 
                                                 formData.rateType === 'daily' ? 
-                                                `$${formData.minDailyRate}-$${formData.maxDailyRate}/day` : 
+                                                `$${document.querySelector('input[name="minDailyRate"]')?.value}-$${document.querySelector('input[name="maxDailyRate"]')?.value}/day` : 
                                                 "Not set"}</p>
                                         </div>
                                         <div>
