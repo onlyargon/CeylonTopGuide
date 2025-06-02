@@ -386,6 +386,9 @@ const Register = () => {
             tourGuideLicense: formData.tourGuideLicense,
         };
 
+        // Log the data being sent
+        console.log("Submitting data:", submitData);
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
@@ -398,6 +401,7 @@ const Register = () => {
             const data = await response.json();
 
             if (!response.ok) {
+                console.error("Server response:", data);
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
                     alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
                     return;
@@ -409,7 +413,11 @@ const Register = () => {
             alert("Registration successful!");
             navigate("/registration-confirmation");
         } catch (error) {
-            console.error("Error submitting form:", error.message);
+            console.error("Error submitting form:", error);
+            console.error("Error details:", {
+                message: error.message,
+                stack: error.stack
+            });
             alert(`Registration failed: ${error.message}`);
         }
     };
