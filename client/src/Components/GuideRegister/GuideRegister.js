@@ -30,8 +30,10 @@ const Register = () => {
         governmentID: "",
         tourGuideLicense: "",
         availability: "",
-        hourlyRate: "",
-        dailyRate: "",
+        minHourlyRate: "",
+        maxHourlyRate: "",
+        minDailyRate: "",
+        maxDailyRate: "",
         rateType: "",
         paymentMethods: [],
         username: "",
@@ -284,15 +286,23 @@ const Register = () => {
             case 6:
                 if (!formData.availability) errors.availability = "Availability is required";
                 if (!formData.rateType) errors.rateType = "Please select either hourly or daily rate";
-                if (formData.rateType === "hourly" && !formData.hourlyRate) {
-                    errors.hourlyRate = "Hourly Rate is required";
-                } else if (formData.rateType === "hourly" && isNaN(formData.hourlyRate)) {
-                    errors.hourlyRate = "Hourly Rate must be a number";
+                if (formData.rateType === "hourly") {
+                    if (!formData.minHourlyRate) errors.minHourlyRate = "Minimum Hourly Rate is required";
+                    else if (isNaN(formData.minHourlyRate)) errors.minHourlyRate = "Minimum Hourly Rate must be a number";
+                    if (!formData.maxHourlyRate) errors.maxHourlyRate = "Maximum Hourly Rate is required";
+                    else if (isNaN(formData.maxHourlyRate)) errors.maxHourlyRate = "Maximum Hourly Rate must be a number";
+                    if (Number(formData.minHourlyRate) > Number(formData.maxHourlyRate)) {
+                        errors.maxHourlyRate = "Maximum rate must be greater than minimum rate";
+                    }
                 }
-                if (formData.rateType === "daily" && !formData.dailyRate) {
-                    errors.dailyRate = "Daily Rate is required";
-                } else if (formData.rateType === "daily" && isNaN(formData.dailyRate)) {
-                    errors.dailyRate = "Daily Rate must be a number";
+                if (formData.rateType === "daily") {
+                    if (!formData.minDailyRate) errors.minDailyRate = "Minimum Daily Rate is required";
+                    else if (isNaN(formData.minDailyRate)) errors.minDailyRate = "Minimum Daily Rate must be a number";
+                    if (!formData.maxDailyRate) errors.maxDailyRate = "Maximum Daily Rate is required";
+                    else if (isNaN(formData.maxDailyRate)) errors.maxDailyRate = "Maximum Daily Rate must be a number";
+                    if (Number(formData.minDailyRate) > Number(formData.maxDailyRate)) {
+                        errors.maxDailyRate = "Maximum rate must be greater than minimum rate";
+                    }
                 }
                 if (formData.paymentMethods.length === 0) errors.paymentMethods = "At least one payment method is required";
                 break;
@@ -363,6 +373,12 @@ const Register = () => {
             return;
         }
 
+        // Combine min and max rates into single strings
+        const hourlyRate = formData.minHourlyRate && formData.maxHourlyRate ? 
+            `${formData.minHourlyRate}-${formData.maxHourlyRate}` : "";
+        const dailyRate = formData.minDailyRate && formData.maxDailyRate ? 
+            `${formData.minDailyRate}-${formData.maxDailyRate}` : "";
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
@@ -371,6 +387,8 @@ const Register = () => {
                 },
                 body: JSON.stringify({
                     ...formData,
+                    hourlyRate,
+                    dailyRate,
                     profilePhoto: formData.profilePhoto,
                     governmentID: formData.governmentID,
                     tourGuideLicense: formData.tourGuideLicense,
@@ -1016,40 +1034,80 @@ const Register = () => {
                             </div>
 
                             {formData.rateType === "hourly" && (
-                                <div className={`registration-form-group ${errors.hourlyRate ? 'error' : ''}`}>
-                                    <label>Hourly Rate</label>
-                                    <p className="registration-sub-label">Enter how much you charge per hour. Use USD (US Dollars).</p>
-                                    <input
-                                        className="registration-input"
-                                        type="number"
-                                        name="hourlyRate"
-                                        placeholder="Hourly Rate ($)"
-                                        value={formData.hourlyRate}
-                                        onChange={handleChange}
-                                        min="0"
-                                        step="0.01"
-                                        required
-                                    />
-                                    {errors.hourlyRate && <span className="registration-error-message">{errors.hourlyRate}</span>}
+                                <div className={`registration-form-group ${errors.minHourlyRate || errors.maxHourlyRate ? 'error' : ''}`}>
+                                    <label>Hourly Rate Range</label>
+                                    <p className="registration-sub-label">Enter your hourly rate range in USD (US Dollars).</p>
+                                    <div className="registration-rate-range">
+                                        <div className="registration-rate-input">
+                                            <label>Minimum Rate</label>
+                                            <input
+                                                className="registration-input"
+                                                type="number"
+                                                name="minHourlyRate"
+                                                placeholder="Min Rate ($)"
+                                                value={formData.minHourlyRate}
+                                                onChange={handleChange}
+                                                min="0"
+                                                step="0.01"
+                                                required
+                                            />
+                                            {errors.minHourlyRate && <span className="registration-error-message">{errors.minHourlyRate}</span>}
+                                        </div>
+                                        <div className="registration-rate-input">
+                                            <label>Maximum Rate</label>
+                                            <input
+                                                className="registration-input"
+                                                type="number"
+                                                name="maxHourlyRate"
+                                                placeholder="Max Rate ($)"
+                                                value={formData.maxHourlyRate}
+                                                onChange={handleChange}
+                                                min="0"
+                                                step="0.01"
+                                                required
+                                            />
+                                            {errors.maxHourlyRate && <span className="registration-error-message">{errors.maxHourlyRate}</span>}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 
                             {formData.rateType === "daily" && (
-                                <div className={`registration-form-group ${errors.dailyRate ? 'error' : ''}`}>
-                                    <label>Daily Rate</label>
-                                    <p className="registration-sub-label">Enter how much you charge per day. Use USD (US Dollars).</p>
-                                    <input
-                                        className="registration-input"
-                                        type="number"
-                                        name="dailyRate"
-                                        placeholder="Daily Rate ($)"
-                                        value={formData.dailyRate}
-                                        onChange={handleChange}
-                                        min="0"
-                                        step="0.01"
-                                        required
-                                    />
-                                    {errors.dailyRate && <span className="registration-error-message">{errors.dailyRate}</span>}
+                                <div className={`registration-form-group ${errors.minDailyRate || errors.maxDailyRate ? 'error' : ''}`}>
+                                    <label>Daily Rate Range</label>
+                                    <p className="registration-sub-label">Enter your daily rate range in USD (US Dollars).</p>
+                                    <div className="registration-rate-range">
+                                        <div className="registration-rate-input">
+                                            <label>Minimum Rate</label>
+                                            <input
+                                                className="registration-input"
+                                                type="number"
+                                                name="minDailyRate"
+                                                placeholder="Min Rate ($)"
+                                                value={formData.minDailyRate}
+                                                onChange={handleChange}
+                                                min="0"
+                                                step="0.01"
+                                                required
+                                            />
+                                            {errors.minDailyRate && <span className="registration-error-message">{errors.minDailyRate}</span>}
+                                        </div>
+                                        <div className="registration-rate-input">
+                                            <label>Maximum Rate</label>
+                                            <input
+                                                className="registration-input"
+                                                type="number"
+                                                name="maxDailyRate"
+                                                placeholder="Max Rate ($)"
+                                                value={formData.maxDailyRate}
+                                                onChange={handleChange}
+                                                min="0"
+                                                step="0.01"
+                                                required
+                                            />
+                                            {errors.maxDailyRate && <span className="registration-error-message">{errors.maxDailyRate}</span>}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 
@@ -1283,12 +1341,16 @@ const Register = () => {
                                             <p>{formData.availability}</p>
                                         </div>
                                         <div>
-                                            <strong>Hourly Rate:</strong>
-                                            <p>{formData.hourlyRate ? `$${formData.hourlyRate}` : "Not set"}</p>
+                                            <strong>Hourly Rate Range:</strong>
+                                            <p>{formData.minHourlyRate && formData.maxHourlyRate ? 
+                                                `$${formData.minHourlyRate} - $${formData.maxHourlyRate}` : 
+                                                "Not set"}</p>
                                         </div>
                                         <div>
-                                            <strong>Daily Rate:</strong>
-                                            <p>{formData.dailyRate ? `$${formData.dailyRate}` : "Not set"}</p>
+                                            <strong>Daily Rate Range:</strong>
+                                            <p>{formData.minDailyRate && formData.maxDailyRate ? 
+                                                `$${formData.minDailyRate} - $${formData.maxDailyRate}` : 
+                                                "Not set"}</p>
                                         </div>
                                         <div>
                                             <strong>Payment Methods:</strong>
