@@ -23,125 +23,19 @@ const AdminPanel = () => {
 
   const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
-  const fetchFromAPI = async (endpoint, options = {}) => {
-    try {
-      // Try the original API URL first
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, {
-        ...options,
-        withCredentials: true
-      });
-      return response;
-    } catch (error) {
-      console.error('Primary API call failed, trying localhost:', error);
-      try {
-        // Fallback to localhost:5000
-        const localResponse = await axios.get(`http://localhost:5000${endpoint}`, {
-          ...options,
-          withCredentials: true
-        });
-        return localResponse;
-      } catch (localError) {
-        console.error('Local API call also failed:', localError);
-        throw localError;
-      }
-    }
-  };
-
-  const postToAPI = async (endpoint, data, options = {}) => {
-    try {
-      // Try the original API URL first
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, data, {
-        ...options,
-        withCredentials: true
-      });
-      return response;
-    } catch (error) {
-      console.error('Primary API call failed, trying localhost:', error);
-      try {
-        // Fallback to localhost:5000
-        const localResponse = await axios.post(`http://localhost:5000${endpoint}`, data, {
-          ...options,
-          withCredentials: true
-        });
-        return localResponse;
-      } catch (localError) {
-        console.error('Local API call also failed:', localError);
-        throw localError;
-      }
-    }
-  };
-
-  const putToAPI = async (endpoint, data, options = {}) => {
-    try {
-      // Try the original API URL first
-      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, data, {
-        ...options,
-        withCredentials: true
-      });
-      return response;
-    } catch (error) {
-      console.error('Primary API call failed, trying localhost:', error);
-      try {
-        // Fallback to localhost:5000
-        const localResponse = await axios.put(`http://localhost:5000${endpoint}`, data, {
-          ...options,
-          withCredentials: true
-        });
-        return localResponse;
-      } catch (localError) {
-        console.error('Local API call also failed:', localError);
-        throw localError;
-      }
-    }
-  };
-
-  const deleteFromAPI = async (endpoint, options = {}) => {
-    try {
-      // Try the original API URL first
-      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, {
-        ...options,
-        withCredentials: true
-      });
-      return response;
-    } catch (error) {
-      console.error('Primary API call failed, trying localhost:', error);
-      try {
-        // Fallback to localhost:5000
-        const localResponse = await axios.delete(`http://localhost:5000${endpoint}`, {
-          ...options,
-          withCredentials: true
-        });
-        return localResponse;
-      } catch (localError) {
-        console.error('Local API call also failed:', localError);
-        throw localError;
-      }
-    }
-  };
-
   useEffect(() => {
-    const fetchUnverifiedGuides = async () => {
-      try {
-        const response = await fetchFromAPI('/guides/unverified');
-        setGuides(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchUnverifiedGuides();
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/guides/unverified`)
+      .then((res) => setGuides(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
-    const fetchVerifiedGuides = async () => {
-      try {
-        const endpoint = showAllGuides ? '/guides/verified/all' : '/guides/verified';
-        const response = await fetchFromAPI(endpoint);
-        setVerifiedGuides(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchVerifiedGuides();
+    const endpoint = showAllGuides ? '/verified/all' : '/verified';
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/guides${endpoint}`)
+      .then((res) => setVerifiedGuides(res.data))
+      .catch((err) => console.error(err));
   }, [view, showAllGuides]);
 
   const getCloudinaryUrl = (publicId, width = 300) => {
@@ -167,7 +61,7 @@ const AdminPanel = () => {
 
     setIsSendingEmail(true);
     try {
-      const response = await putToAPI(`/guides/approve/${id}`);
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/guides/approve/${id}`);
       alert(response.data.message);
       setGuides(guides.filter((guide) => guide._id !== id));
     } catch (err) {
@@ -181,39 +75,39 @@ const AdminPanel = () => {
     }
   };
 
-  const rejectGuide = async (id) => {
-    try {
-      await deleteFromAPI(`/guides/reject/${id}`);
-      setGuides(guides.filter((guide) => guide._id !== id));
-    } catch (err) {
-      console.error(err);
-    }
+  const rejectGuide = (id) => {
+    axios
+      .delete(`${process.env.REACT_APP_API_BASE_URL}/guides/reject/${id}`)
+      .then(() => setGuides(guides.filter((guide) => guide._id !== id)))
+      .catch((err) => console.error(err));
   };
 
-  const deleteGuide = async (id, fromVerified) => {
+  const deleteGuide = (id, fromVerified) => {
     const confirmed = window.confirm("Are you sure you want to delete this guide? This action cannot be undone.");
     if (!confirmed) return;
 
-    try {
-      await deleteFromAPI(`/guides/delete/${id}`);
-      alert("Guide deleted successfully.");
-      window.location.reload();
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while trying to delete the guide.");
-    }
+    axios
+      .delete(`${process.env.REACT_APP_API_BASE_URL}/guides/delete/${id}`)
+      .then(() => {
+        alert("Guide deleted successfully.");
+        window.location.reload(); // Refresh the page to reflect the change
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("An error occurred while trying to delete the guide.");
+      });
   };
 
-  const fetchReviewsForGuide = async (guideId) => {
-    try {
-      const response = await fetchFromAPI(`/reviews/guide/${guideId}`);
-      setReviewsByGuide((prev) => ({
-        ...prev,
-        [guideId]: response.data,
-      }));
-    } catch (err) {
-      console.error(err);
-    }
+  const fetchReviewsForGuide = (guideId) => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/reviews/guide/${guideId}`)
+      .then((res) =>
+        setReviewsByGuide((prev) => ({
+          ...prev,
+          [guideId]: res.data,
+        }))
+      )
+      .catch((err) => console.error(err));
   };
 
   const deleteReview = async (reviewId, guideId) => {
@@ -221,10 +115,10 @@ const AdminPanel = () => {
     if (!confirmed) return;
 
     try {
-      await deleteFromAPI(`/reviews/${reviewId}`);
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/reviews/${reviewId}`);
       alert("Review deleted successfully.");
 
-      const updatedReviews = await fetchFromAPI(`/reviews/guide/${guideId}`);
+      const updatedReviews = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/reviews/guide/${guideId}`);
       setReviewsByGuide((prev) => ({
         ...prev,
         [guideId]: updatedReviews.data
@@ -240,9 +134,10 @@ const AdminPanel = () => {
     if (!confirmed) return;
 
     try {
-      await putToAPI(`/guides/deactivate/${id}`);
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/guides/deactivate/${id}`);
       alert("Guide deactivated successfully.");
-      const res = await fetchFromAPI('/guides/verified');
+      // Refresh the verified guides list
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/verified`);
       setVerifiedGuides(res.data);
     } catch (error) {
       console.error("Failed to deactivate guide:", error);
@@ -255,9 +150,10 @@ const AdminPanel = () => {
     if (!confirmed) return;
 
     try {
-      await putToAPI(`/guides/reactivate/${id}`);
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/guides/reactivate/${id}`);
       alert("Guide reactivated successfully.");
-      const res = await fetchFromAPI('/guides/verified');
+      // Refresh the verified guides list
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/verified`);
       setVerifiedGuides(res.data);
     } catch (error) {
       console.error("Failed to reactivate guide:", error);
@@ -274,6 +170,7 @@ const AdminPanel = () => {
     const confirmed = window.confirm("Are you sure you want to reject this application?");
     if (!confirmed) return;
 
+    // Prepare rejection reasons for API
     const reasonsToSend = [];
 
     if (rejectionReasons.incompleteDocuments) {
@@ -307,7 +204,7 @@ const AdminPanel = () => {
     }
 
     try {
-      await deleteFromAPI(`/guides/reject/${currentGuideId}`, {
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/guides/reject/${currentGuideId}`, {
         data: { rejectionReasons: reasonsToSend }
       });
 
