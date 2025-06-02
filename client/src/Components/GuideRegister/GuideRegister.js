@@ -374,20 +374,49 @@ const Register = () => {
         }
 
         try {
+            // Format the data before sending
+            const requestData = {
+                ...formData,
+                // Ensure these are strings
+                email: formData.email?.trim(),
+                phone: formData.phone?.trim(),
+                username: formData.username?.trim(),
+                // Ensure these are numbers
+                experienceYears: Number(formData.experienceYears),
+                minHourlyRate: formData.rateType === 'hourly' ? Number(formData.minHourlyRate) : null,
+                maxHourlyRate: formData.rateType === 'hourly' ? Number(formData.maxHourlyRate) : null,
+                minDailyRate: formData.rateType === 'daily' ? Number(formData.minDailyRate) : null,
+                maxDailyRate: formData.rateType === 'daily' ? Number(formData.maxDailyRate) : null,
+                // Ensure these are arrays
+                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
+                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
+                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
+                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
+                // Ensure address is properly formatted
+                address: {
+                    street: formData.address.street?.trim(),
+                    city: formData.address.city?.trim(),
+                    district: formData.address.district?.trim(),
+                    province: formData.address.province?.trim(),
+                },
+                // Keep the file URLs
+                profilePhoto: formData.profilePhoto,
+                governmentID: formData.governmentID,
+                tourGuideLicense: formData.tourGuideLicense,
+            };
+
+            console.log('Sending registration data:', requestData);
+
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    ...formData,
-                    profilePhoto: formData.profilePhoto,
-                    governmentID: formData.governmentID,
-                    tourGuideLicense: formData.tourGuideLicense,
-                }),
+                body: JSON.stringify(requestData),
             });
 
             const data = await response.json();
+            console.log('Server response:', data);
 
             if (!response.ok) {
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
@@ -402,6 +431,7 @@ const Register = () => {
             navigate("/registration-confirmation");
         } catch (error) {
             console.error("Error submitting form:", error.message);
+            console.error("Full error:", error);
             alert(`Registration failed: ${error.message}`);
         }
     };
