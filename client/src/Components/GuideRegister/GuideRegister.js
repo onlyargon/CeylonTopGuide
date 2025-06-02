@@ -373,6 +373,13 @@ const Register = () => {
             return;
         }
 
+        // Create a new object without the min/max rate fields
+        const { minHourlyRate, maxHourlyRate, minDailyRate, maxDailyRate, ...formDataWithoutRates } = formData;
+
+        // Combine min and max rates into single fields
+        const hourlyRate = minHourlyRate && maxHourlyRate ? `${minHourlyRate}-${maxHourlyRate}` : "";
+        const dailyRate = minDailyRate && maxDailyRate ? `${minDailyRate}-${maxDailyRate}` : "";
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
@@ -380,7 +387,9 @@ const Register = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ...formData,
+                    ...formDataWithoutRates,
+                    hourlyRate,
+                    dailyRate,
                     profilePhoto: formData.profilePhoto,
                     governmentID: formData.governmentID,
                     tourGuideLicense: formData.tourGuideLicense,
@@ -1028,7 +1037,7 @@ const Register = () => {
                             {formData.rateType === "hourly" && (
                                 <div className={`registration-form-group ${errors.minHourlyRate || errors.maxHourlyRate ? 'error' : ''}`}>
                                     <label>Hourly Rate Range</label>
-                                    <p className="registration-sub-label">Enter your minimum and maximum hourly rates in USD (US Dollars).</p>
+                                    <p className="registration-sub-label">Enter your hourly rate range in USD (US Dollars).</p>
                                     <div className="registration-rate-range">
                                         <div className="registration-rate-input">
                                             <label>Minimum Rate</label>
@@ -1067,7 +1076,7 @@ const Register = () => {
                             {formData.rateType === "daily" && (
                                 <div className={`registration-form-group ${errors.minDailyRate || errors.maxDailyRate ? 'error' : ''}`}>
                                     <label>Daily Rate Range</label>
-                                    <p className="registration-sub-label">Enter your minimum and maximum daily rates in USD (US Dollars).</p>
+                                    <p className="registration-sub-label">Enter your daily rate range in USD (US Dollars).</p>
                                     <div className="registration-rate-range">
                                         <div className="registration-rate-input">
                                             <label>Minimum Rate</label>
