@@ -231,307 +231,294 @@ const AdminPanel = () => {
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: "20px" }}>
-        <button onClick={() => setView("pending")} disabled={view === "pending"}>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex gap-4 mb-8">
+        <button 
+          onClick={() => setView("pending")} 
+          disabled={view === "pending"}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            view === "pending" 
+              ? "bg-blue-600 text-white cursor-not-allowed" 
+              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+          }`}
+        >
           Pending Requests
         </button>
-        <button onClick={() => setView("verified")} disabled={view === "verified"}>
+        <button 
+          onClick={() => setView("verified")} 
+          disabled={view === "verified"}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            view === "verified" 
+              ? "bg-blue-600 text-white cursor-not-allowed" 
+              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+          }`}
+        >
           Verified Guides
         </button>
       </div>
 
       {view === "pending" ? (
         <>
-          <h2>Pending Approvals</h2>
+          <h2 className="text-2xl font-bold mb-6">Pending Approvals</h2>
           {guides.map((guide) => (
-            <div key={guide._id} style={{ marginBottom: "30px", padding: "15px", border: "1px solid #ccc", borderRadius: "8px" }}>
-              <h3>{guide.fullName}</h3>
-              <div>
-                <p><strong>Profile Photo:</strong></p>
-                {guide.profilePhoto && (
-                  <div style={{ position: 'relative' }}>
-                    {imageLoading[`profile-${guide._id}`] && (
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'rgba(255,255,255,0.7)'
-                      }}>
-                        Loading...
-                      </div>
-                    )}
-                    <img
-                      src={getCloudinaryUrl(guide.profilePhoto)}
-                      alt="Profile Photo"
-                      width="150"
-                      style={{ cursor: "pointer", border: "1px solid #ccc" }}
-                      onLoad={() => setImageLoading(prev => ({ ...prev, [`profile-${guide._id}`]: false }))}
-                      onError={() => setImageLoading(prev => ({ ...prev, [`profile-${guide._id}`]: false }))}
-                    />
-                  </div>
+            <div key={guide._id} className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 className="text-xl font-semibold mb-4">{guide.fullName}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p className="font-medium mb-2">Profile Photo:</p>
+                  {guide.profilePhoto && (
+                    <div className="relative">
+                      {imageLoading[`profile-${guide._id}`] && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+                          Loading...
+                        </div>
+                      )}
+                      <img
+                        src={getCloudinaryUrl(guide.profilePhoto)}
+                        alt="Profile Photo"
+                        className="w-40 h-40 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+                        onLoad={() => setImageLoading(prev => ({ ...prev, [`profile-${guide._id}`]: false }))}
+                        onError={() => setImageLoading(prev => ({ ...prev, [`profile-${guide._id}`]: false }))}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <p><span className="font-medium">Email:</span> {guide.contact?.email || "N/A"}</p>
+                  <p><span className="font-medium">Phone:</span> {guide.contact?.phone || "N/A"}</p>
+                  <p><span className="font-medium">Date of Birth:</span> {guide.dateOfBirth || "N/A"}</p>
+                  <p><span className="font-medium">Gender:</span> {guide.gender || "N/A"}</p>
+                  <p><span className="font-medium">Nationality:</span> {guide.nationality || "N/A"}</p>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold mb-2">Address</h4>
+                {guide.contact?.address ? (
+                  <p className="text-gray-700">
+                    {guide.contact.address.street}, {guide.contact.address.city}, {guide.contact.address.district}, {guide.contact.address.province}
+                  </p>
+                ) : (
+                  <p className="text-gray-500">No address provided</p>
                 )}
               </div>
-              <p><strong>Email:</strong> {guide.contact?.email || "N/A"}</p>
-              <p><strong>Phone:</strong> {guide.contact?.phone || "N/A"}</p>
-              <p><strong>Date of Birth:</strong> {guide.dateOfBirth || "N/A"}</p>
-              <p><strong>Gender:</strong> {guide.gender || "N/A"}</p>
-              <p><strong>Nationality:</strong> {guide.nationality || "N/A"}</p>
 
-              <h4>Address</h4>
-              {guide.contact?.address ? (
-                <p>
-                  {guide.contact.address.street}, {guide.contact.address.city}, {guide.contact.address.district}, {guide.contact.address.province}
-                </p>
-              ) : (
-                <p>No address provided</p>
-              )}
-
-              <h4>Professional Details</h4>
-              <p><strong>Guide Rank:</strong> {guide.guideRank || "N/A"}</p>
-              <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "N/A"} years</p>
-              <p>Specialties: {guide.professionalDetails?.specialties?.join(", ") || "No specialties specified"}</p>
-              <p>Tour Regions: {guide.professionalDetails?.tourRegions?.join(", ") || "No regions specified"}</p>
-              <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(", ") || "No languages specified"}</p>
-
-              <h4>Availability & Pricing</h4>
-              <p><strong>Availability:</strong> {guide.availability || "N/A"}</p>
-              <p><strong>Hourly Rate:</strong> ${guide.pricing?.hourlyRate || "N/A"}</p>
-              <p><strong>Daily Rate:</strong> ${guide.pricing?.dailyRate || "N/A"}</p>
-              <p>Payment Methods: {guide.pricing?.paymentMethods?.join(", ") || "No payment methods specified"}</p>
-
-              <h4>Verification Documents</h4>
-              <div style={{ display: "flex", gap: "20px" }}>
-                {/* Government ID */}
-                <div>
-                  <p><strong>Government ID:</strong></p>
-                  {guide.verificationDocuments?.governmentID ? (
-                    <img
-                      src={getCloudinaryUrl(guide.verificationDocuments.governmentID)}
-                      alt="Government ID"
-                      width="150"
-                      style={{ cursor: "pointer", border: "1px solid #ccc" }}
-                      onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.governmentID, 800))}
-                    />
-                  ) : (
-                    <p>No Government ID provided</p>
-                  )}
-                </div>
-
-                {/* Tour Guide License */}
-                <div>
-                  <p><strong>Tour Guide License:</strong></p>
-                  {guide.verificationDocuments?.tourGuideLicense ? (
-                    <img
-                      src={getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense)}
-                      alt="Tour Guide License"
-                      width="150"
-                      style={{ cursor: "pointer", border: "1px solid #ccc" }}
-                      onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense, 800))}
-                    />
-                  ) : (
-                    <p>No Tour Guide License provided</p>
-                  )}
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold mb-2">Professional Details</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <p><span className="font-medium">Guide Rank:</span> {guide.guideRank || "N/A"}</p>
+                  <p><span className="font-medium">Experience:</span> {guide.professionalDetails?.experienceYears || "N/A"} years</p>
+                  <p><span className="font-medium">Specialties:</span> {guide.professionalDetails?.specialties?.join(", ") || "No specialties specified"}</p>
+                  <p><span className="font-medium">Tour Regions:</span> {guide.professionalDetails?.tourRegions?.join(", ") || "No regions specified"}</p>
+                  <p><span className="font-medium">Languages:</span> {guide.professionalDetails?.languagesSpoken?.join(", ") || "No languages specified"}</p>
                 </div>
               </div>
 
-              <br />
-              <button onClick={() => approveGuide(guide._id)} style={{ marginRight: "10px" }}>Approve</button>
-              <button onClick={() => handleRejectGuide(guide._id)}>Reject</button>
-              {showRejectionModal && (
-                <div style={{
-                  position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundColor: 'rgba(0,0,0,0.5)',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  zIndex: 1000
-                }}>
-                  <div style={{
-                    backgroundColor: 'white',
-                    padding: '20px',
-                    borderRadius: '8px',
-                    width: '500px',
-                    maxWidth: '90%'
-                  }}>
-                    <h3>Select Rejection Reasons</h3>
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold mb-2">Availability & Pricing</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <p><span className="font-medium">Availability:</span> {guide.availability || "N/A"}</p>
+                  <p><span className="font-medium">Hourly Rate:</span> ${guide.pricing?.hourlyRate || "N/A"}</p>
+                  <p><span className="font-medium">Daily Rate:</span> ${guide.pricing?.dailyRate || "N/A"}</p>
+                  <p><span className="font-medium">Payment Methods:</span> {guide.pricing?.paymentMethods?.join(", ") || "No payment methods specified"}</p>
+                </div>
+              </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                      <label style={{ display: 'block', marginBottom: '10px' }}>
-                        <input
-                          type="checkbox"
-                          name="incompleteDocuments"
-                          checked={rejectionReasons.incompleteDocuments}
-                          onChange={handleReasonChange}
-                        />
-                        Incomplete or missing documentation
-                      </label>
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold mb-4">Verification Documents</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <p className="font-medium mb-2">Government ID:</p>
+                    {guide.verificationDocuments?.governmentID ? (
+                      <img
+                        src={getCloudinaryUrl(guide.verificationDocuments.governmentID)}
+                        alt="Government ID"
+                        className="w-40 h-40 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.governmentID, 800))}
+                      />
+                    ) : (
+                      <p className="text-gray-500">No Government ID provided</p>
+                    )}
+                  </div>
 
-                      <label style={{ display: 'block', marginBottom: '10px' }}>
-                        <input
-                          type="checkbox"
-                          name="insufficientExperience"
-                          checked={rejectionReasons.insufficientExperience}
-                          onChange={handleReasonChange}
-                        />
-                        Insufficient experience
-                      </label>
-
-                      <label style={{ display: 'block', marginBottom: '10px' }}>
-                        <input
-                          type="checkbox"
-                          name="verificationFailed"
-                          checked={rejectionReasons.verificationFailed}
-                          onChange={handleReasonChange}
-                        />
-                        Verification documents could not be verified
-                      </label>
-
-                      <label style={{ display: 'block', marginBottom: '10px' }}>
-                        <input
-                          type="checkbox"
-                          name="other"
-                          checked={rejectionReasons.other}
-                          onChange={handleReasonChange}
-                        />
-                        Other (please specify below)
-                      </label>
-
-                      {rejectionReasons.other && (
-                        <textarea
-                          name="customReason"
-                          value={rejectionReasons.customReason}
-                          onChange={handleReasonChange}
-                          placeholder="Enter custom rejection reason"
-                          style={{
-                            width: '100%',
-                            minHeight: '80px',
-                            padding: '8px',
-                            marginTop: '5px',
-                            border: '1px solid #ccc',
-                            borderRadius: '4px'
-                          }}
-                        />
-                      )}
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                      <button
-                        onClick={() => setShowRejectionModal(false)}
-                        style={{
-                          padding: '8px 16px',
-                          backgroundColor: '#f0f0f0',
-                          border: '1px solid #ccc',
-                          borderRadius: '4px'
-                        }}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={confirmRejection}
-                        style={{
-                          padding: '8px 16px',
-                          backgroundColor: '#dc3545',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px'
-                        }}
-                      >
-                        Confirm Rejection
-                      </button>
-                    </div>
+                  <div>
+                    <p className="font-medium mb-2">Tour Guide License:</p>
+                    {guide.verificationDocuments?.tourGuideLicense ? (
+                      <img
+                        src={getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense)}
+                        alt="Tour Guide License"
+                        className="w-40 h-40 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => setSelectedImage(getCloudinaryUrl(guide.verificationDocuments.tourGuideLicense, 800))}
+                      />
+                    ) : (
+                      <p className="text-gray-500">No Tour Guide License provided</p>
+                    )}
                   </div>
                 </div>
-              )}
+              </div>
+
+              <div className="mt-6 flex gap-4">
+                <button 
+                  onClick={() => approveGuide(guide._id)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Approve
+                </button>
+                <button 
+                  onClick={() => handleRejectGuide(guide._id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
           ))}
 
-          {/* Full-Size Image Modal */}
+          {showRejectionModal && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4">
+                <h3 className="text-xl font-semibold mb-4">Select Rejection Reasons</h3>
+
+                <div className="space-y-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      name="incompleteDocuments"
+                      checked={rejectionReasons.incompleteDocuments}
+                      onChange={handleReasonChange}
+                      className="w-4 h-4 text-blue-600 rounded"
+                    />
+                    Incomplete or missing documentation
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      name="insufficientExperience"
+                      checked={rejectionReasons.insufficientExperience}
+                      onChange={handleReasonChange}
+                      className="w-4 h-4 text-blue-600 rounded"
+                    />
+                    Insufficient experience
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      name="verificationFailed"
+                      checked={rejectionReasons.verificationFailed}
+                      onChange={handleReasonChange}
+                      className="w-4 h-4 text-blue-600 rounded"
+                    />
+                    Verification documents could not be verified
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      name="other"
+                      checked={rejectionReasons.other}
+                      onChange={handleReasonChange}
+                      className="w-4 h-4 text-blue-600 rounded"
+                    />
+                    Other (please specify below)
+                  </label>
+
+                  {rejectionReasons.other && (
+                    <textarea
+                      name="customReason"
+                      value={rejectionReasons.customReason}
+                      onChange={handleReasonChange}
+                      placeholder="Enter custom rejection reason"
+                      className="w-full min-h-[80px] p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  )}
+                </div>
+
+                <div className="flex justify-end gap-4 mt-6">
+                  <button
+                    onClick={() => setShowRejectionModal(false)}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmRejection}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  >
+                    Confirm Rejection
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {selectedImage && (
             <div
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: "rgba(0, 0, 0, 0.8)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onClick={() => setSelectedImage(null)} // Close modal when clicking outside
+              className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+              onClick={() => setSelectedImage(null)}
             >
               <img
                 src={selectedImage}
                 alt="Full Document"
-                style={{
-                  maxWidth: "90%",
-                  maxHeight: "90%",
-                  border: "5px solid white",
-                  borderRadius: "8px",
-                }}
+                className="max-w-[90%] max-h-[90%] border-4 border-white rounded-lg"
               />
             </div>
           )}
         </>
       ) : (
         <>
-          <h2>Verified Guides</h2>
-          <label>
-            <input
-              type="checkbox"
-              checked={showAllGuides}
-              onChange={() => setShowAllGuides(!showAllGuides)}
-            />
-            Show inactive guides
-          </label>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Verified Guides</h2>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showAllGuides}
+                onChange={() => setShowAllGuides(!showAllGuides)}
+                className="w-4 h-4 text-blue-600 rounded"
+              />
+              Show inactive guides
+            </label>
+          </div>
+
           {verifiedGuides.map((guide) => (
-            <div key={guide._id} style={{
-              marginBottom: "30px",
-              padding: "15px",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              backgroundColor: guide.isActive ? '#f9f9f9' : '#ffeeee'
-            }}>
-              <h3>{guide.fullName}</h3>
-              <div>
+            <div key={guide._id} className={`bg-white rounded-lg shadow-md p-6 mb-6 ${
+              !guide.isActive ? 'bg-red-50' : ''
+            }`}>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{guide.fullName}</h3>
+                  <p className="text-gray-600">Email: {guide.contact?.email || "N/A"}</p>
+                  <p className="mt-1">
+                    Status: {guide.isActive ? (
+                      <span className="text-green-600 font-medium">Active</span>
+                    ) : (
+                      <span className="text-red-600 font-medium">Inactive</span>
+                    )}
+                  </p>
+                </div>
                 {guide.profilePhoto && (
                   <img
                     src={getCloudinaryUrl(guide.profilePhoto)}
                     alt="Profile"
-                    width="50"
-                    style={{ float: 'right', marginLeft: '15px' }}
+                    className="w-16 h-16 object-cover rounded-full"
                   />
                 )}
-                <p>Email: {guide.contact?.email || "N/A"}</p>
-                <p>Status: {guide.isActive ?
-                  <span style={{ color: 'green' }}>Active</span> :
-                  <span style={{ color: 'red' }}>Inactive</span>}
-                </p>
               </div>
 
-              <div style={{ marginTop: '10px' }}>
+              <div className="mt-4 flex gap-4">
                 {guide.isActive ? (
                   <button
                     onClick={() => deactivateGuide(guide._id)}
-                    style={{ backgroundColor: '#ffcccc', marginRight: '10px' }}
+                    className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
                   >
                     Deactivate
                   </button>
                 ) : (
                   <button
                     onClick={() => reactivateGuide(guide._id)}
-                    style={{ backgroundColor: '#ccffcc', marginRight: '10px' }}
+                    className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
                   >
                     Reactivate
                   </button>
@@ -539,7 +526,7 @@ const AdminPanel = () => {
 
                 <button
                   onClick={() => deleteGuide(guide._id, false)}
-                  style={{ color: "red", marginRight: '10px' }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                 >
                   Delete Guide
                 </button>
@@ -549,44 +536,29 @@ const AdminPanel = () => {
                     fetchReviewsForGuide(guide._id);
                     setExpandedGuideId(expandedGuideId === guide._id ? null : guide._id);
                   }}
-                  style={{ marginLeft: '10px' }}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   {expandedGuideId === guide._id ? 'Hide Reviews' : 'View Reviews'}
                 </button>
               </div>
 
-              {/* Reviews Section */}
               {expandedGuideId === guide._id && reviewsByGuide[guide._id] && (
-                <div style={{ marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '15px' }}>
-                  <h4>Reviews</h4>
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <h4 className="text-lg font-semibold mb-4">Reviews</h4>
                   {reviewsByGuide[guide._id].length === 0 ? (
-                    <p>No reviews yet.</p>
+                    <p className="text-gray-500">No reviews yet.</p>
                   ) : (
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                    <ul className="space-y-4">
                       {reviewsByGuide[guide._id].map(review => (
-                        <li key={review._id} style={{
-                          padding: '10px',
-                          marginBottom: '10px',
-                          backgroundColor: '#f5f5f5',
-                          borderRadius: '5px',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}>
+                        <li key={review._id} className="bg-gray-50 rounded-lg p-4 flex justify-between items-start">
                           <div>
-                            <strong>{review.reviewerName || 'Anonymous'}</strong>: {review.reviewText}
-                            <div>Rating: {'★'.repeat(review.rating)}</div>
+                            <p className="font-medium text-gray-900">{review.reviewerName || 'Anonymous'}</p>
+                            <p className="text-gray-700 mt-1">{review.reviewText}</p>
+                            <p className="text-yellow-500 mt-1">Rating: {'★'.repeat(review.rating)}</p>
                           </div>
                           <button
                             onClick={() => deleteReview(review._id, guide._id)}
-                            style={{
-                              color: 'white',
-                              backgroundColor: '#dc3545',
-                              border: 'none',
-                              borderRadius: '4px',
-                              padding: '5px 10px',
-                              cursor: 'pointer'
-                            }}
+                            className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
                           >
                             Delete
                           </button>
@@ -600,9 +572,6 @@ const AdminPanel = () => {
           ))}
         </>
       )}
-
-
-
     </div>
   );
 };
