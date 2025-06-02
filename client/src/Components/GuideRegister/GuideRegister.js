@@ -373,11 +373,18 @@ const Register = () => {
             return;
         }
 
-        // Combine min and max rates into single strings
-        const hourlyRate = formData.minHourlyRate && formData.maxHourlyRate ? 
-            `${formData.minHourlyRate}-${formData.maxHourlyRate}` : "";
-        const dailyRate = formData.minDailyRate && formData.maxDailyRate ? 
-            `${formData.minDailyRate}-${formData.maxDailyRate}` : "";
+        // Create a new object without the min/max rate fields
+        const { minHourlyRate, maxHourlyRate, minDailyRate, maxDailyRate, ...restFormData } = formData;
+
+        // Add the combined rate fields
+        const submitData = {
+            ...restFormData,
+            hourlyRate: minHourlyRate && maxHourlyRate ? `${minHourlyRate}-${maxHourlyRate}` : "",
+            dailyRate: minDailyRate && maxDailyRate ? `${minDailyRate}-${maxDailyRate}` : "",
+            profilePhoto: formData.profilePhoto,
+            governmentID: formData.governmentID,
+            tourGuideLicense: formData.tourGuideLicense,
+        };
 
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
@@ -385,14 +392,7 @@ const Register = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    ...formData,
-                    hourlyRate,
-                    dailyRate,
-                    profilePhoto: formData.profilePhoto,
-                    governmentID: formData.governmentID,
-                    tourGuideLicense: formData.tourGuideLicense,
-                }),
+                body: JSON.stringify(submitData),
             });
 
             const data = await response.json();
