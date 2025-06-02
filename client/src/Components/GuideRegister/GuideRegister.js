@@ -373,35 +373,23 @@ const Register = () => {
             return;
         }
 
-        // Create a new object without the min/max rate fields
-        const { minHourlyRate, maxHourlyRate, minDailyRate, maxDailyRate, ...restFormData } = formData;
-
-        // Add the combined rate fields
-        const submitData = {
-            ...restFormData,
-            hourlyRate: minHourlyRate && maxHourlyRate ? `${minHourlyRate}-${maxHourlyRate}` : "",
-            dailyRate: minDailyRate && maxDailyRate ? `${minDailyRate}-${maxDailyRate}` : "",
-            profilePhoto: formData.profilePhoto,
-            governmentID: formData.governmentID,
-            tourGuideLicense: formData.tourGuideLicense,
-        };
-
-        // Log the data being sent
-        console.log("Submitting data:", submitData);
-
         try {
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(submitData),
+                body: JSON.stringify({
+                    ...formData,
+                    profilePhoto: formData.profilePhoto,
+                    governmentID: formData.governmentID,
+                    tourGuideLicense: formData.tourGuideLicense,
+                }),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                console.error("Server response:", data);
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
                     alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
                     return;
@@ -413,11 +401,7 @@ const Register = () => {
             alert("Registration successful!");
             navigate("/registration-confirmation");
         } catch (error) {
-            console.error("Error submitting form:", error);
-            console.error("Error details:", {
-                message: error.message,
-                stack: error.stack
-            });
+            console.error("Error submitting form:", error.message);
             alert(`Registration failed: ${error.message}`);
         }
     };
@@ -1044,7 +1028,7 @@ const Register = () => {
                             {formData.rateType === "hourly" && (
                                 <div className={`registration-form-group ${errors.minHourlyRate || errors.maxHourlyRate ? 'error' : ''}`}>
                                     <label>Hourly Rate Range</label>
-                                    <p className="registration-sub-label">Enter your hourly rate range in USD (US Dollars).</p>
+                                    <p className="registration-sub-label">Enter your minimum and maximum hourly rates in USD (US Dollars).</p>
                                     <div className="registration-rate-range">
                                         <div className="registration-rate-input">
                                             <label>Minimum Rate</label>
@@ -1083,7 +1067,7 @@ const Register = () => {
                             {formData.rateType === "daily" && (
                                 <div className={`registration-form-group ${errors.minDailyRate || errors.maxDailyRate ? 'error' : ''}`}>
                                     <label>Daily Rate Range</label>
-                                    <p className="registration-sub-label">Enter your daily rate range in USD (US Dollars).</p>
+                                    <p className="registration-sub-label">Enter your minimum and maximum daily rates in USD (US Dollars).</p>
                                     <div className="registration-rate-range">
                                         <div className="registration-rate-input">
                                             <label>Minimum Rate</label>
