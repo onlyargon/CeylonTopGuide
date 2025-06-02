@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import './PublicGuideProfile.css';
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer";
-import { FaWhatsapp, FaImages, FaUserTie, FaTimes } from 'react-icons/fa';
+import { FaWhatsapp, FaImages, FaUserTie, FaTimes, FaEnvelope } from 'react-icons/fa';
 import { QRCodeSVG } from "qrcode.react";
 
 const PublicGuideProfile = () => {
@@ -188,12 +188,14 @@ const PublicGuideProfile = () => {
               </div>
 
               <div className="public-guide-contact-info">
-                <span className="public-guide-phone">
+                <div className="contact-item">
                   <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
-                </span>
-                <span className="guide-profile-phone">
-                      <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
-                    </span>
+                </div>
+                <div className="contact-item">
+                  <a href={`mailto:${guide.contact?.email || ''}`} className="email-link">
+                    <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
+                  </a>
+                </div>
               </div>
             </div>
 
