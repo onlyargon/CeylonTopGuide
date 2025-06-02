@@ -36,11 +36,25 @@ const GuideLogin = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/guides/login`,
-        { email, password },
-        { withCredentials: true }
-      );
+      let response;
+      try {
+        // Try the original API URL first
+        response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guides/login`, {
+          email,
+          password
+        }, {
+          withCredentials: true
+        });
+      } catch (error) {
+        console.error('Primary API call failed, trying localhost:', error);
+        // Fallback to localhost:5000
+        response = await axios.post('http://localhost:5000/guides/login', {
+          email,
+          password
+        }, {
+          withCredentials: true
+        });
+      }
 
       if (response.status === 200) {
         localStorage.setItem("guide", JSON.stringify(response.data.guide));
@@ -51,7 +65,7 @@ const GuideLogin = () => {
       const errorMessage = err.response?.data?.error || "Login failed";
       
       if (errorMessage.toLowerCase().includes("email")) {
-        setEmailError("Incorrect creditionals. Please check your email address or password");
+        setEmailError("Incorrect credentials. Please check your email address or password");
       } else if (errorMessage.toLowerCase().includes("password")) {
         setPasswordError("Please check your password");
       } else if (errorMessage.includes("awaiting approval")) {
@@ -88,7 +102,7 @@ const GuideLogin = () => {
           <form onSubmit={handleLogin} className="ceylon-login-form">
             <div className="ceylon-form-group">
               <input
-                className={`form-inputs ${emailError ? "input-error" : ""}`}
+                className={`form-inputs ${emailError ? "input-error" : ""} `}
                 id="email"
                 type="email"
                 required

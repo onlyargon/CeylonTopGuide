@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./GuideProfile.css";
 import Header from "../Header/Header";
 import instance from "../Instance/Instance";
-import { FaWhatsapp, FaImages, FaUserTie } from "react-icons/fa";
+import { FaWhatsapp, FaImages, FaUserTie, FaEnvelope} from "react-icons/fa";
 import { QRCodeSVG } from "qrcode.react";
 
 const GuideProfile = () => {
@@ -1010,6 +1010,9 @@ const GuideProfile = () => {
                   <div className="guide-profile-contact-info">
                     <span className="guide-profile-phone">
                       <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
+                    </span>
+                    <span className="guide-profile-phone">
+                      <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
                     </span>
                   </div>
                 </div>
