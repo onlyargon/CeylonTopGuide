@@ -189,7 +189,14 @@ const PublicGuideProfile = () => {
 
               <div className="public-guide-contact-info">
                 <div className="contact-item">
-                  <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
+                  <a 
+                    href={`https://wa.me/${guide.contact?.phone?.replace(/[^0-9]/g, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="whatsapp-link"
+                  >
+                    <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
+                  </a>
                 </div>
                 <div className="contact-item">
                   <a href={`mailto:${guide.contact?.email || ''}`} className="email-link">
