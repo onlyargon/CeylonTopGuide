@@ -10,7 +10,7 @@ function Footer() {
             <div className="footer-top-border"></div>
             <div className="footer-main-content">
                 <div className="footer-brand">
-                <div className="title-with-logo">
+                    <div className="title-with-logo">
                         <h1 className="footer-title">CEYLON TOPGUIDE</h1>
                         <div className="footer-logo">
                             <img src="/Logo/LogoBlack.png" alt="LogoBlack" className='compass-logo' />
@@ -25,7 +25,7 @@ function Footer() {
                     <div className="links-column">
                         <h3>Quick Links:</h3>
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><Link to="/">Home</Link></li>
                             <li><Link to="/guideRegister">Register as Guide</Link></li>
                             <li><Link to="/guideList">Browse Guides</Link></li>
                             <li><Link to="/landingPage">About Us</Link></li>
@@ -54,7 +54,7 @@ function Footer() {
             </div>
 
             <div className="footer-bottom">
-                <p>© 2025 CeylonTopGuide. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms & Conditions</a> | Designed and Developed by : <a href='https://linktr.ee/ImethW'><span className='footer-fourthwall'>FourthWall</span></a></p>
+                <p>© 2025 CeylonTopGuide. All rights reserved. | <Link to="/privacy">Privacy Policy</Link> | <Link to="/terms">Terms & Conditions</Link> | Designed and Developed by : <a href='https://linktr.ee/ImethW'><span className='footer-fourthwall'>FourthWall</span></a></p>
             </div>
         </footer>
     )

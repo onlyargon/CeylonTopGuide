@@ -133,8 +133,8 @@ const PublicGuideProfile = () => {
   return (
     <>
       <Header />
-      <div className="relative min-h-screen bg-gray-100 overflow-hidden">
-        <div className="fixed inset-0 z-0">
+      <div className="relative min-h-screen bg-defaultWhite overflow-hidden">
+        <div className="fixed inset-0 z-0 pointer-events-none">
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -147,7 +147,7 @@ const PublicGuideProfile = () => {
             />
           ))}
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-white/95 rounded-2xl shadow-lg">
+        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-pureWhite rounded-2xl shadow-lg">
           <div className="flex justify-between items-start mb-8">
             <div className="flex-1 pr-8">
               <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
@@ -232,27 +232,27 @@ const PublicGuideProfile = () => {
           <div className="h-px bg-gray-200 my-8"></div>
 
           <div className="my-8">
-            <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8">
+            <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8 group">
               <button
-                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-200 ${
                   showPhotos ? 'text-pureWhite' : 'text-gray-600'
                 }`}
                 onClick={() => setShowPhotos(true)}
               >
                 <FaImages className="text-lg" />
-                <span className="text-sm font-medium">Tour Photos</span>
+                <span className="text-sm font-medium opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-300 overflow-hidden whitespace-nowrap">Tour Photos</span>
               </button>
               <button
-                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-200 ${
                   !showPhotos ? 'text-pureWhite' : 'text-gray-600'
                 }`}
                 onClick={() => setShowPhotos(false)}
               >
                 <FaUserTie className="text-lg" />
-                <span className="text-sm font-medium">Professional Details</span>
+                <span className="text-sm font-medium opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-300 overflow-hidden whitespace-nowrap">Professional Details</span>
               </button>
-              <div className={`absolute top-1 left-1 w-1/2 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-transform duration-300 ${
-                showPhotos ? 'translate-x-0' : 'translate-x-full'
+              <div className={`absolute top-1 left-1 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-all duration-300 ${
+                showPhotos ? 'translate-x-0 w-[60px] group-hover:w-[140px]' : 'translate-x-full w-[60px] group-hover:w-[200px] group-hover:translate-x-[70%]'
               }`}></div>
             </div>
 
@@ -338,25 +338,25 @@ const PublicGuideProfile = () => {
 
           <div className="h-px bg-gray-200 my-8"></div>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center justify-center">
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">REVIEWS</h2>
-            <h3 className="text-lg text-gray-600 text-center mb-8">
+            <h3 className="text-sm text-defaultGrey text-center mb-8">
               What Fellow Tourist Say About {guide.fullName}
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 max-w-6xl mx-auto place-items-center">
               {reviews.length > 0 ? (
                 reviews.map((review) => (
-                  <div key={review._id} className="p-6 bg-white rounded-lg shadow-sm">
+                  <div key={review._id} className="p-6 bg-pureWhite rounded-lg shadow-lg w-full max-w-sm">
                     <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-primaryGreen text-pureWhite rounded-full flex items-center justify-center font-bold mr-4">
+                      <div className="w-10 h-10 bg-primaryGreen text-pureWhite rounded-full flex items-center justify-center mr-4">
                         {review.reviewerEmail.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800">
+                        <h4 className="font-md text-gray-800">
                           {review.reviewerName || review.reviewerEmail.split("@")[0]}
                         </h4>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-defaultGrey">
                           {review.reviewerTitle || "Client"}
                         </p>
                       </div>
@@ -394,7 +394,9 @@ const PublicGuideProfile = () => {
           </div>
         </div>
       )}
-      <Footer />
+      <div className="relative z-20">
+        <Footer />
+      </div>
     </>
   );
 };
