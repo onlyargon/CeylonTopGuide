@@ -44,14 +44,12 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchGuideWithRecalculation = async () => {
       try {
-        // Try the original API URL first
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/reviews/recalculate/${id}`);
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/guides/verified/${id}`);
         setGuide(res.data);
       } catch (error) {
         console.error("Primary guide profile fetch failed, trying localhost:", error);
         try {
-          // Fallback to localhost:5000
           await axios.post(`http://localhost:5000/reviews/recalculate/${id}`);
           const localRes = await axios.get(`http://localhost:5000/guides/verified/${id}`);
           setGuide(localRes.data);
@@ -67,13 +65,11 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        // Try the original API URL first
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/reviews/guide/${id}?verified=true`);
         setReviews(res.data);
       } catch (error) {
         console.error("Primary reviews fetch failed, trying localhost:", error);
         try {
-          // Fallback to localhost:5000
           const localRes = await axios.get(`http://localhost:5000/reviews/guide/${id}?verified=true`);
           setReviews(localRes.data);
         } catch (localError) {
@@ -89,13 +85,11 @@ const PublicGuideProfile = () => {
   useEffect(() => {
     const fetchTourPhotos = async () => {
       try {
-        // Try the original API URL first
         const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/tourPhotos/guide/${id}`);
         setTourPhotos(res.data);
       } catch (error) {
         console.error("Primary tour photos fetch failed, trying localhost:", error);
         try {
-          // Fallback to localhost:5000
           const localRes = await axios.get(`http://localhost:5000/tourPhotos/guide/${id}`);
           setTourPhotos(localRes.data);
         } catch (localError) {
@@ -112,23 +106,17 @@ const PublicGuideProfile = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i} className={i <= rating ? "star-rating" : "star-rating empty-star"}>
+        <span key={i} className={i <= rating ? "text-champYellow" : "text-gray-300"}>
           ★
         </span>
       );
     }
-    return <div>{stars}</div>;
+    return <div className="flex">{stars}</div>;
   };
 
   const getCloudinaryUrl = (imagePath) => {
     if (!imagePath) return '/default-profile.png';
-
-    // If it's already a full URL, return it directly
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-
-    // If it's just the public ID (without the full URL)
+    if (imagePath.startsWith('http')) return imagePath;
     return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${imagePath}`;
   };
 
@@ -140,39 +128,41 @@ const PublicGuideProfile = () => {
     setSelectedImage(null);
   };
 
-  if (!guide) return <div className="public-guide-container"><h2>Loading...</h2></div>;
+  if (!guide) return <div className="min-h-screen bg-gray-100 p-8"><h2 className="text-2xl font-bold text-gray-800">Loading...</h2></div>;
 
   return (
     <>
       <Header />
-      <div className="public-guide-container-background">
-        <div className="background-slideshow">
+      <div className="relative min-h-screen bg-gray-100 overflow-hidden">
+        <div className="fixed inset-0 z-0">
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`background-slide ${index === currentSlide ? 'active' : ''}`}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out bg-cover bg-center bg-no-repeat ${
+                index === currentSlide ? 'opacity-15' : 'opacity-0'
+              }`}
               style={{
                 backgroundImage: `url(/Slideshow/${slide})`,
               }}
             />
           ))}
         </div>
-        <div className="public-guide-container">
-          <div className="public-guide-header">
-            <div className="public-guide-details">
-              <h1 className="public-guide-name">{guide.fullName}</h1>
+        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-white/95 rounded-2xl shadow-lg">
+          <div className="flex justify-between items-start mb-8">
+            <div className="flex-1 pr-8">
+              <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
 
-              <div className="public-guide-rating">
-                <div className="public-guide-rating-item">
-                  <span className="public-guide-years-number">{guide.professionalDetails?.experienceYears || '0'}</span>
-                  <span className="public-guide-rating-title">Years</span>
+              <div className="flex gap-8 mb-4">
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-gray-800">{guide.professionalDetails?.experienceYears || '0'}</span>
+                  <span className="text-sm text-gray-600">Years</span>
                 </div>
-                <div className="public-guide-rating-item">
-                  <span className="public-guide-ratings-number">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
-                  <span className="public-guide-rating-title">Rating</span>
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-gray-800">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
+                  <span className="text-sm text-gray-600">Rating</span>
                 </div>
-                <div className="public-guide-rating-item">
-                  <span className="public-guide-hours-number">
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-gray-800">
                     {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
                       `$${guide.pricing.hourlyRate}`
                     ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
@@ -181,207 +171,229 @@ const PublicGuideProfile = () => {
                       "Rate not set"
                     )}
                   </span>
-                  <span className="public-guide-rating-title">
+                  <span className="text-sm text-gray-600">
                     {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
                   </span>
                 </div>
               </div>
 
-              <div className="public-guide-contact-info">
-                <div className="contact-item">
-                  <a 
-                    href={`https://wa.me/${guide.contact?.phone ? 
-                      (guide.contact.phone.startsWith('+94') ? 
-                        guide.contact.phone.replace(/[^0-9]/g, '') : 
-                        (guide.contact.phone.startsWith('0') ? 
-                          '94' + guide.contact.phone.substring(1).replace(/[^0-9]/g, '') :
-                          '94' + guide.contact.phone.replace(/[^0-9]/g, ''))) 
-                      : ''}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="whatsapp-link"
-                  >
-                    <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
-                  </a>
-                </div>
-                <div className="contact-item">
-                  <a href={`mailto:${guide.contact?.email || ''}`} className="email-link">
-                    <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
-                  </a>
-                </div>
+              <div className="flex flex-col gap-2 mt-4">
+                <a 
+                  href={`https://wa.me/${guide.contact?.phone ? 
+                    (guide.contact.phone.startsWith('+94') ? 
+                      guide.contact.phone.replace(/[^0-9]/g, '') : 
+                      (guide.contact.phone.startsWith('0') ? 
+                        '94' + guide.contact.phone.substring(1).replace(/[^0-9]/g, '') :
+                        '94' + guide.contact.phone.replace(/[^0-9]/g, ''))) 
+                    : ''}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-lg text-gray-800 hover:text-secondaryGreen transition-colors"
+                >
+                  <FaWhatsapp className="text-secondaryGreen" /> {guide.contact?.phone || "Phone not provided"}
+                </a>
+                <a 
+                  href={`mailto:${guide.contact?.email || ''}`}
+                  className="flex items-center gap-2 text-lg text-gray-800 hover:text-gray-600 transition-colors"
+                >
+                  <FaEnvelope className="text-gray-800" /> {guide.contact?.email || "Email not provided"}
+                </a>
               </div>
             </div>
 
-            <div className="public-guide-photo">
+            <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg">
               <img
                 src={getCloudinaryUrl(guide.profilePhoto)}
                 alt={guide.fullName}
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = '/default-profile.png';
                 }}
               />
-
             </div>
           </div>
 
-          <div className="public-guide-divider"></div>
+          <div className="h-px bg-gray-200 my-8"></div>
 
-          <div className="public-guide-about">
-            <h2>About Me</h2>
-            <div className={`about-content ${isAboutExpanded ? 'expanded' : 'collapsed'}`}>
-              <p>{guide.additionalInfo?.bio || "No bio added yet."}</p>
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
+            <div className={`relative ${isAboutExpanded ? 'max-h-none' : 'max-h-24'} overflow-hidden transition-all duration-300`}>
+              <p className="text-gray-600">{guide.additionalInfo?.bio || "No bio added yet."}</p>
             </div>
             <button
-              className="see-more-button"
+              className="text-primaryGreen hover:text-secondaryGreen transition-colors duration-200 py-2"
               onClick={() => setIsAboutExpanded(!isAboutExpanded)}
             >
               {isAboutExpanded ? 'See Less' : 'See More'}
             </button>
           </div>
 
-          <div className="public-guide-divider"></div>
+          <div className="h-px bg-gray-200 my-8"></div>
 
-          <div className="public-guide-toggle-section-unique">
-            <div className="public-guide-toggle-slider-unique">
+          <div className="my-8">
+            <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8">
               <button
-                className={`toggle-option-unique ${showPhotos ? 'active' : ''}`}
+                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                  showPhotos ? 'text-pureWhite' : 'text-gray-600'
+                }`}
                 onClick={() => setShowPhotos(true)}
               >
-                <FaImages className="toggle-icon-unique" />
-                <span className="toggle-text-unique">Tour Photos</span>
+                <FaImages className="text-lg" />
+                <span className="text-sm font-medium">Tour Photos</span>
               </button>
               <button
-                className={`toggle-option-unique ${!showPhotos ? 'active' : ''}`}
+                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                  !showPhotos ? 'text-pureWhite' : 'text-gray-600'
+                }`}
                 onClick={() => setShowPhotos(false)}
               >
-                <FaUserTie className="toggle-icon-unique" />
-                <span className="toggle-text-unique">Professional Details</span>
+                <FaUserTie className="text-lg" />
+                <span className="text-sm font-medium">Professional Details</span>
               </button>
-              <div className={`slider-unique ${showPhotos ? 'left' : 'right'}`}></div>
+              <div className={`absolute top-1 left-1 w-1/2 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-transform duration-300 ${
+                showPhotos ? 'translate-x-0' : 'translate-x-full'
+              }`}></div>
             </div>
 
             {showPhotos ? (
-              <div className="public-guide-photos">
-                <h2 className="public-guide-photos-title">Tour Photos</h2>
-                <div className="public-guide-photos-grid">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Tour Photos</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
                   {tourPhotos.length > 0 ? (
-                    tourPhotos.map((photo, index) => (
-                      <div key={index} className="public-guide-photo-card">
+                    tourPhotos.map((photo) => (
+                      <div key={photo._id} className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
                         <img
-                          src={getCloudinaryUrl(photo.imagePath)}
+                          src={`${photo.imagePath}?w=400&h=300&c_fill`}
                           alt={photo.caption || "Tour"}
-                          className="public-guide-photo-img"
+                          className="w-full h-48 object-cover cursor-pointer hover:scale-105 transition-transform duration-200"
                           loading="lazy"
-                          onClick={() => handleImageClick(getCloudinaryUrl(photo.imagePath))}
-                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleImageClick(photo.imagePath)}
                         />
                         {photo.caption && (
-                          <div className="public-guide-photo-caption">{photo.caption}</div>
+                          <div className="p-3 text-center text-sm text-gray-600 border-t border-gray-100">
+                            {photo.caption}
+                          </div>
                         )}
                       </div>
                     ))
                   ) : (
-                    <p>No tour photos uploaded yet.</p>
+                    <p className="col-span-full text-gray-600">No tour photos uploaded yet.</p>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="public-guide-professional">
-                <h2>Professional Details</h2>
-                <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
-                <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
-                <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
-                <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
-                {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                  <p>
-                    <strong>Hourly Rate:</strong>
-                    <span className="public-guide-highlighted-rate">
-                      ${guide.pricing.hourlyRate}
-                    </span>
+              <div className="p-6 bg-white rounded-lg shadow-sm">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Professional Details</h2>
+                <div className="space-y-4">
+                  <p className="py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-800">Specialties:</span> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
                   </p>
-                ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                  <p>
-                    <strong>Daily Rate:</strong>
-                    <span className="public-guide-highlighted-rate">
-                      ${guide.pricing.dailyRate}
-                    </span>
+                  <p className="py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-800">Languages:</span> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
                   </p>
-                ) : (
-                  <p><strong>Rate:</strong> Not set</p>
-                )}
-                <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
-                {/* QR Code for public profile */}
-                {guide._id && (
-                  <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-                    <QRCodeSVG
-                      value={`${window.location.origin}/guides/${guide._id}`}
-                      size={100}
-                      level="H"
-                      includeMargin={true}
-                    />
-                    <p className="text-left">Scan to view this profile</p>
-                  </div>
-                )}
-
+                  <p className="py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-800">Experience:</span> {guide.professionalDetails?.experienceYears || "0"} years
+                  </p>
+                  <p className="py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-800">Tour Regions:</span> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
+                  </p>
+                  {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                    <p className="py-2 border-b border-gray-100">
+                      <span className="font-semibold text-gray-800">Hourly Rate:</span>
+                      <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
+                        ${guide.pricing.hourlyRate}
+                      </span>
+                    </p>
+                  ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                    <p className="py-2 border-b border-gray-100">
+                      <span className="font-semibold text-gray-800">Daily Rate:</span>
+                      <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
+                        ${guide.pricing.dailyRate}
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="py-2 border-b border-gray-100">
+                      <span className="font-semibold text-gray-800">Rate:</span> Not set
+                    </p>
+                  )}
+                  <p className="py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-800">Availability:</span> {guide.availability || "Not specified"}
+                  </p>
+                  {guide._id && (
+                    <div className="mt-4 text-center">
+                      <QRCodeSVG
+                        value={`${window.location.origin}/guides/${guide._id}`}
+                        size={100}
+                        level="H"
+                        includeMargin={true}
+                      />
+                      <p className="mt-2 text-sm text-gray-600">Scan to view this profile</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
 
-          <div className="public-guide-divider"></div>
+          <div className="h-px bg-gray-200 my-8"></div>
 
-          <div className="reviews-section">
-            <h2 className="reviews-title">REVIEWS</h2>
-            <h3 className="reviews-subtitle">What Fellow Tourist Say About {guide.fullName}</h3>
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">REVIEWS</h2>
+            <h3 className="text-lg text-gray-600 text-center mb-8">
+              What Fellow Tourist Say About {guide.fullName}
+            </h3>
 
-            <div className="reviews-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {reviews.length > 0 ? (
-                reviews.map((review, index) => (
-                  <div key={index} className="review-card">
-                    <div className="reviewer-info">
-                      <div className="reviewer-avatar">
+                reviews.map((review) => (
+                  <div key={review._id} className="p-6 bg-white rounded-lg shadow-sm">
+                    <div className="flex items-center mb-4">
+                      <div className="w-10 h-10 bg-primaryGreen text-pureWhite rounded-full flex items-center justify-center font-bold mr-4">
                         {review.reviewerEmail.charAt(0).toUpperCase()}
                       </div>
-                      <div className="reviewer-details">
-                        <h4 className="reviewer-name">{review.reviewerName || review.reviewerEmail.split('@')[0]}</h4>
-                        <p className="reviewer-title">Verified Client</p>
-                        {review.isVerified && (
-                          <span className="verified-badge">Verified Review</span>
-                        )}
+                      <div>
+                        <h4 className="font-semibold text-gray-800">
+                          {review.reviewerName || review.reviewerEmail.split("@")[0]}
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          {review.reviewerTitle || "Client"}
+                        </p>
                       </div>
                     </div>
-                    <p className="review-text">"{review.reviewText}"</p>
-                    <div className="review-rating">
-                      <div className="stars">{renderStars(review.rating)}</div>
-                      <div className="rating-number">{review.rating.toFixed(1)}</div>
-                      <span className="rating-label">Rating</span>
-                      <p className="text-[12px] text-[#718096]">{new Date(review.createdAt).toLocaleDateString()}</p>
+                    <p className="text-gray-600 italic mb-4">"{review.reviewText}"</p>
+                    <div className="flex items-center gap-4">
+                      <div className="text-champYellow">
+                        {renderStars(review.rating)}
+                      </div>
+                      <div className="font-bold text-gray-800">{review.rating.toFixed(1)}</div>
+                      <span className="text-sm text-gray-600">Rating</span>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="no-reviews">No verified reviews yet.</p>
+                <p className="col-span-full text-center text-gray-600">No reviews yet.</p>
               )}
             </div>
 
-            <Link to={`/guides/${id}/add-review`} className="guide-button edit-button write-review">
+            <Link 
+              to={`/guides/${id}/add-review`} 
+              className="inline-block px-6 py-3 bg-primaryGreen text-pureWhite rounded-full hover:bg-secondaryGreen transition-colors duration-200"
+            >
               Write a review
             </Link>
           </div>
-
-          {/* Image Modal */}
-          {selectedImage && (
-            <div className="image-modal-overlay" onClick={handleCloseModal}>
-              <div className="image-modal-content" onClick={e => e.stopPropagation()}>
-                <button className="image-modal-close" onClick={handleCloseModal}>
-                  <FaTimes />
-                </button>
-                <img src={selectedImage} alt="Full size" className="image-modal-img" />
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={handleCloseModal}>
+          <div className="relative max-w-[90%] max-h-[90%]">
+            <button className="absolute -top-10 right-0 text-pureWhite text-3xl hover:text-gray-300" onClick={handleCloseModal}>×</button>
+            <img src={selectedImage} alt="Full size" className="max-w-full max-h-[90vh] object-contain" />
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );
