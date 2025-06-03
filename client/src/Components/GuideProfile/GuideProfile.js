@@ -666,19 +666,21 @@ const GuideProfile = () => {
   return (
     <>
       <Header />
-      <div className="guide-profile-container-background">
-        <div className="background-slideshow">
+      <div className="relative min-h-screen bg-gray-100 overflow-hidden">
+        <div className="fixed inset-0 z-0">
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`background-slide ${index === currentSlide ? 'active' : ''}`}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out bg-cover bg-center bg-no-repeat ${
+                index === currentSlide ? 'opacity-15' : 'opacity-0'
+              }`}
               style={{
                 backgroundImage: `url(/Slideshow/${slide})`,
               }}
             />
           ))}
         </div>
-        <div className="guide-profile-container">
+        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-white/95 rounded-2xl shadow-lg">
           {editing ? (
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
               <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Profile</h2>
@@ -692,7 +694,7 @@ const GuideProfile = () => {
                     alt="Profile Preview"
                     className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
                   />
-                  <label className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200">
+                  <label className="cursor-pointer bg-primaryGreen hover:bg-secondaryGreen text-pureWhite px-4 py-2 rounded-full transition duration-200">
                     <span>Choose New Photo</span>
                     <input
                       type="file"
@@ -704,7 +706,7 @@ const GuideProfile = () => {
                   {uploading && (
                     <div className="w-full max-w-xs">
                       <div className="h-2 bg-gray-200 rounded-full">
-                        <div className="h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        <div className="h-2 bg-primaryGreen rounded-full animate-pulse"></div>
                       </div>
                       <span className="text-sm text-gray-600 mt-2">Uploading...</span>
                     </div>
@@ -722,7 +724,7 @@ const GuideProfile = () => {
                     value={formData.fullName || ""}
                     onChange={handleChange}
                     placeholder="Full Name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                   <input
                     type="text"
@@ -730,7 +732,7 @@ const GuideProfile = () => {
                     value={formData.nationality || ""}
                     onChange={handleChange}
                     placeholder="Nationality"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                 </div>
               </div>
@@ -746,9 +748,9 @@ const GuideProfile = () => {
                     onChange={handleChange}
                     placeholder="Phone Number (07XXXXXXXX)"
                     maxLength="10"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
-                  {phoneError && <span className="text-red-500 text-sm">{phoneError}</span>}
+                  {phoneError && <span className="text-defaultRed text-sm">{phoneError}</span>}
                 </div>
               </div>
 
@@ -762,7 +764,7 @@ const GuideProfile = () => {
                     value={formData.address?.street || ""}
                     onChange={handleChange}
                     placeholder="Address"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                   <input
                     type="text"
@@ -770,13 +772,13 @@ const GuideProfile = () => {
                     value={formData.address?.city || ""}
                     onChange={handleChange}
                     placeholder="City"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                   <select
                     name="address.province"
                     value={formData.address?.province || ""}
                     onChange={handleProvinceChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   >
                     <option value="">Select Province</option>
                     {provinces.map((province) => (
@@ -788,7 +790,7 @@ const GuideProfile = () => {
                       name="address.district"
                       value={formData.address?.district || ""}
                       onChange={handleDistrictChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                     >
                       <option value="">Select District</option>
                       {districts[formData.address.province].map((district) => (
@@ -809,13 +811,13 @@ const GuideProfile = () => {
                     value={formData.professionalDetails?.experienceYears || ""}
                     onChange={handleChange}
                     placeholder="Years of Experience"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                   <div className="space-y-4">
                     <div className="flex flex-col space-y-2">
                       <select 
                         onChange={(e) => handleSelect(e, "professionalDetails.languagesSpoken")}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                       >
                         <option value="">Select Language</option>
                         {availableLanguages.map((lang) => (
@@ -835,15 +837,15 @@ const GuideProfile = () => {
                             }
                           }
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                       />
                       <div className="flex flex-wrap gap-2">
                         {formData.professionalDetails?.languagesSpoken?.map((lang, index) => (
-                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primaryGreen/10 text-primaryGreen">
                             {lang}
                             <button 
                               onClick={() => handleRemove("professionalDetails.languagesSpoken", lang)}
-                              className="ml-2 text-blue-600 hover:text-blue-800"
+                              className="ml-2 text-primaryGreen hover:text-secondaryGreen"
                             >
                               ×
                             </button>
@@ -855,7 +857,7 @@ const GuideProfile = () => {
                     <div className="flex flex-col space-y-2">
                       <select 
                         onChange={(e) => handleSelect(e, "professionalDetails.specialties")}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                       >
                         <option value="">Select Specialty</option>
                         {availableSpecialties.map((spec) => (
@@ -875,15 +877,15 @@ const GuideProfile = () => {
                             }
                           }
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                       />
                       <div className="flex flex-wrap gap-2">
                         {formData.professionalDetails?.specialties?.map((spec, index) => (
-                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                          <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondaryGreen/10 text-secondaryGreen">
                             {spec}
                             <button 
                               onClick={() => handleRemove("professionalDetails.specialties", spec)}
-                              className="ml-2 text-green-600 hover:text-green-800"
+                              className="ml-2 text-secondaryGreen hover:text-primaryGreen"
                             >
                               ×
                             </button>
@@ -903,7 +905,7 @@ const GuideProfile = () => {
                     name="availability"
                     value={formData.availability || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   >
                     <option value="">Select Availability</option>
                     <option value="Full-time">Full-time</option>
@@ -915,7 +917,7 @@ const GuideProfile = () => {
                     name="pricing.rateType"
                     value={formData.pricing?.rateType || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   >
                     <option value="">Select Rate Type</option>
                     <option value="hourly">Hourly Rate</option>
@@ -927,7 +929,7 @@ const GuideProfile = () => {
                     value={formData.pricing?.hourlyRate || ""}
                     onChange={handleChange}
                     placeholder="Hourly Rate ($)"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                   <input
                     type="number"
@@ -935,7 +937,7 @@ const GuideProfile = () => {
                     value={formData.pricing?.dailyRate || ""}
                     onChange={handleChange}
                     placeholder="Daily Rate ($)"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                   />
                 </div>
               </div>
@@ -949,20 +951,20 @@ const GuideProfile = () => {
                   onChange={handleChange}
                   placeholder="Tell us about yourself"
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                 />
               </div>
 
               <div className="flex justify-center space-x-4">
                 <button 
                   onClick={handleUpdate} 
-                  className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+                  className="px-6 py-2 bg-primaryGreen text-pureWhite rounded-full hover:bg-secondaryGreen transition duration-200"
                 >
                   Save Changes
                 </button>
                 <button 
                   onClick={() => setEditing(false)} 
-                  className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-200"
+                  className="px-6 py-2 bg-defaultGrey text-pureWhite rounded-full hover:bg-gray-600 transition duration-200"
                 >
                   Cancel
                 </button>
@@ -970,29 +972,37 @@ const GuideProfile = () => {
             </div>
           ) : (
             <>
-              <div className="guide-profile-header">
-                <div className="verification-container">
-                  <span className={`verification-status ${guide.account?.isVerified ? "verified" : "unverified"}`}>
+              <div className="flex justify-between items-start mb-8">
+                <div className="flex gap-4 mb-4">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    guide.account?.isVerified 
+                      ? 'bg-secondaryGreen text-pureWhite' 
+                      : 'bg-defaultRed text-pureWhite'
+                  }`}>
                     {guide.account?.isVerified ? "Verified" : "Unverified"}
                   </span>
-                  <span className={`account-status ${guide.isActive ? "active" : "inactive"}`}>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    guide.isActive 
+                      ? 'bg-secondaryGreen text-pureWhite' 
+                      : 'bg-defaultRed text-pureWhite'
+                  }`}>
                     {guide.isActive ? "Active" : "Inactive"}
                   </span>
                 </div>
-                <div className="guide-profile-details">
-                  <h1 className="guide-profile-name">{guide.fullName}</h1>
+                <div className="flex-1 pr-8">
+                  <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
 
-                  <div className="guide-profile-rating">
-                    <div className="guide-profile-rating-item">
-                      <span className="guide-profile-years-number">{guide.professionalDetails?.experienceYears || '0'}</span>
-                      <span className="guide-profile-rating-title">Years</span>
+                  <div className="flex gap-8 mb-4">
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">{guide.professionalDetails?.experienceYears || '0'}</span>
+                      <span className="text-sm text-gray-600">Years</span>
                     </div>
-                    <div className="guide-profile-rating-item">
-                      <span className="guide-profile-ratings-number">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
-                      <span className="guide-profile-rating-title">Rating</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
+                      <span className="text-sm text-gray-600">Rating</span>
                     </div>
-                    <div className="guide-profile-rating-item">
-                      <span className="guide-profile-hours-number">
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">
                         {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
                           `$${guide.pricing.hourlyRate}`
                         ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
@@ -1001,26 +1011,27 @@ const GuideProfile = () => {
                           "Rate not set"
                         )}
                       </span>
-                      <span className="guide-profile-rating-title">
+                      <span className="text-sm text-gray-600">
                         {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
                       </span>
                     </div>
                   </div>
 
-                  <div className="guide-profile-contact-info">
-                    <span className="guide-profile-phone">
-                      <FaWhatsapp className="whatsapp-icon" /> {guide.contact?.phone || "Phone not provided"}
+                  <div className="flex justify-center gap-4 mt-4">
+                    <span className="flex items-center gap-2 text-lg text-gray-800">
+                      <FaWhatsapp className="text-secondaryGreen" /> {guide.contact?.phone || "Phone not provided"}
                     </span>
-                    <span className="guide-profile-phone">
-                      <FaEnvelope className="email-icon" /> {guide.contact?.email || "Email not provided"}
+                    <span className="flex items-center gap-2 text-lg text-gray-800">
+                      <FaEnvelope className="text-gray-800" /> {guide.contact?.email || "Email not provided"}
                     </span>
                   </div>
                 </div>
 
-                <div className="guide-profile-photo">
+                <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg">
                   <img
                     src={getCloudinaryUrl(guide.profilePhoto)}
                     alt={guide.fullName}
+                    className="w-full h-full object-cover"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/default-profile.png';
@@ -1029,78 +1040,86 @@ const GuideProfile = () => {
                 </div>
               </div>
 
-              <div className="guide-profile-divider"></div>
+              <div className="h-px bg-gray-200 my-8"></div>
 
-              <div className="guide-profile-about">
-                <h2>About Me</h2>
-                <div className={`about-content ${isAboutExpanded ? 'expanded' : 'collapsed'}`}>
-                  <p>{guide.additionalInfo?.bio || "No bio added yet."}</p>
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
+                <div className={`relative ${isAboutExpanded ? 'max-h-none' : 'max-h-24'} overflow-hidden transition-all duration-300`}>
+                  <p className="text-gray-600">{guide.additionalInfo?.bio || "No bio added yet."}</p>
                 </div>
                 <button
-                  className="see-more-button"
+                  className="text-primaryGreen hover:text-secondaryGreen transition-colors duration-200 py-2"
                   onClick={() => setIsAboutExpanded(!isAboutExpanded)}
                 >
                   {isAboutExpanded ? 'See Less' : 'See More'}
                 </button>
               </div>
 
-              <div className="guide-profile-divider"></div>
+              <div className="h-px bg-gray-200 my-8"></div>
 
-              <div className="guide-profile-toggle-section">
-                <div className="guide-profile-toggle-slider">
+              <div className="my-8">
+                <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8">
                   <button
-                    className={`toggle-option ${showPhotos ? 'active' : ''}`}
+                    className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                      showPhotos ? 'text-pureWhite' : 'text-gray-600'
+                    }`}
                     onClick={() => setShowPhotos(true)}
                   >
-                    <FaImages className="toggle-icon" />
-                    <span className="toggle-text">Tour Photos</span>
+                    <FaImages className="text-lg" />
+                    <span className="text-sm font-medium">Tour Photos</span>
                   </button>
                   <button
-                    className={`toggle-option ${!showPhotos ? 'active' : ''}`}
+                    className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
+                      !showPhotos ? 'text-pureWhite' : 'text-gray-600'
+                    }`}
                     onClick={() => setShowPhotos(false)}
                   >
-                    <FaUserTie className="toggle-icon" />
-                    <span className="toggle-text">Professional Details</span>
+                    <FaUserTie className="text-lg" />
+                    <span className="text-sm font-medium">Professional Details</span>
                   </button>
-                  <div className={`slider ${showPhotos ? 'left' : 'right'}`}></div>
+                  <div className={`absolute top-1 left-1 w-1/2 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-transform duration-300 ${
+                    showPhotos ? 'translate-x-0' : 'translate-x-full'
+                  }`}></div>
                 </div>
 
                 {showPhotos ? (
-                  <div className="guide-profile-photos">
-                    <div className="upload-container">
-                      <label className="upload-button">
+                  <div className="text-center">
+                    <div className="mb-8">
+                      <label className="inline-block px-6 py-3 bg-primaryGreen text-pureWhite rounded-full cursor-pointer hover:bg-secondaryGreen transition-colors duration-200">
                         Choose Photo
                         <input
                           type="file"
                           accept="image/*"
                           onChange={handlePhotoUpload}
-                          style={{ display: "none" }}
+                          className="hidden"
                         />
                       </label>
                       {showCaptionInput && (
-                        <div className="caption-input-container">
+                        <div className="mt-4 flex gap-4 items-center justify-center">
                           <input
                             type="text"
                             value={photoCaption}
                             onChange={(e) => setPhotoCaption(e.target.value)}
                             placeholder="Enter photo caption"
-                            className="caption-input"
+                            className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
                           />
-                          <button onClick={handleCaptionSubmit} className="guide-button edit-button">
+                          <button onClick={handleCaptionSubmit} className="px-6 py-2 bg-primaryGreen text-pureWhite rounded-full hover:bg-secondaryGreen transition-colors duration-200">
                             Upload
                           </button>
-                          <button onClick={handleCancelUpload} className="guide-button logout-button">
+                          <button onClick={handleCancelUpload} className="px-6 py-2 bg-defaultGrey text-pureWhite rounded-full hover:bg-gray-600 transition-colors duration-200">
                             Cancel
                           </button>
                         </div>
                       )}
                       {uploadProgress > 0 && (
-                        <div className="upload-progress">
-                          <div
-                            className="progress-bar"
-                            style={{ width: `${uploadProgress}%` }}
-                          ></div>
-                          <span>{uploadProgress}%</span>
+                        <div className="mt-4 max-w-md mx-auto">
+                          <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primaryGreen transition-all duration-300"
+                              style={{ width: `${uploadProgress}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm text-gray-600 mt-2">{uploadProgress}%</span>
                         </div>
                       )}
                     </div>
@@ -1108,138 +1127,155 @@ const GuideProfile = () => {
                     {selectedPhotos.length > 0 && (
                       <button
                         onClick={handleDeleteSelectedPhotos}
-                        className="guide-button delete-button"
-                        style={{ marginBottom: "20px" }}
+                        className="mb-8 px-6 py-2 bg-defaultRed text-pureWhite rounded-full hover:bg-red-700 transition-colors duration-200"
                       >
                         Delete Selected ({selectedPhotos.length})
                       </button>
                     )}
 
-                    <div className="guide-profile-photos-grid">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
                       {tourPhotos.length > 0 ? (
                         tourPhotos.map((photo) => (
-                          <div key={photo._id} className="guide-profile-photo-card">
+                          <div key={photo._id} className="relative border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
                             <input
                               type="checkbox"
-                              className="photo-checkbox"
+                              className="absolute top-2 right-2 z-10"
                               checked={selectedPhotos.includes(photo._id)}
                               onChange={() => handleSelectPhoto(photo._id)}
                             />
                             <img
                               src={`${photo.imagePath}?w=400&h=300&c_fill`}
                               alt={photo.caption || "Tour"}
-                              className="guide-profile-photo-img"
+                              className="w-full h-48 object-cover cursor-pointer hover:scale-105 transition-transform duration-200"
                               loading="lazy"
                               onClick={() => handleImageClick(photo.imagePath)}
                             />
                             {photo.caption && (
-                              <div className="guide-profile-photo-caption">{photo.caption}</div>
+                              <div className="p-3 text-center text-sm text-gray-600 border-t border-gray-100">
+                                {photo.caption}
+                              </div>
                             )}
                           </div>
                         ))
                       ) : (
-                        <p>No tour photos uploaded yet.</p>
+                        <p className="col-span-full text-gray-600">No tour photos uploaded yet.</p>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="guide-profile-professional">
-                    <h2>Professional Details</h2>
-                    <p><strong>Specialties:</strong> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
-                    <p><strong>Languages:</strong> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
-                    <p><strong>Experience:</strong> {guide.professionalDetails?.experienceYears || "0"} years</p>
-                    <p><strong>Tour Regions:</strong> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
-                    {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                      <p>
-                        <strong>Hourly Rate:</strong>
-                        <span className="guide-profile-highlighted-rate">
-                          ${guide.pricing.hourlyRate}
-                        </span>
+                  <div className="p-6 bg-white rounded-lg shadow-sm">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Professional Details</h2>
+                    <div className="space-y-4">
+                      <p className="py-2 border-b border-gray-100">
+                        <span className="font-semibold text-gray-800">Specialties:</span> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
                       </p>
-                    ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                      <p>
-                        <strong>Daily Rate:</strong>
-                        <span className="guide-profile-highlighted-rate">
-                          ${guide.pricing.dailyRate}
-                        </span>
+                      <p className="py-2 border-b border-gray-100">
+                        <span className="font-semibold text-gray-800">Languages:</span> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
                       </p>
-                    ) : (
-                      <p><strong>Rate:</strong> Not set</p>
-                    )}
-                    <p><strong>Availability:</strong> {guide.availability || "Not specified"}</p>
-                    {guide._id && (
-                    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-                      <QRCodeSVG
-                        value={`${window.location.origin}/guides/${guide._id}`}
-                        size={100}
-                        level="H"
-                        includeMargin={true}
-                      />
-                      <p className="text-left">Scan to view public profile</p>
+                      <p className="py-2 border-b border-gray-100">
+                        <span className="font-semibold text-gray-800">Experience:</span> {guide.professionalDetails?.experienceYears || "0"} years
+                      </p>
+                      <p className="py-2 border-b border-gray-100">
+                        <span className="font-semibold text-gray-800">Tour Regions:</span> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
+                      </p>
+                      {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                        <p className="py-2 border-b border-gray-100">
+                          <span className="font-semibold text-gray-800">Hourly Rate:</span>
+                          <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
+                            ${guide.pricing.hourlyRate}
+                          </span>
+                        </p>
+                      ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                        <p className="py-2 border-b border-gray-100">
+                          <span className="font-semibold text-gray-800">Daily Rate:</span>
+                          <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
+                            ${guide.pricing.dailyRate}
+                          </span>
+                        </p>
+                      ) : (
+                        <p className="py-2 border-b border-gray-100">
+                          <span className="font-semibold text-gray-800">Rate:</span> Not set
+                        </p>
+                      )}
+                      <p className="py-2 border-b border-gray-100">
+                        <span className="font-semibold text-gray-800">Availability:</span> {guide.availability || "Not specified"}
+                      </p>
+                      {guide._id && (
+                        <div className="mt-4 text-center">
+                          <QRCodeSVG
+                            value={`${window.location.origin}/guides/${guide._id}`}
+                            size={100}
+                            level="H"
+                            includeMargin={true}
+                          />
+                          <p className="mt-2 text-sm text-gray-600">Scan to view public profile</p>
+                        </div>
+                      )}
                     </div>
-                  )}
                   </div>
                 )}
               </div>
 
-              <div className="guide-profile-divider"></div>
+              <div className="h-px bg-gray-200 my-8"></div>
 
-              <div className="guide-profile-reviews">
-                <h2 className="guide-profile-reviews-title">REVIEWS</h2>
-                <h3 className="guide-profile-reviews-subtitle">
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">REVIEWS</h2>
+                <h3 className="text-lg text-gray-600 text-center mb-8">
                   What Fellow Tourist Say About {guide.fullName}
                 </h3>
 
-                <div className="guide-profile-reviews-grid">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                   {reviews.length > 0 ? (
                     reviews.map((review) => (
-                      <div key={review._id} className="guide-profile-review-card">
-                        <div className="guide-profile-reviewer-info">
-                          <div className="guide-profile-reviewer-avatar">
+                      <div key={review._id} className="p-6 bg-white rounded-lg shadow-sm">
+                        <div className="flex items-center mb-4">
+                          <div className="w-10 h-10 bg-primaryGreen text-pureWhite rounded-full flex items-center justify-center font-bold mr-4">
                             {review.reviewerEmail.charAt(0).toUpperCase()}
                           </div>
-                          <div className="guide-profile-reviewer-details">
-                            <h4 className="guide-profile-reviewer-name">
+                          <div>
+                            <h4 className="font-semibold text-gray-800">
                               {review.reviewerName || review.reviewerEmail.split("@")[0]}
                             </h4>
-                            <p className="guide-profile-reviewer-title">
+                            <p className="text-sm text-gray-600">
                               {review.reviewerTitle || "Client"}
                             </p>
                           </div>
                         </div>
-                        <p className="guide-profile-review-text">"{review.reviewText}"</p>
-                        <div className="guide-profile-review-rating">
-                          <div className="guide-profile-stars">{renderStars(review.rating)}</div>
-                          <div className="guide-profile-rating-number">{review.rating.toFixed(1)}</div>
-                          <span className="guide-profile-rating-label">Rating</span>
+                        <p className="text-gray-600 italic mb-4">"{review.reviewText}"</p>
+                        <div className="flex items-center gap-4">
+                          <div className="text-champYellow">
+                            {renderStars(review.rating)}
+                          </div>
+                          <div className="font-bold text-gray-800">{review.rating.toFixed(1)}</div>
+                          <span className="text-sm text-gray-600">Rating</span>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <p className="guide-profile-no-reviews">No reviews yet.</p>
+                    <p className="col-span-full text-center text-gray-600">No reviews yet.</p>
                   )}
                 </div>
               </div>
 
-              <div className="guide-profile-button-container">
-                <button onClick={handleEnterEditMode} className="guide-button edit-button">
+              <div className="flex flex-wrap justify-center gap-4 mt-8">
+                <button onClick={handleEnterEditMode} className="px-6 py-3 bg-primaryGreen text-pureWhite rounded-full hover:bg-secondaryGreen transition-colors duration-200">
                   Edit Profile
                 </button>
 
                 {guide.isActive ? (
-                  <button onClick={handleDeactivate} className="guide-button deactivate-button">
+                  <button onClick={handleDeactivate} className="px-6 py-3 bg-defaultRed text-pureWhite rounded-full hover:bg-red-700 transition-colors duration-200">
                     Deactivate Account
                   </button>
                 ) : (
-                  <button onClick={handleReactivate} className="guide-button reactivate-button">
+                  <button onClick={handleReactivate} className="px-6 py-3 bg-secondaryGreen text-pureWhite rounded-full hover:bg-primaryGreen transition-colors duration-200">
                     Reactivate Account
                   </button>
                 )}
 
-                <button onClick={handleDelete} className="guide-button delete-button">
+                <button onClick={handleDelete} className="px-6 py-3 bg-defaultRed text-pureWhite rounded-full hover:bg-red-700 transition-colors duration-200">
                   Delete Account
                 </button>
-                <button onClick={handleLogout} className="guide-button logout-button">
+                <button onClick={handleLogout} className="px-6 py-3 bg-defaultGrey text-pureWhite rounded-full hover:bg-gray-600 transition-colors duration-200">
                   Logout
                 </button>
               </div>
@@ -1249,10 +1285,10 @@ const GuideProfile = () => {
       </div>
 
       {selectedImage && (
-        <div className="image-modal-overlay" onClick={handleCloseModal}>
-          <div className="image-modal-content">
-            <button className="image-modal-close" onClick={handleCloseModal}>×</button>
-            <img src={selectedImage} alt="Full size" className="image-modal-img" />
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={handleCloseModal}>
+          <div className="relative max-w-[90%] max-h-[90%]">
+            <button className="absolute -top-10 right-0 text-pureWhite text-3xl hover:text-gray-300" onClick={handleCloseModal}>×</button>
+            <img src={selectedImage} alt="Full size" className="max-w-full max-h-[90vh] object-contain" />
           </div>
         </div>
       )}
