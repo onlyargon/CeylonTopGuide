@@ -193,7 +193,9 @@ const PublicGuideProfile = () => {
                     href={`https://wa.me/${guide.contact?.phone ? 
                       (guide.contact.phone.startsWith('+94') ? 
                         guide.contact.phone.replace(/[^0-9]/g, '') : 
-                        '94' + guide.contact.phone.replace(/[^0-9]/g, '')) 
+                        (guide.contact.phone.startsWith('0') ? 
+                          '94' + guide.contact.phone.substring(1).replace(/[^0-9]/g, '') :
+                          '94' + guide.contact.phone.replace(/[^0-9]/g, ''))) 
                       : ''}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
