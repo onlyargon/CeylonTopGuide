@@ -190,7 +190,11 @@ const PublicGuideProfile = () => {
               <div className="public-guide-contact-info">
                 <div className="contact-item">
                   <a 
-                    href={`https://wa.me/${guide.contact?.phone?.replace(/[^0-9]/g, '')}`} 
+                    href={`https://wa.me/${guide.contact?.phone ? 
+                      (guide.contact.phone.startsWith('+94') ? 
+                        guide.contact.phone.replace(/[^0-9]/g, '') : 
+                        '94' + guide.contact.phone.replace(/[^0-9]/g, '')) 
+                      : ''}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="whatsapp-link"
