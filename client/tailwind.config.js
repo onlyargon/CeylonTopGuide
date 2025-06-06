@@ -5,7 +5,7 @@ module.exports = {
   ],
   theme: {
     colors: {
-      primaryGreen: '#2c5d3f',
+      primaryGreen: '#3aafa9',
       secondaryGreen: '#4f946a',
       champYellow: '#ffd700',
       champSliver: '#C0C0C0',
@@ -22,8 +22,44 @@ module.exports = {
         'bronze-gradient': 'linear-gradient(to bottom right, #804A00, #B87333, #CD7F32)',
         'default-gradient': 'linear-gradient(to bottom right, #E5E7EB, #F3F4F6, #FFFFFF)',
       },
+      textShadow: {
+        sm: '1px 1px 2px rgba(0,0,0,0.25)',
+        DEFAULT: '2px 2px 4px rgba(0,0,0,0.3)',
+        lg: '4px 4px 6px rgba(0,0,0,0.4)',
+      },
+      textShadowWhite: {
+        sm: '1px 1px 2px rgba(255, 255, 255, 0.25)',
+        DEFAULT: '2px 2px 4px rgba(255, 255, 255, 0.3)',
+        lg: '4px 4px 6px rgba(0,0,0,0.4)',
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.text-shadow-sm': {
+          textShadow: '1px 1px 2px rgba(0,0,0,0.25)',
+        },
+        '.text-shadow': {
+          textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+        },
+        '.text-shadow-lg': {
+          textShadow: '4px 4px 6px rgba(0,0,0,0.4)',
+        },
+        '.text-shadow-none': {
+          textShadow: 'none',
+        },
+        '.text-shadow-white-sm': {
+          textShadowWhite: '1px 1px 2px rgba(255, 255, 255, 0.25)',
+        },
+        '.text-shadow-white': {
+          textShadowWhite: '2px 2px 4px rgba(255, 255, 255, 0.3)',
+        },
+        '.text-shadow-white-lg': {
+          textShadowWhite: '4px 4px 6px rgba(255, 255, 255, 0.4)',
+        },
+      })
+    },
+  ],
 }
 
