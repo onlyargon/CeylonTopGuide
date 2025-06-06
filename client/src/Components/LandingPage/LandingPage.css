@@ -16,7 +16,7 @@ html {
 
 /* Header Styles */
 .site-header {
-    background-color: #3aafa9;
+    background-color:#2c5d3f;
     padding: 15px 0;
     position: relative;
     width: 100%;
@@ -60,7 +60,7 @@ html {
 
 .register-button{
     color: white;
-    background-color: #3aafa9;
+    background-color: #2c5d3f;
     border: 1px solid white;
     font-weight: 600;
     padding: 8px 16px;
@@ -72,7 +72,7 @@ html {
 
 .register-button:hover {
     background-color: white;
-    color: #3aafa9;
+    color: #2c5d3f;
 }
 .auth-link {
     text-decoration: none;
@@ -85,7 +85,7 @@ html {
 }
 
 .auth-link:hover {
-    background-color: #3aafa9;
+    background-color: #2c5d3f;
     color: white;
 }
 
@@ -995,7 +995,7 @@ html {
     overflow: hidden;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
-    background-color: #3aafa9;
+    background-color: #2c5d3f;
 }
 
 .slider-wrapper {
