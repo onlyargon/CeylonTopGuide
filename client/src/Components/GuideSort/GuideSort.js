@@ -177,10 +177,10 @@ const GuideList = () => {
                 placeholder="Search by guide name or region..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className="w-full p-2 border border-[#e0e0e0] rounded-md focus:outline-none focus:ring-1 focus:ring-[#2c5d3f] text-sm"
+                className="w-full p-2 border border-[#e0e0e0] rounded-md focus:outline-none focus:ring-1 focus:ring-primaryGreen text-sm"
               />
             </div>
-            <h3 className="text-[#2c5d3f] text-lg mb-4 pb-2 border-b-2 border-[#e0e0e0]">Filter By</h3>
+            <h3 className="text-primaryGreen text-lg mb-4 pb-2 border-b-2 border-[#e0e0e0]">Filter By</h3>
             
             {/* Filter Groups */}
             <div className="space-y-6">
@@ -195,7 +195,7 @@ const GuideList = () => {
                       value={rank}
                       onChange={handleChange}
                       checked={filters.rank === rank}
-                      className="mr-2 accent-[#2c5d3f]"
+                      className="mr-2 accent-primaryGreen"
                     /> {rank}
                   </div>
                 ))}
@@ -212,7 +212,7 @@ const GuideList = () => {
                       value={lang}
                       onChange={handleChange}
                       checked={filters.language.includes(lang)}
-                      className="mr-2 accent-[#2c5d3f]"
+                      className="mr-2 accent-primaryGreen"
                     /> {lang}
                   </div>
                 ))}
@@ -225,7 +225,7 @@ const GuideList = () => {
                   name="experience" 
                   value={filters.experience} 
                   onChange={handleChange}
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-primaryGreen focus:ring-1 focus:ring-primaryGreen"
                 >
                   {experienceOptions.map(exp => (
                     <option key={exp} value={exp}>
@@ -246,7 +246,7 @@ const GuideList = () => {
                       value={opt}
                       onChange={handleChange}
                       checked={filters.specialty.includes(opt)}
-                      className="mr-2 accent-[#2c5d3f]"
+                      className="mr-2 accent-primaryGreen"
                     /> {opt}
                   </div>
                 ))}
@@ -263,7 +263,7 @@ const GuideList = () => {
                       value={r}
                       onChange={handleChange}
                       checked={filters.region.includes(r)}
-                      className="mr-2 accent-[#2c5d3f]"
+                      className="mr-2 accent-primaryGreen"
                     /> {r}
                   </div>
                 ))}
@@ -276,7 +276,7 @@ const GuideList = () => {
                   name="availability" 
                   value={filters.availability} 
                   onChange={handleChange}
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-primaryGreen focus:ring-1 focus:ring-primaryGreen"
                 >
                   {availableDays.map(a => (
                     <option key={a} value={a}>{a}</option>
@@ -293,7 +293,7 @@ const GuideList = () => {
                   value={filters.maxHourlyRate}
                   onChange={handleChange}
                   placeholder="Enter max rate"
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-primaryGreen focus:ring-1 focus:ring-primaryGreen"
                 />
               </div>
 
@@ -306,7 +306,7 @@ const GuideList = () => {
                   value={filters.maxDailyRate}
                   onChange={handleChange}
                   placeholder="Enter max rate"
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-primaryGreen focus:ring-1 focus:ring-primaryGreen"
                 />
               </div>
 
@@ -317,7 +317,7 @@ const GuideList = () => {
                   name="paymentMethod" 
                   value={filters.paymentMethod} 
                   onChange={handleChange}
-                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-[#2c5d3f] focus:ring-1 focus:ring-[#2c5d3f]"
+                  className="w-full p-2 rounded-md border border-[#ddd] text-sm focus:outline-none focus:border-primaryGreen focus:ring-1 focus:ring-primaryGreen"
                 >
                   <option value="All">All</option>
                   <option value="Cash">Cash</option>
@@ -365,7 +365,7 @@ const GuideList = () => {
                 >
                   <div className="flex justify-center">
                     <img
-                      className="w-[200px] h-[200px] object-cover rounded-full border border-[#2c5d3f] shadow-md"
+                      className="w-[200px] h-[200px] object-cover rounded-full border border-primaryGreen shadow-md"
                       src={getCloudinaryUrl(guide.profilePhoto)}
                       alt={guide.fullName}
                       onError={(e) => {
@@ -375,7 +375,7 @@ const GuideList = () => {
                     />
                   </div>
                   <div className="text-center mt-5">
-                    <h4 className="text-lg font-semibold text-[#2c5d3f] mb-2">{guide.fullName}</h4>
+                    <h4 className="text-lg font-semibold text-primaryGreen mb-2">{guide.fullName}</h4>
                     <p className="text-sm text-gray-600 mb-4">Rating: {(Number(guide.averageRating) || 0).toFixed(2) ?? 'No rating yet'}</p>
                     <div className="text-xs text-gray-600 space-y-2">
                       <p>Languages: {guide.professionalDetails?.languagesSpoken?.join(', ')}</p>
@@ -387,7 +387,7 @@ const GuideList = () => {
                     </div>
                     <Link 
                       to={`/guides/${guide._id}`}
-                      className="inline-block mt-6 bg-[#2c5d3f] text-pureWhite font-semibold px-4 py-2 rounded-md hover:bg-[#224830] transition-colors duration-300"
+                      className="inline-block mt-6 bg-primaryGreen shadow-lg text-pureWhite font-semibold px-4 py-2 rounded-md hover:bg-pureWhite hover:border-[1px] hover:border-primaryGreen hover:text-primaryGreen transition-colors duration-300"
                     >
                       View Details
                     </Link>
