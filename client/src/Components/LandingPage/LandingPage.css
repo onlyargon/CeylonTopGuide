@@ -15,16 +15,7 @@ html {
 }
 
 /* Header Styles */
-.site-header {
-    background-color: #3aafa9;
-    padding: 15px 0;
-    position: relative;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: white;
-}
+
 
 .header-container {
     display: flex;

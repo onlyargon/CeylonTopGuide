@@ -129,26 +129,26 @@ const LandingPage = () => {
 
     return (
         <div>
-            <header className="site-header">
-                <div className="header-container flex flex-col md:flex-row justify-between items-center h-[50px] md:h-[50px] p-4 md:p-6">
+            {/*<header className="bg-primaryGreen fixed top-0 left-0 w-full z-100 mb-[500px]">
+                <div className="header-container flex flex-col md:flex-row justify-between items-center h-[70px] md:h-[90px] p-4 md:p-6 w-full">
                     <div className="header-logo mb-4 md:mb-0">
-                        <img src='/Logo/Logo.png' alt='logo' className='logo w-32 md:w-40' />
+                        <img src='/Logo/Logo.png' alt='logo' className='logo w-24 md:w-40' />
                     </div>
-                    <nav className="header-nav mb-4 md:mb-0">
-                        <ul className="nav-list flex flex-col md:flex-row gap-2 md:gap-6">
+                    <nav className="header-nav mb-4 md:mb-0 w-full md:w-auto text-center">
+                        <ul className="nav-list flex flex-col md:flex-row gap-2 md:gap-6 justify-center">
                             <li className="nav-item"><a href="#home" className="nav-link text-sm md:text-base">Home</a></li>
                             <li className="nav-item"><a href="#find-guide" className="nav-link text-sm md:text-base">Find a guide</a></li>
                             <li className="nav-item"><a href="#about" className="nav-link text-sm md:text-base">About us</a></li>
                             <li className="nav-item"><a href="#contact" className="nav-link text-sm md:text-base">Contact</a></li>
                         </ul>
                     </nav>
-                    <div className="header-auth">
+                    <div className="header-auth w-full md:w-auto flex justify-center md:justify-end">
                         {userData ? (
                             <Link to="/guideProfile" className="user-name-button text-sm md:text-base">
                                 {getFirstName(userData.fullName)}
                             </Link>
                         ) : (
-                            <div className="auth-buttons-container flex flex-col md:flex-row gap-2 md:gap-4">
+                            <div className="auth-buttons-container flex flex-col md:flex-row gap-2 md:gap-4 w-full sm:w-auto">
                                 <motion.div
                                     drag
                                     dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
@@ -160,7 +160,7 @@ const LandingPage = () => {
                                         damping: 6
                                     }}
                                 >
-                                    <Link to="/guideRegister" className="register-button text-sm md:text-base">Register</Link>
+                                    <Link to="/guideRegister" className="register-button text-sm md:text-base text-center w-full md:w-auto">Register</Link>
                                 </motion.div>
                                 <motion.div
                                     drag
@@ -173,14 +173,15 @@ const LandingPage = () => {
                                         damping: 6
                                     }}
                                 >
-                                    <Link to="/guideLogin" className="auth-link hover:bg-pureWhite hover:text-primaryGreen text-sm md:text-base">Login</Link>
+                                    <Link to="/guideLogin" className="auth-link hover:bg-pureWhite hover:text-primaryGreen text-sm md:text-base text-center w-full md:w-auto">Login</Link>
                                 </motion.div>
                             </div>
                         )}
                     </div>
                 </div>
-            </header>
-            <div className="relative w-full h-screen bg-gradient-to-b from-primaryGreen via-primaryGreen/90 to-pureWhite/70 flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4 md:px-[100px] py-10 md:py-0 pt-20 md:pt-[200px] pb-10 md:pb-0" id="home">
+            </header>*/}
+            <Header/>
+            <div className="relative w-full h-screen bg-gradient-to-b from-primaryGreen via-primaryGreen/90 to-pureWhite/70 flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4 md:px-[100px] py-10 md:py-0 pt-24 md:pt-[220px] pb-10 md:pb-0" id="home">
                 <div className="flex flex-col items-center md:items-start mb-8 md:mb-0 w-full md:w-1/2 text-center md:text-left">
                     <BlurText
                         text="Find the Best Guide for You"
@@ -198,7 +199,7 @@ const LandingPage = () => {
                         onAnimationComplete={handleAnimationComplete}
                         className="text-lg md:text-2xl text-pureWhite mb-6 md:mb-12 max-w-full md:max-w-2xl"
                     />
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start w-full">
                         <motion.div
                             drag
                             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
@@ -280,58 +281,58 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16 pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[250px] rounded-bl-[250px] mt-[50px]">
-                <section className="flex flex-col md:flex-row items-center gap-12">
+            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[250px] rounded-bl-[250px] mt-[50px]">
+                <section className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="w-full md:w-1/2">
-                        <h2 className="text-2xl md:text-4xl font-bold text-primaryGreen mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
-                        <h3 className="text-xl md:text-2xl font-semibold text-primaryGreen mb-6 text-shadow-white">Your Journey Deserves a Local Touch</h3>
-                        <p className="text-primaryGreen text-base md:text-lg leading-relaxed text-shadow-white">
+                        <h2 className="text-xl md:text-4xl font-bold text-defaultBlack mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
+                        <h3 className="text-lg md:text-2xl font-semibold text-defaultBlack mb-6 text-shadow-white">Your Journey Deserves a Local Touch</h3>
+                        <p className="text-defaultBlack text-sm md:text-base leading-relaxed text-shadow-white">
                             Experience the heart of Sri Lanka with a guide who knows every hidden gem.
                             From ancient temples to coastal wonders, our verified guides bring authentic stories and personal insight to every trip.
                             Make your travel meaningful, not just memorable.
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
-                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[250px] shadow-lg max-w-full h-auto mr-[50px]" />
+                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[250px] shadow-lg max-w-full h-auto pr-0 md:pr-[50px]" />
                     </div>
                 </section>
 
-                <section className="flex flex-col md:flex-row-reverse items-center gap-12 mt-16">
+                <section className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mt-10 md:mt-16">
                     <div className="w-full md:w-1/2">
-                        <h2 className="text-2xl md:text-4xl font-bold text-pureWhite mb-4">Travel Smart with Trusted Chauffeur Guides</h2>
-                        <h3 className="text-xl md:text-2xl font-semibold text-pureWhite mb-6">Comfort, Safety, and Insider Knowledge</h3>
-                        <p className="text-pureWhite text-base md:text-lg leading-relaxed">
+                        <h2 className="text-xl md:text-4xl font-bold text-pureWhite mb-4">Travel Smart with Trusted Chauffeur Guides</h2>
+                        <h3 className="text-lg md:text-2xl font-semibold text-pureWhite mb-6">Comfort, Safety, and Insider Knowledge</h3>
+                        <p className="text-pureWhite text-sm md:text-base leading-relaxed">
                             Avoid the stress of logistics.
                             Our chauffeur guides not only get you where you need to go, they elevate your journey.
                             Enjoy personalized recommendations, cultural tips, and real-time flexibility, all while traveling in comfort and style.
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
-                        <img src="/Slideshow/slide12.jpg" className="rounded-bl-[250px] shadow-lg max-w-full h-auto" />
+                        <img src="/Slideshow/slide12.jpg" className="rounded-bl-[250px] shadow-lg max-w-full h-auto pl-0 md:pl-0" />
                     </div>
                 </section>
             </div>
 
-            <div className="container mx-auto px-16 py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-[100px]">
-                <h1 className="text-3xl md:text-4xl font-bold text-pureWhite mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
+            <div className="container mx-auto px-4 md:px-16 py-10 md:py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-10 md:mt-[100px]">
+                <h1 className="text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite">VERIFIED EXPERTS</span> - <span className="text-pureWhite/80">All tour guides are vetted and approved.</span>
+                            <span className="font-bold text-pureWhite text-sm md:text-base">VERIFIED EXPERTS</span> - <span className="text-pureWhite/80 text-sm md:text-base">All tour guides are vetted and approved.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-12 h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
                             </svg>
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite">EASY SEARCH</span> - <span className="text-pureWhite/80">Filter by location, language, expertise, and reviews.</span>
+                            <span className="font-bold text-pureWhite text-sm md:text-base">EASY SEARCH</span> - <span className="text-pureWhite/80 text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-12 h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z" />
                                 <circle cx="12" cy="12" r="3" fill="currentColor"/>
@@ -339,22 +340,22 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite">REAL REVIEWS</span> - <span className="text-pureWhite/80">See traveler ratings & feedback before booking.</span>
+                            <span className="font-bold text-pureWhite text-sm md:text-base">REAL REVIEWS</span> - <span className="text-pureWhite/80 text-sm md:text-base">See traveler ratings & feedback before booking.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-12 h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite">NO HIDDEN FEES</span> - <span className="text-pureWhite/80">Transparent connections between travelers and guides.</span>
+                            <span className="font-bold text-pureWhite text-sm md:text-base">NO HIDDEN FEES</span> - <span className="text-pureWhite/80 text-sm md:text-base">Transparent connections between travelers and guides.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-12 h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-11h2v7h-2zm0-3h2v2h-2z" />
                             </svg>
