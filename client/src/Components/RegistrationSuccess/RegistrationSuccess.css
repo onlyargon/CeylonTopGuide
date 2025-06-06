@@ -73,7 +73,7 @@
 
 .success-button-home {
     padding: 12px 25px;
-    background-color: #3D6949;
+    background-color: #3d9692;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -82,7 +82,7 @@
 }
 
 .success-button:hover {
-    background-color: #2d4f38;
+    background-color: #61c7c2;
 }
 
 /* Responsive design */

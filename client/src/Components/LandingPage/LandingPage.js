@@ -231,7 +231,7 @@ const LandingPage = () => {
                         >
                             <Link
                                 to="/guideRegister"
-                                className="inline-block w-full sm:w-auto text-center px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite border-2 border-pureWhite font-semibold rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 text-sm md:text-base"
+                                className="inline-block w-full sm:w-auto text-center px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite border-2 border-pureWhite font-semibold rounded-[20px] shadow-lg hover:shadow-xl hover:bg-primaryGreen hover:text-pureWhite transition-all duration-300 text-sm md:text-base"
                             >
                                 Register as a Guide
                             </Link>
