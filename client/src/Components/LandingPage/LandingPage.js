@@ -181,7 +181,7 @@ const LandingPage = () => {
                 </div>
             </header>*/}
             <Header/>
-            <div className="relative w-full h-screen bg-gradient-to-b from-primaryGreen via-primaryGreen/90 to-pureWhite/70 flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4 md:px-[100px] py-10 md:py-0 pt-24 md:pt-[220px] pb-10 md:pb-0" id="home">
+            <div className="relative w-full min-h-screen bg-gradient-to-b from-primaryGreen via-primaryGreen/90 to-pureWhite/70 flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4 md:px-[100px] py-10 md:py-0 pt-24 md:pt-[220px] pb-10 md:pb-0" id="home">
                 <div className="flex flex-col items-center md:items-start mb-8 md:mb-0 w-full md:w-1/2 text-center md:text-left">
                     <BlurText
                         text="Find the Best Guide for You"
@@ -189,7 +189,7 @@ const LandingPage = () => {
                         animateBy="words"
                         direction="top"
                         onAnimationComplete={handleAnimationComplete}
-                        className="text-3xl md:text-7xl font-bold text-pureWhite mb-2 md:mb-4"
+                        className="text-2xl sm:text-3xl md:text-7xl font-bold text-pureWhite mb-2 md:mb-4"
                     />
                     <BlurText
                         text="Connecting Travelers with Sri Lanka's Best Tour Guides"
@@ -197,7 +197,7 @@ const LandingPage = () => {
                         animateBy="words"
                         direction="top"
                         onAnimationComplete={handleAnimationComplete}
-                        className="text-lg md:text-2xl text-pureWhite mb-6 md:mb-12 max-w-full md:max-w-2xl"
+                        className="text-base sm:text-lg md:text-2xl text-pureWhite mb-6 md:mb-12 max-w-full md:max-w-2xl"
                     />
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start w-full">
                         <motion.div
@@ -210,10 +210,11 @@ const LandingPage = () => {
                                 stiffness: 80,
                                 damping: 6
                             }}
+                            className="w-full sm:w-auto"
                         >
                             <Link
                                 to="/guideList"
-                                className="inline-block w-full sm:w-auto text-center px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite font-semibold border-2 border-pureWhite rounded-[20px] shadow-lg hover:shadow-xl hover:bg-primaryGreen hover:text-pureWhite transition-all duration-300 text-sm md:text-base"
+                                className="inline-block w-full text-center px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite font-semibold border-2 border-pureWhite rounded-[20px] shadow-lg hover:shadow-xl hover:bg-primaryGreen hover:text-pureWhite transition-all duration-300 text-sm md:text-base"
                             >
                                 Find a Guide
                             </Link>
@@ -228,10 +229,11 @@ const LandingPage = () => {
                                 stiffness: 120,
                                 damping: 6
                             }}
+                            className="w-full sm:w-auto"
                         >
                             <Link
                                 to="/guideRegister"
-                                className="inline-block w-full sm:w-auto text-center px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite border-2 border-pureWhite font-semibold rounded-[20px] shadow-lg hover:shadow-xl hover:bg-primaryGreen hover:text-pureWhite transition-all duration-300 text-sm md:text-base"
+                                className="inline-block w-full text-center px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white text-pureWhite border-2 border-pureWhite font-semibold rounded-[20px] shadow-lg hover:shadow-xl hover:bg-primaryGreen hover:text-pureWhite transition-all duration-300 text-sm md:text-base"
                             >
                                 Register as a Guide
                             </Link>
@@ -241,12 +243,12 @@ const LandingPage = () => {
                 <div className="flex items-center justify-center w-full md:w-1/2 mt-8 md:mt-0 relative">
                     <div className="relative w-full h-full flex items-start justify-center">
                         {/* Circles behind the image */}
-                        <div className="absolute rounded-full bg-gradient-to-b from-pureWhite/70 via-primaryGreen/90 to-transparent w-[250px] md:w-[450px] h-[250px] md:h-[450px] top-10 md:-top-[50px] left-1/2 transform -translate-x-1/2 z-0"></div> {/* Large Circle */}
-                        <div className="absolute rounded-full bg-pureWhite/10 w-[150px] md:w-[300px] h-[150px] md:h-[300px] top-32 md:top-[100px] left-10 md:-left-[50px] z-0"></div> {/* Medium Circle */}
-                        <div className="absolute rounded-full bg-pureWhite/10 w-[100px] md:w-[200px] h-[100px] md:h-[200px] bottom-10 md:bottom-[50px] right-10 md:right-[0px] z-0"></div> {/* Small Circle */}
+                        <div className="absolute rounded-full bg-gradient-to-b from-pureWhite/70 via-primaryGreen/90 to-transparent w-[200px] sm:w-[250px] md:w-[450px] h-[200px] sm:h-[250px] md:h-[450px] top-10 md:-top-[50px] left-1/2 transform -translate-x-1/2 z-0"></div>
+                        <div className="absolute rounded-full bg-pureWhite/10 w-[120px] sm:w-[150px] md:w-[300px] h-[120px] sm:h-[150px] md:h-[300px] top-32 md:top-[100px] left-10 md:-left-[50px] z-0"></div>
+                        <div className="absolute rounded-full bg-pureWhite/10 w-[80px] sm:w-[100px] md:w-[200px] h-[80px] sm:h-[100px] md:h-[200px] bottom-10 md:bottom-[50px] right-10 md:right-[0px] z-0"></div>
                         {/* Window for Top Guides */}
-                        <div className="absolute top-[300px] md:top-[200px] left-1/2 transform -translate-x-1/2 md:left-[100px] w-[300px] md:w-[550px] h-[250px] md:h-[300px] bg-pureWhite/20 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-3 z-10 text-center">
-                            <h3 className="text-primaryGreen md:text-pureWhite text-base md:text-xl font-semibold mb-1">TOP GUIDES TODAY</h3>
+                        <div className="absolute top-[250px] sm:top-[300px] md:top-[200px] left-1/2 transform -translate-x-1/2 md:left-[100px] w-[280px] sm:w-[300px] md:w-[550px] h-[200px] sm:h-[250px] md:h-[300px] bg-pureWhite/20 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-3 z-10 text-center">
+                            <h3 className="text-primaryGreen md:text-pureWhite text-sm sm:text-base md:text-xl font-semibold mb-1">TOP GUIDES TODAY</h3>
                             {topGuides.length > 0 ? (
                                 <AnimatedList
                                     items={topGuides.slice(0, 5).map(guide => (
@@ -254,10 +256,10 @@ const LandingPage = () => {
                                             <img
                                                 src={getCloudinaryUrl(guide.profilePhoto)}
                                                 alt={guide.fullName}
-                                                className="w-6 h-6 md:w-10 md:h-10 rounded-full object-cover"
+                                                className="w-5 h-5 sm:w-6 sm:h-6 md:w-10 md:h-10 rounded-full object-cover"
                                             />
                                             <div className="flex flex-col">
-                                                <p className="text-pureWhite text-xs font-medium m-0 text-left">{guide.fullName}</p>
+                                                <p className="text-pureWhite text-xs sm:text-sm font-medium m-0 text-left">{guide.fullName}</p>
                                                 <div className="flex items-center gap-1 text-xs text-pureWhite/80 justify-center">
                                                     <FontAwesomeIcon icon={faStar} className="text-champYellow" />
                                                     <span>{guide.averageRating?.toFixed(1) || "0.0"}</span>
@@ -272,28 +274,28 @@ const LandingPage = () => {
                                     externalSelectedIndex={currentIndex}
                                 />
                             ) : (
-                                <p className="text-pureWhite/80 text-sm md:text-base">Loading top guides...</p>
+                                <p className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Loading top guides...</p>
                             )}
                         </div>
                         {/* Image */}
-                        <img src="/Images/Tourist.png" alt='tourist' className="w-[250px] md:w-[600px] h-auto mt-10 md:-mt-[190px] z-10" />
+                        <img src="/Images/Tourist.png" alt='tourist' className="w-[200px] sm:w-[250px] md:w-[600px] h-auto mt-10 md:-mt-[190px] z-10" />
                     </div>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[250px] rounded-bl-[250px] mt-[50px]">
+            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px] rounded-bl-[100px] sm:rounded-bl-[150px] md:rounded-bl-[250px] mt-[50px]">
                 <section className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="w-full md:w-1/2">
-                        <h2 className="text-xl md:text-4xl font-bold text-defaultBlack mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
-                        <h3 className="text-lg md:text-2xl font-semibold text-defaultBlack mb-6 text-shadow-white">Your Journey Deserves a Local Touch</h3>
-                        <p className="text-defaultBlack text-sm md:text-base leading-relaxed text-shadow-white">
+                        <h2 className="text-lg sm:text-xl md:text-4xl font-bold text-defaultBlack mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
+                        <h3 className="text-base sm:text-lg md:text-2xl font-semibold text-defaultBlack mb-6 text-shadow-white">Your Journey Deserves a Local Touch</h3>
+                        <p className="text-defaultBlack text-xs sm:text-sm md:text-base leading-relaxed text-shadow-white">
                             Experience the heart of Sri Lanka with a guide who knows every hidden gem.
                             From ancient temples to coastal wonders, our verified guides bring authentic stories and personal insight to every trip.
                             Make your travel meaningful, not just memorable.
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
-                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[250px] shadow-lg max-w-full h-auto pr-0 md:pr-[50px]" />
+                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px] shadow-lg max-w-full h-auto pr-0 md:pr-[50px]" />
                     </div>
                 </section>
 
@@ -314,25 +316,25 @@ const LandingPage = () => {
             </div>
 
             <div className="container mx-auto px-4 md:px-16 py-10 md:py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-10 md:mt-[100px]">
-                <h1 className="text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
+                <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-sm md:text-base">VERIFIED EXPERTS</span> - <span className="text-pureWhite/80 text-sm md:text-base">All tour guides are vetted and approved.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">VERIFIED EXPERTS</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All tour guides are vetted and approved.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
                             </svg>
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-sm md:text-base">EASY SEARCH</span> - <span className="text-pureWhite/80 text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">EASY SEARCH</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z" />
                                 <circle cx="12" cy="12" r="3" fill="currentColor"/>
@@ -340,24 +342,24 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-sm md:text-base">REAL REVIEWS</span> - <span className="text-pureWhite/80 text-sm md:text-base">See traveler ratings & feedback before booking.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">REAL REVIEWS</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">See traveler ratings & feedback before booking.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-sm md:text-base">NO HIDDEN FEES</span> - <span className="text-pureWhite/80 text-sm md:text-base">Transparent connections between travelers and guides.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">NO HIDDEN FEES</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Transparent connections between travelers and guides.</span>
                         </div>
-                        <div className="flex-shrink-0 text-pureWhite w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-11h2v7h-2zm0-3h2v2h-2z" />
+                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                             </svg>
                         </div>
                     </div>
@@ -476,42 +478,42 @@ const LandingPage = () => {
             </div>
 
             <div className="px-4 md:mx-16 flex justify-center items-center py-10 md:py-20 bg-gradient-to-b from-pureWhite/80 via-primaryGreen/50 to-pureWhite/80 rounded-3xl my-8 md:my-16" id="register">
-                <div className="w-full max-w-5xl bg-pureWhite/80 rounded-2xl shadow-xl p-6 md:p-10 flex flex-col items-center">
-                    <h1 className="text-2xl md:text-4xl font-bold text-primaryGreen mb-6 md:mb-10 text-center">REGISTER AS A TOUR GUIDE</h1>
+                <div className="w-full max-w-5xl bg-pureWhite/80 rounded-2xl shadow-xl p-4 sm:p-6 md:p-10 flex flex-col items-center">
+                    <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-primaryGreen mb-6 md:mb-10 text-center">REGISTER AS A TOUR GUIDE</h1>
                     <Link to="/guideRegister" className="w-full flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-6 md:mb-10">
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="50" height="50" className="md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
+                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
                                     <path fill="currentColor" d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                 </svg>
                             </div>
-                            <h3 className="text-base md:text-lg font-semibold text-pureWhite">STEP 1:</h3>
-                            <h2 className="text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">CREATE YOUR PROFILE</h2>
-                            <p className="text-pureWhite/90 text-center text-sm md:text-base">
+                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 1:</h3>
+                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">CREATE YOUR PROFILE</h2>
+                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
                                 Enter your basic details and upload<br />a profile photo.
                             </p>
                         </div>
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="50" height="50" className="md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
+                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
                                     <path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
                                 </svg>
                             </div>
-                            <h3 className="text-base md:text-lg font-semibold text-pureWhite">STEP 2:</h3>
-                            <h2 className="text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">ADD YOUR CREDENTIALS</h2>
-                            <p className="text-pureWhite/90 text-center text-sm md:text-base">
+                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 2:</h3>
+                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">ADD YOUR CREDENTIALS</h2>
+                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
                                 Share your guide license,<br />expertise, languages,<br />and tour types.
                             </p>
                         </div>
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="50" height="50" className="md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
+                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
                                     <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                                 </svg>
                             </div>
-                            <h3 className="text-base md:text-lg font-semibold text-pureWhite">STEP 3:</h3>
-                            <h2 className="text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">GET VERIFIED & GO LIVE</h2>
-                            <p className="text-pureWhite/90 text-center text-sm md:text-base">
+                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 3:</h3>
+                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">GET VERIFIED & GO LIVE</h2>
+                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
                                 Once approved, your profile<br />becomes searchable to<br />travelers worldwide.
                             </p>
                         </div>
@@ -528,7 +530,7 @@ const LandingPage = () => {
                             damping: 6
                         }}
                     >
-                        <Link to="/guideRegister" className="inline-block px-6 md:px-8 py-3 md:py-4 bg-primaryGreen text-pureWhite font-semibold rounded-[15px] shadow-lg hover:bg-darkGreen transition-colors duration-300 text-sm md:text-base">
+                        <Link to="/guideRegister" className="inline-block px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-primaryGreen text-pureWhite font-semibold rounded-[15px] shadow-lg hover:bg-darkGreen transition-colors duration-300 text-sm md:text-base">
                             REGISTER NOW
                         </Link>
                     </motion.div>
@@ -536,25 +538,25 @@ const LandingPage = () => {
             </div>
 
             <div className="about-us-container px-4 md:px-16 py-10 md:py-20" id="about">
-                <h1 className="about-us-title text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-10 text-center">ABOUT US</h1>
-                <div className="about-us-content flex flex-col md:flex-row items-center gap-8">
+                <h1 className="about-us-title text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-10 text-center">ABOUT US</h1>
+                <div className="about-us-content flex flex-col md:flex-row items-center gap-6 sm:gap-8">
                     <div className="about-us-text w-full md:w-1/2">
-                        <h2 className="about-us-heading text-xl md:text-3xl font-bold text-defaultBlack mb-4">We Connect the Best Guides with Curious Travelers.</h2>
-                        <p className="about-us-paragraph text-sm md:text-base text-defaultBlack mb-4">
+                        <h2 className="about-us-heading text-lg sm:text-xl md:text-3xl font-bold text-defaultBlack mb-3 sm:mb-4">We Connect the Best Guides with Curious Travelers.</h2>
+                        <p className="about-us-paragraph text-xs sm:text-sm md:text-base text-defaultBlack mb-3 sm:mb-4">
                             At CeylonTopGuide, we're not just building a platform, we're opening a door that connects curious travelers with the local voices who know Sri Lanka best.
                         </p>
-                        <p className="about-us-paragraph text-sm md:text-base text-defaultBlack mb-4">
+                        <p className="about-us-paragraph text-xs sm:text-sm md:text-base text-defaultBlack mb-3 sm:mb-4">
                             Our mission is simple; make finding experienced, passionate local guides straightforward and reliable. We bring Sri Lanka's professional tour guides together on one trusted platform, each verified to help travelers confidently choose who will lead their journey.
                         </p>
-                        <p className="about-us-paragraph text-sm md:text-base text-defaultBlack mb-4">
+                        <p className="about-us-paragraph text-xs sm:text-sm md:text-base text-defaultBlack mb-3 sm:mb-4">
                             Behind each profile is someone who knows Sri Lanka deeply and personally; its hidden corners, untold stories, and local secrets.
                         </p>
-                        <p className="about-us-paragraph text-sm md:text-base text-defaultBlack">
+                        <p className="about-us-paragraph text-xs sm:text-sm md:text-base text-defaultBlack">
                             Welcome to our community. We're glad you're here.
                         </p>
                     </div>
                     <div className="about-us-image-container w-full md:w-1/2 flex justify-center">
-                        <img src="/Logo/LogoBlack.png" alt="Logo BLACK" className='about-us-image w-32 md:w-40' />
+                        <img src="/Logo/LogoBlack.png" alt="Logo BLACK" className='about-us-image w-24 sm:w-32 md:w-40' />
                     </div>
                 </div>
             </div>
