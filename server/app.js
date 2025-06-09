@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import guideRouter from './Routes/GuideRoutes.js';
 import reviewRouter from './Routes/ReviewRoutes.js';
 import tourPhotosRouter from './Routes/TourPhotoRoutes.js';
+import locationRouter from'./Routes/TouristLocationRoutes.js'
 
 dotenv.config();
 
@@ -148,6 +149,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/guides', guideRouter);
 app.use('/reviews', reviewRouter);
 app.use("/tourPhotos", tourPhotosRouter);
+app.use('/locations', locationRouter);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -16,6 +16,8 @@ import ResetPassword from './Components/GuideResetPassword/GuideResetPassword';
 import AdminLogin from './Components/AdminLogin/AdminLogin';
 import RegistrationSuccess from './Components/RegistrationSuccess/RegistrationSuccess';
 import PublicGuideProfileLocal from './Components/PublicGuideProfile/PublicGuideProfileLocal';
+import LocationDetail from './Components/Map/MapLocations';
+import TouristMap from './Components/Map/Map';
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
          <Route path="/adminLogin" element={<AdminLogin/>}/>
          <Route path="/registration-confirmation" element={<RegistrationSuccess/>}/>
          <Route path="/public-guide-profile" element={<PublicGuideProfileLocal/>}/>
+         <Route path="/map" element={<TouristMap/>}/>
+         <Route path="/map/:id" element={<LocationDetail/>}/>
         </Routes>
       </React.Fragment>
     </div>
