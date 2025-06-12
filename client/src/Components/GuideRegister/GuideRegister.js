@@ -421,6 +421,26 @@ const Register = () => {
                 }
             });
 
+            // Validate required fields before sending
+            const requiredFields = [
+                'fullName', 'email', 'phone', 'username', 'password',
+                'address.street', 'address.city', 'address.district', 'address.province',
+                'guideRank', 'languagesSpoken', 'experienceYears', 'specialties', 'tourRegions',
+                'availability', 'paymentMethods', 'bio'
+            ];
+
+            const missingFields = requiredFields.filter(field => {
+                if (field.includes('.')) {
+                    const [parent, child] = field.split('.');
+                    return !requestData[parent]?.[child];
+                }
+                return !requestData[field];
+            });
+
+            if (missingFields.length > 0) {
+                throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+            }
+
             console.log('Sending registration data:', requestData);
 
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
@@ -435,11 +455,15 @@ const Register = () => {
             console.log('Server response:', data);
 
             if (!response.ok) {
+                if (response.status === 500) {
+                    console.error('Server error details:', data);
+                    throw new Error('Server error occurred. Please try again later or contact support.');
+                }
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
                     alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
                     return;
                 }
-                throw new Error(data.message || "Failed to register");
+                throw new Error(data.message || data.error || "Failed to register");
             }
 
             console.log("Registration successful:", data);
@@ -452,7 +476,15 @@ const Register = () => {
                 stack: error.stack,
                 response: error.response
             });
-            alert(`Registration failed: ${error.message || 'An unexpected error occurred. Please try again.'}`);
+            
+            // Show more specific error messages based on the error type
+            if (error.message.includes('Missing required fields')) {
+                alert(`Registration failed: ${error.message}`);
+            } else if (error.message.includes('Server error')) {
+                alert('Registration failed: Server error occurred. Please try again later or contact support.');
+            } else {
+                alert(`Registration failed: ${error.message || 'An unexpected error occurred. Please try again.'}`);
+            }
         }
     };
 
