@@ -37,6 +37,10 @@ const Register = () => {
         username: "",
         password: "",
         bio: "",
+        hourlyRateMin: "",
+        hourlyRateMax: "",
+        dailyRateMin: "",
+        dailyRateMax: "",
     });
 
     // Cloudinary upload function
@@ -285,12 +289,18 @@ const Register = () => {
                 if (!formData.availability) errors.availability = "Availability is required";
                 if (!formData.rateType) errors.rateType = "Please select either hourly or daily rate";
                 if (formData.rateType === "hourly") {
-                    if (!formData.hourlyRate) errors.hourlyRate = "Hourly Rate is required";
-                    else if (isNaN(formData.hourlyRate)) errors.hourlyRate = "Hourly Rate must be a number";
+                    if (!formData.hourlyRateMin || !formData.hourlyRateMax) {
+                        errors.hourlyRate = "Both minimum and maximum hourly rates are required";
+                    } else if (Number(formData.hourlyRateMin) > Number(formData.hourlyRateMax)) {
+                        errors.hourlyRate = "Minimum rate cannot be greater than maximum rate";
+                    }
                 }
                 if (formData.rateType === "daily") {
-                    if (!formData.dailyRate) errors.dailyRate = "Daily Rate is required";
-                    else if (isNaN(formData.dailyRate)) errors.dailyRate = "Daily Rate must be a number";
+                    if (!formData.dailyRateMin || !formData.dailyRateMax) {
+                        errors.dailyRate = "Both minimum and maximum daily rates are required";
+                    } else if (Number(formData.dailyRateMin) > Number(formData.dailyRateMax)) {
+                        errors.dailyRate = "Minimum rate cannot be greater than maximum rate";
+                    }
                 }
                 if (formData.paymentMethods.length === 0) errors.paymentMethods = "At least one payment method is required";
                 break;
@@ -362,6 +372,18 @@ const Register = () => {
         }
 
         try {
+            // Format the rates into strings with min/max values
+            let formattedHourlyRate = '';
+            let formattedDailyRate = '';
+            
+            if (formData.rateType === 'hourly') {
+                formattedHourlyRate = `$${formData.hourlyRateMin}-${formData.hourlyRateMax}/hour`;
+                formattedDailyRate = ''; // Clear daily rate if hourly is selected
+            } else if (formData.rateType === 'daily') {
+                formattedDailyRate = `$${formData.dailyRateMin}-${formData.dailyRateMax}/day`;
+                formattedHourlyRate = ''; // Clear hourly rate if daily is selected
+            }
+
             // Format the data before sending
             const requestData = {
                 ...formData,
@@ -369,10 +391,11 @@ const Register = () => {
                 email: formData.email?.trim(),
                 phone: formData.phone?.trim(),
                 username: formData.username?.trim(),
+                // Format the rates as strings
+                hourlyRate: formattedHourlyRate,
+                dailyRate: formattedDailyRate,
                 // Ensure these are numbers
                 experienceYears: Number(formData.experienceYears),
-                hourlyRate: formData.rateType === 'hourly' ? Number(formData.hourlyRate) : null,
-                dailyRate: formData.rateType === 'daily' ? Number(formData.dailyRate) : null,
                 // Ensure these are arrays
                 languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
                 specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
@@ -753,29 +776,55 @@ const Register = () => {
                     {step === 4 && formData.guideRank !== "Unregistered Guide" && (
                         <div>
                             <h2>Step 4: Documents for Verification</h2>
-                            <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
-                                <label>Tour Guide License</label>
-                                <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
-                                <label className="file-input-wrapper">
-                                    <span className="file-input-button">Choose License File</span>
-                                    <input
-                                        className="registration-file-input"
-                                        type="file"
-                                        accept="image/*"
-                                        name="tourGuideLicense"
-                                        onChange={handleFileUpload}
-                                        required
-                                    />
-                                </label>
-                                {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
-                                {formData.tourGuideLicensePreview && (
-                                    <img
-                                        src={formData.tourGuideLicensePreview}
-                                        alt="License Preview"
-                                        className="registration-preview-image"
-                                    />
-                                )}
-                            </div>
+                            {formData.guideRank === "Driver Guide" ? (
+                                <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
+                                    <label>Driver's License</label>
+                                    <p className="registration-sub-label">Upload a photo or scan of your valid driver's license. Make sure it's clear and readable.</p>
+                                    <label className="file-input-wrapper">
+                                        <span className="file-input-button">Choose License File</span>
+                                        <input
+                                            className="registration-file-input"
+                                            type="file"
+                                            accept="image/*"
+                                            name="tourGuideLicense"
+                                            onChange={handleFileUpload}
+                                            required
+                                        />
+                                    </label>
+                                    {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
+                                    {formData.tourGuideLicensePreview && (
+                                        <img
+                                            src={formData.tourGuideLicensePreview}
+                                            alt="License Preview"
+                                            className="registration-preview-image"
+                                        />
+                                    )}
+                                </div>
+                            ) : (
+                                <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
+                                    <label>Tour Guide License</label>
+                                    <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
+                                    <label className="file-input-wrapper">
+                                        <span className="file-input-button">Choose License File</span>
+                                        <input
+                                            className="registration-file-input"
+                                            type="file"
+                                            accept="image/*"
+                                            name="tourGuideLicense"
+                                            onChange={handleFileUpload}
+                                            required
+                                        />
+                                    </label>
+                                    {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
+                                    {formData.tourGuideLicensePreview && (
+                                        <img
+                                            src={formData.tourGuideLicensePreview}
+                                            alt="License Preview"
+                                            className="registration-preview-image"
+                                        />
+                                    )}
+                                </div>
+                            )}
 
                             <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
                                 <label>NIC (National Identity Card)</label>
@@ -1043,20 +1092,39 @@ const Register = () => {
 
                             {formData.rateType === "hourly" && (
                                 <div className={`registration-form-group ${errors.hourlyRate ? 'error' : ''}`}>
-                                    <label>Hourly Rate</label>
-                                    <p className="registration-sub-label">Enter your hourly rate in USD (US Dollars).</p>
+                                    <label>Hourly Rate Range</label>
+                                    <p className="registration-sub-label">Enter your hourly rate range in USD (US Dollars).</p>
                                     <div className="registration-rate-input">
-                                        <input
-                                            className="registration-input"
-                                            type="number"
-                                            name="hourlyRate"
-                                            placeholder="Rate ($)"
-                                            value={formData.hourlyRate}
-                                            onChange={handleChange}
-                                            min="0"
-                                            step="0.01"
-                                            required
-                                        />
+                                        <div className="rate-range-container">
+                                            <div className="rate-input-group">
+                                                <label>Minimum Rate ($)</label>
+                                                <input
+                                                    className="registration-input"
+                                                    type="number"
+                                                    name="hourlyRateMin"
+                                                    placeholder="Min Rate"
+                                                    value={formData.hourlyRateMin}
+                                                    onChange={handleChange}
+                                                    min="0"
+                                                    step="0.01"
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="rate-input-group">
+                                                <label>Maximum Rate ($)</label>
+                                                <input
+                                                    className="registration-input"
+                                                    type="number"
+                                                    name="hourlyRateMax"
+                                                    placeholder="Max Rate"
+                                                    value={formData.hourlyRateMax}
+                                                    onChange={handleChange}
+                                                    min="0"
+                                                    step="0.01"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
                                         {errors.hourlyRate && <span className="registration-error-message">{errors.hourlyRate}</span>}
                                     </div>
                                 </div>
@@ -1064,20 +1132,39 @@ const Register = () => {
 
                             {formData.rateType === "daily" && (
                                 <div className={`registration-form-group ${errors.dailyRate ? 'error' : ''}`}>
-                                    <label>Daily Rate</label>
-                                    <p className="registration-sub-label">Enter your daily rate in USD (US Dollars).</p>
+                                    <label>Daily Rate Range</label>
+                                    <p className="registration-sub-label">Enter your daily rate range in USD (US Dollars).</p>
                                     <div className="registration-rate-input">
-                                        <input
-                                            className="registration-input"
-                                            type="number"
-                                            name="dailyRate"
-                                            placeholder="Rate ($)"
-                                            value={formData.dailyRate}
-                                            onChange={handleChange}
-                                            min="0"
-                                            step="0.01"
-                                            required
-                                        />
+                                        <div className="rate-range-container">
+                                            <div className="rate-input-group">
+                                                <label>Minimum Rate ($)</label>
+                                                <input
+                                                    className="registration-input"
+                                                    type="number"
+                                                    name="dailyRateMin"
+                                                    placeholder="Min Rate"
+                                                    value={formData.dailyRateMin}
+                                                    onChange={handleChange}
+                                                    min="0"
+                                                    step="0.01"
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="rate-input-group">
+                                                <label>Maximum Rate ($)</label>
+                                                <input
+                                                    className="registration-input"
+                                                    type="number"
+                                                    name="dailyRateMax"
+                                                    placeholder="Max Rate"
+                                                    value={formData.dailyRateMax}
+                                                    onChange={handleChange}
+                                                    min="0"
+                                                    step="0.01"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
                                         {errors.dailyRate && <span className="registration-error-message">{errors.dailyRate}</span>}
                                     </div>
                                 </div>
@@ -1315,9 +1402,9 @@ const Register = () => {
                                         <div>
                                             <strong>Rate:</strong>
                                             <p>{formData.rateType === 'hourly' ? 
-                                                `$${formData.hourlyRate}/hour` : 
+                                                `$${formData.hourlyRateMin}-${formData.hourlyRateMax}/hour` : 
                                                 formData.rateType === 'daily' ? 
-                                                `$${formData.dailyRate}/day` : 
+                                                `$${formData.dailyRateMin}-${formData.dailyRateMax}/day` : 
                                                 "Not set"}</p>
                                         </div>
                                         <div>

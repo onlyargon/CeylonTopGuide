@@ -154,7 +154,7 @@ const AnimatedList = ({
   }, [externalSelectedIndex, items.length, listRef.current]); // Re-run effect when externalSelectedIndex, items, or listRef changes
 
   return (
-    <div className={`relative w-full md:w-[500px] ${className}`}>
+    <div className={`relative w-[200px] md:w-[480px] ${className}`}>
       <div
         ref={listRef}
         className={`max-h-[205px] overflow-y-auto p-2 md:p-4 ${
@@ -182,7 +182,7 @@ const AnimatedList = ({
             }}
           >
             <div
-              className={`p-2 md:p-4 bg-primaryGreen rounded-lg ${selectedIndex === index ? "bg-primaryGreen/90" : ""} ${itemClassName} w-full`}
+              className={`p-2 md:p-4 bg-primaryGreen rounded-lg ${selectedIndex === index ? "bg-primaryGreen/90" : ""} ${itemClassName} w-[440px]`}
             >
               <p className="text-white m-0 text-sm md:text-base">{item}</p>
             </div>

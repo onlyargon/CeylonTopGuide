@@ -247,7 +247,7 @@ const LandingPage = () => {
                         <div className="absolute rounded-full bg-pureWhite/10 w-[120px] sm:w-[150px] md:w-[300px] h-[120px] sm:h-[150px] md:h-[300px] top-32 md:top-[100px] left-10 md:-left-[50px] z-0"></div>
                         <div className="absolute rounded-full bg-pureWhite/10 w-[80px] sm:w-[100px] md:w-[200px] h-[80px] sm:h-[100px] md:h-[200px] bottom-10 md:bottom-[50px] right-10 md:right-[0px] z-0"></div>
                         {/* Window for Top Guides */}
-                        <div className="absolute top-[250px] sm:top-[300px] md:top-[200px] left-1/2 transform -translate-x-1/2 md:left-[100px] w-[280px] sm:w-[300px] md:w-[550px] h-[200px] sm:h-[250px] md:h-[300px] bg-pureWhite/20 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-3 z-10 text-center">
+                        <div className="absolute top-[250px] sm:top-[300px] md:top-[200px] left-1/2 transform -translate-x-1/2 md:left-[250px] w-[250px] sm:w-[300px] md:w-[500px] h-[200px] sm:h-[250px] md:h-[300px] bg-pureWhite/20 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-3 z-20 text-center">
                             <h3 className="text-primaryGreen md:text-pureWhite text-sm sm:text-base md:text-xl font-semibold mb-1">TOP GUIDES TODAY</h3>
                             {topGuides.length > 0 ? (
                                 <AnimatedList
