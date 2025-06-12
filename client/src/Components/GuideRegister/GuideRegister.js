@@ -363,15 +363,19 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Starting registration process...');
 
         // Final validation before submission
         const finalErrors = validateStep(step);
         if (Object.keys(finalErrors).length > 0) {
+            console.log('Validation errors found:', finalErrors);
             setErrors(finalErrors);
             return;
         }
+        console.log('Form validation passed');
 
         try {
+            console.log('Processing form data...');
             // Format the rates into strings with min/max values
             let formattedHourlyRate = '';
             let formattedDailyRate = '';
@@ -379,9 +383,11 @@ const Register = () => {
             if (formData.rateType === 'hourly') {
                 formattedHourlyRate = `$${formData.hourlyRateMin}-${formData.hourlyRateMax}/hour`;
                 formattedDailyRate = ''; // Clear daily rate if hourly is selected
+                console.log('Hourly rate formatted:', formattedHourlyRate);
             } else if (formData.rateType === 'daily') {
                 formattedDailyRate = `$${formData.dailyRateMin}-${formData.dailyRateMax}/day`;
                 formattedHourlyRate = ''; // Clear hourly rate if daily is selected
+                console.log('Daily rate formatted:', formattedDailyRate);
             }
 
             // Format the data before sending
@@ -415,20 +421,26 @@ const Register = () => {
                 bio: formData.bio?.trim(),
             };
 
+            console.log('Initial request data:', JSON.stringify(requestData, null, 2));
+
             // Remove any undefined, null, or empty string values
             Object.keys(requestData).forEach(key => {
                 if (requestData[key] === undefined || requestData[key] === null || requestData[key] === '') {
+                    console.log(`Removing empty field: ${key}`);
                     delete requestData[key];
                 }
                 // Handle nested objects
                 if (typeof requestData[key] === 'object' && requestData[key] !== null) {
                     Object.keys(requestData[key]).forEach(nestedKey => {
                         if (requestData[key][nestedKey] === undefined || requestData[key][nestedKey] === null || requestData[key][nestedKey] === '') {
+                            console.log(`Removing empty nested field: ${key}.${nestedKey}`);
                             delete requestData[key][nestedKey];
                         }
                     });
                 }
             });
+
+            console.log('Cleaned request data:', JSON.stringify(requestData, null, 2));
 
             // Validate required fields before sending
             const requiredFields = [
@@ -441,24 +453,42 @@ const Register = () => {
             const missingFields = requiredFields.filter(field => {
                 if (field.includes('.')) {
                     const [parent, child] = field.split('.');
-                    return !requestData[parent]?.[child];
+                    const isMissing = !requestData[parent]?.[child];
+                    if (isMissing) {
+                        console.log(`Missing nested field: ${field}`);
+                    }
+                    return isMissing;
                 }
-                return !requestData[field];
+                const isMissing = !requestData[field];
+                if (isMissing) {
+                    console.log(`Missing field: ${field}`);
+                }
+                return isMissing;
             });
 
             if (missingFields.length > 0) {
+                console.log('Missing required fields:', missingFields);
                 throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
             }
 
+            console.log('All required fields present');
+
+            // Log the API endpoint
+            const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/guides/register`;
+            console.log('Sending request to:', apiUrl);
+
             console.log('Sending registration data:', JSON.stringify(requestData, null, 2));
 
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
+            const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(requestData),
             });
+
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
             const data = await response.json();
             console.log('Server response:', data);
@@ -467,6 +497,8 @@ const Register = () => {
                 if (response.status === 500) {
                     console.error('Server error details:', data);
                     console.error('Request data that caused error:', JSON.stringify(requestData, null, 2));
+                    console.error('Response status:', response.status);
+                    console.error('Response headers:', Object.fromEntries(response.headers.entries()));
                     throw new Error('Server error occurred. Please try again later or contact support.');
                 }
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
