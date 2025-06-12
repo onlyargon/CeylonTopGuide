@@ -414,6 +414,13 @@ const Register = () => {
                 tourGuideLicense: formData.tourGuideLicense,
             };
 
+            // Remove any undefined or null values
+            Object.keys(requestData).forEach(key => {
+                if (requestData[key] === undefined || requestData[key] === null) {
+                    delete requestData[key];
+                }
+            });
+
             console.log('Sending registration data:', requestData);
 
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
@@ -439,9 +446,13 @@ const Register = () => {
             alert("Registration successful!");
             navigate("/registration-confirmation");
         } catch (error) {
-            console.error("Error submitting form:", error.message);
-            console.error("Full error:", error);
-            alert(`Registration failed: ${error.message}`);
+            console.error("Error submitting form:", error);
+            console.error("Error details:", {
+                message: error.message,
+                stack: error.stack,
+                response: error.response
+            });
+            alert(`Registration failed: ${error.message || 'An unexpected error occurred. Please try again.'}`);
         }
     };
 
