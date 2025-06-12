@@ -12,7 +12,7 @@ const RegistrationSuccess = () => {
                 <div 
                     className="reg-success-profile-background"
                     style={{
-                        backgroundImage: `url(/Backgrounds/Background1.png)`
+                        backgroundImage: `url(/Backgrounds/newBackground.png)`
                     }}
                 ></div>
                 <div className="registration-success-container">
