@@ -37,10 +37,6 @@ const Register = () => {
         username: "",
         password: "",
         bio: "",
-        hourlyRateMin: "",
-        hourlyRateMax: "",
-        dailyRateMin: "",
-        dailyRateMax: "",
     });
 
     // Cloudinary upload function
@@ -289,18 +285,12 @@ const Register = () => {
                 if (!formData.availability) errors.availability = "Availability is required";
                 if (!formData.rateType) errors.rateType = "Please select either hourly or daily rate";
                 if (formData.rateType === "hourly") {
-                    if (!formData.hourlyRateMin || !formData.hourlyRateMax) {
-                        errors.hourlyRate = "Both minimum and maximum hourly rates are required";
-                    } else if (Number(formData.hourlyRateMin) > Number(formData.hourlyRateMax)) {
-                        errors.hourlyRate = "Minimum rate cannot be greater than maximum rate";
-                    }
+                    if (!formData.hourlyRate) errors.hourlyRate = "Hourly Rate is required";
+                    else if (isNaN(formData.hourlyRate)) errors.hourlyRate = "Hourly Rate must be a number";
                 }
                 if (formData.rateType === "daily") {
-                    if (!formData.dailyRateMin || !formData.dailyRateMax) {
-                        errors.dailyRate = "Both minimum and maximum daily rates are required";
-                    } else if (Number(formData.dailyRateMin) > Number(formData.dailyRateMax)) {
-                        errors.dailyRate = "Minimum rate cannot be greater than maximum rate";
-                    }
+                    if (!formData.dailyRate) errors.dailyRate = "Daily Rate is required";
+                    else if (isNaN(formData.dailyRate)) errors.dailyRate = "Daily Rate must be a number";
                 }
                 if (formData.paymentMethods.length === 0) errors.paymentMethods = "At least one payment method is required";
                 break;
@@ -363,123 +353,47 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Starting registration process...');
 
         // Final validation before submission
         const finalErrors = validateStep(step);
         if (Object.keys(finalErrors).length > 0) {
-            console.log('Validation errors found:', finalErrors);
             setErrors(finalErrors);
             return;
         }
-        console.log('Form validation passed');
 
         try {
-            console.log('Processing form data...');
-            // Format the rates into strings with min/max values
-            let formattedHourlyRate = '';
-            let formattedDailyRate = '';
-            
-            if (formData.rateType === 'hourly') {
-                formattedHourlyRate = `$${formData.hourlyRateMin}-${formData.hourlyRateMax}/hour`;
-                formattedDailyRate = ''; // Clear daily rate if hourly is selected
-                console.log('Hourly rate formatted:', formattedHourlyRate);
-            } else if (formData.rateType === 'daily') {
-                formattedDailyRate = `$${formData.dailyRateMin}-${formData.dailyRateMax}/day`;
-                formattedHourlyRate = ''; // Clear hourly rate if daily is selected
-                console.log('Daily rate formatted:', formattedDailyRate);
-            }
-
             // Format the data before sending
             const requestData = {
-                fullName: formData.fullName?.trim(),
-                dateOfBirth: formData.dateOfBirth,
-                gender: formData.gender,
-                nationality: formData.nationality?.trim(),
-                profilePhoto: formData.profilePhoto,
+                ...formData,
+                // Ensure these are strings
                 email: formData.email?.trim(),
                 phone: formData.phone?.trim(),
+                username: formData.username?.trim(),
+                // Ensure these are numbers
+                experienceYears: Number(formData.experienceYears),
+                hourlyRate: formData.rateType === 'hourly' ? Number(formData.hourlyRate) : null,
+                dailyRate: formData.rateType === 'daily' ? Number(formData.dailyRate) : null,
+                // Ensure these are arrays
+                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
+                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
+                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
+                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
+                // Ensure address is properly formatted
                 address: {
                     street: formData.address.street?.trim(),
                     city: formData.address.city?.trim(),
                     district: formData.address.district?.trim(),
                     province: formData.address.province?.trim(),
                 },
-                guideRank: formData.guideRank,
-                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
-                experienceYears: Number(formData.experienceYears) || 0,
-                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
-                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
+                // Keep the file URLs
+                profilePhoto: formData.profilePhoto,
                 governmentID: formData.governmentID,
                 tourGuideLicense: formData.tourGuideLicense,
-                availability: formData.availability,
-                hourlyRate: formattedHourlyRate,
-                dailyRate: formattedDailyRate,
-                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
-                username: formData.username?.trim(),
-                password: formData.password,
-                bio: formData.bio?.trim(),
             };
 
-            console.log('Initial request data:', JSON.stringify(requestData, null, 2));
+            console.log('Sending registration data:', requestData);
 
-            // Remove any undefined, null, or empty string values
-            Object.keys(requestData).forEach(key => {
-                if (requestData[key] === undefined || requestData[key] === null || requestData[key] === '') {
-                    console.log(`Removing empty field: ${key}`);
-                    delete requestData[key];
-                }
-                // Handle nested objects
-                if (typeof requestData[key] === 'object' && requestData[key] !== null) {
-                    Object.keys(requestData[key]).forEach(nestedKey => {
-                        if (requestData[key][nestedKey] === undefined || requestData[key][nestedKey] === null || requestData[key][nestedKey] === '') {
-                            console.log(`Removing empty nested field: ${key}.${nestedKey}`);
-                            delete requestData[key][nestedKey];
-                        }
-                    });
-                }
-            });
-
-            console.log('Cleaned request data:', JSON.stringify(requestData, null, 2));
-
-            // Validate required fields before sending
-            const requiredFields = [
-                'fullName', 'email', 'phone', 'username', 'password',
-                'address.street', 'address.city', 'address.district', 'address.province',
-                'guideRank', 'languagesSpoken', 'experienceYears', 'specialties', 'tourRegions',
-                'availability', 'paymentMethods', 'bio'
-            ];
-
-            const missingFields = requiredFields.filter(field => {
-                if (field.includes('.')) {
-                    const [parent, child] = field.split('.');
-                    const isMissing = !requestData[parent]?.[child];
-                    if (isMissing) {
-                        console.log(`Missing nested field: ${field}`);
-                    }
-                    return isMissing;
-                }
-                const isMissing = !requestData[field];
-                if (isMissing) {
-                    console.log(`Missing field: ${field}`);
-                }
-                return isMissing;
-            });
-
-            if (missingFields.length > 0) {
-                console.log('Missing required fields:', missingFields);
-                throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-            }
-
-            console.log('All required fields present');
-
-            // Log the API endpoint
-            const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/guides/register`;
-            console.log('Sending request to:', apiUrl);
-
-            console.log('Sending registration data:', JSON.stringify(requestData, null, 2));
-
-            const response = await fetch(apiUrl, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -487,46 +401,24 @@ const Register = () => {
                 body: JSON.stringify(requestData),
             });
 
-            console.log('Response status:', response.status);
-            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
             const data = await response.json();
             console.log('Server response:', data);
 
             if (!response.ok) {
-                if (response.status === 500) {
-                    console.error('Server error details:', data);
-                    console.error('Request data that caused error:', JSON.stringify(requestData, null, 2));
-                    console.error('Response status:', response.status);
-                    console.error('Response headers:', Object.fromEntries(response.headers.entries()));
-                    throw new Error('Server error occurred. Please try again later or contact support.');
-                }
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
                     alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
                     return;
                 }
-                throw new Error(data.message || data.error || "Failed to register");
+                throw new Error(data.message || "Failed to register");
             }
 
             console.log("Registration successful:", data);
             alert("Registration successful!");
             navigate("/registration-confirmation");
         } catch (error) {
-            console.error("Error submitting form:", error);
-            console.error("Error details:", {
-                message: error.message,
-                stack: error.stack,
-                response: error.response
-            });
-            
-            // Show more specific error messages based on the error type
-            if (error.message.includes('Missing required fields')) {
-                alert(`Registration failed: ${error.message}`);
-            } else if (error.message.includes('Server error')) {
-                alert('Registration failed: Server error occurred. Please try again later or contact support.');
-            } else {
-                alert(`Registration failed: ${error.message || 'An unexpected error occurred. Please try again.'}`);
-            }
+            console.error("Error submitting form:", error.message);
+            console.error("Full error:", error);
+            alert(`Registration failed: ${error.message}`);
         }
     };
 
@@ -861,55 +753,29 @@ const Register = () => {
                     {step === 4 && formData.guideRank !== "Unregistered Guide" && (
                         <div>
                             <h2>Step 4: Documents for Verification</h2>
-                            {formData.guideRank === "Driver Guide" ? (
-                                <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
-                                    <label>Driver's License</label>
-                                    <p className="registration-sub-label">Upload a photo or scan of your valid driver's license. Make sure it's clear and readable.</p>
-                                    <label className="file-input-wrapper">
-                                        <span className="file-input-button">Choose License File</span>
-                                        <input
-                                            className="registration-file-input"
-                                            type="file"
-                                            accept="image/*"
-                                            name="tourGuideLicense"
-                                            onChange={handleFileUpload}
-                                            required
-                                        />
-                                    </label>
-                                    {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
-                                    {formData.tourGuideLicensePreview && (
-                                        <img
-                                            src={formData.tourGuideLicensePreview}
-                                            alt="License Preview"
-                                            className="registration-preview-image"
-                                        />
-                                    )}
-                                </div>
-                            ) : (
-                                <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
-                                    <label>Tour Guide License</label>
-                                    <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
-                                    <label className="file-input-wrapper">
-                                        <span className="file-input-button">Choose License File</span>
-                                        <input
-                                            className="registration-file-input"
-                                            type="file"
-                                            accept="image/*"
-                                            name="tourGuideLicense"
-                                            onChange={handleFileUpload}
-                                            required
-                                        />
-                                    </label>
-                                    {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
-                                    {formData.tourGuideLicensePreview && (
-                                        <img
-                                            src={formData.tourGuideLicensePreview}
-                                            alt="License Preview"
-                                            className="registration-preview-image"
-                                        />
-                                    )}
-                                </div>
-                            )}
+                            <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
+                                <label>Tour Guide License</label>
+                                <p className="registration-sub-label">Upload a photo or scan of your valid tour guide license. Make sure it's clear and readable.</p>
+                                <label className="file-input-wrapper">
+                                    <span className="file-input-button">Choose License File</span>
+                                    <input
+                                        className="registration-file-input"
+                                        type="file"
+                                        accept="image/*"
+                                        name="tourGuideLicense"
+                                        onChange={handleFileUpload}
+                                        required
+                                    />
+                                </label>
+                                {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
+                                {formData.tourGuideLicensePreview && (
+                                    <img
+                                        src={formData.tourGuideLicensePreview}
+                                        alt="License Preview"
+                                        className="registration-preview-image"
+                                    />
+                                )}
+                            </div>
 
                             <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
                                 <label>NIC (National Identity Card)</label>
@@ -1177,39 +1043,20 @@ const Register = () => {
 
                             {formData.rateType === "hourly" && (
                                 <div className={`registration-form-group ${errors.hourlyRate ? 'error' : ''}`}>
-                                    <label>Hourly Rate Range</label>
-                                    <p className="registration-sub-label">Enter your hourly rate range in USD (US Dollars).</p>
+                                    <label>Hourly Rate</label>
+                                    <p className="registration-sub-label">Enter your hourly rate in USD (US Dollars).</p>
                                     <div className="registration-rate-input">
-                                        <div className="rate-range-container">
-                                            <div className="rate-input-group">
-                                                <label>Minimum Rate ($)</label>
-                                                <input
-                                                    className="registration-input"
-                                                    type="number"
-                                                    name="hourlyRateMin"
-                                                    placeholder="Min Rate"
-                                                    value={formData.hourlyRateMin}
-                                                    onChange={handleChange}
-                                                    min="0"
-                                                    step="0.01"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="rate-input-group">
-                                                <label>Maximum Rate ($)</label>
-                                                <input
-                                                    className="registration-input"
-                                                    type="number"
-                                                    name="hourlyRateMax"
-                                                    placeholder="Max Rate"
-                                                    value={formData.hourlyRateMax}
-                                                    onChange={handleChange}
-                                                    min="0"
-                                                    step="0.01"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
+                                        <input
+                                            className="registration-input"
+                                            type="number"
+                                            name="hourlyRate"
+                                            placeholder="Rate ($)"
+                                            value={formData.hourlyRate}
+                                            onChange={handleChange}
+                                            min="0"
+                                            step="0.01"
+                                            required
+                                        />
                                         {errors.hourlyRate && <span className="registration-error-message">{errors.hourlyRate}</span>}
                                     </div>
                                 </div>
@@ -1217,39 +1064,20 @@ const Register = () => {
 
                             {formData.rateType === "daily" && (
                                 <div className={`registration-form-group ${errors.dailyRate ? 'error' : ''}`}>
-                                    <label>Daily Rate Range</label>
-                                    <p className="registration-sub-label">Enter your daily rate range in USD (US Dollars).</p>
+                                    <label>Daily Rate</label>
+                                    <p className="registration-sub-label">Enter your daily rate in USD (US Dollars).</p>
                                     <div className="registration-rate-input">
-                                        <div className="rate-range-container">
-                                            <div className="rate-input-group">
-                                                <label>Minimum Rate ($)</label>
-                                                <input
-                                                    className="registration-input"
-                                                    type="number"
-                                                    name="dailyRateMin"
-                                                    placeholder="Min Rate"
-                                                    value={formData.dailyRateMin}
-                                                    onChange={handleChange}
-                                                    min="0"
-                                                    step="0.01"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="rate-input-group">
-                                                <label>Maximum Rate ($)</label>
-                                                <input
-                                                    className="registration-input"
-                                                    type="number"
-                                                    name="dailyRateMax"
-                                                    placeholder="Max Rate"
-                                                    value={formData.dailyRateMax}
-                                                    onChange={handleChange}
-                                                    min="0"
-                                                    step="0.01"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
+                                        <input
+                                            className="registration-input"
+                                            type="number"
+                                            name="dailyRate"
+                                            placeholder="Rate ($)"
+                                            value={formData.dailyRate}
+                                            onChange={handleChange}
+                                            min="0"
+                                            step="0.01"
+                                            required
+                                        />
                                         {errors.dailyRate && <span className="registration-error-message">{errors.dailyRate}</span>}
                                     </div>
                                 </div>
@@ -1487,9 +1315,9 @@ const Register = () => {
                                         <div>
                                             <strong>Rate:</strong>
                                             <p>{formData.rateType === 'hourly' ? 
-                                                `$${formData.hourlyRateMin}-${formData.hourlyRateMax}/hour` : 
+                                                `$${formData.hourlyRate}/hour` : 
                                                 formData.rateType === 'daily' ? 
-                                                `$${formData.dailyRateMin}-${formData.dailyRateMax}/day` : 
+                                                `$${formData.dailyRate}/day` : 
                                                 "Not set"}</p>
                                         </div>
                                         <div>
