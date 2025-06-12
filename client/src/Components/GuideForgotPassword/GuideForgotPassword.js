@@ -29,7 +29,7 @@ const ForgotPassword = () => {
       <div
         className="forgot-password-background"
         style={{
-          backgroundImage: `url(/Backgrounds/Background1.png)`
+          backgroundImage: `url(/Backgrounds/newBackground.png)`
         }}
       ></div>
       <div className="forgot-password-container">
