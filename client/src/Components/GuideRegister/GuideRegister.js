@@ -397,29 +397,85 @@ const Register = () => {
                 gender: formData.gender,
                 nationality: formData.nationality?.trim(),
                 profilePhoto: formData.profilePhoto,
-                email: formData.email?.trim(),
-                phone: formData.phone?.trim(),
-                address: {
-                    street: formData.address.street?.trim(),
-                    city: formData.address.city?.trim(),
-                    district: formData.address.district?.trim(),
-                    province: formData.address.province?.trim(),
+                contact: {
+                    email: formData.email?.trim().toLowerCase(),
+                    phone: formData.phone?.trim(),
+                    address: {
+                        street: formData.address.street?.trim(),
+                        city: formData.address.city?.trim(),
+                        district: formData.address.district?.trim(),
+                        province: formData.address.province?.trim(),
+                    }
                 },
                 guideRank: formData.guideRank,
-                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
-                experienceYears: Number(formData.experienceYears) || 0,
-                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
-                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
-                governmentID: formData.governmentID,
-                tourGuideLicense: formData.tourGuideLicense,
+                professionalDetails: {
+                    languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
+                    experienceYears: Number(formData.experienceYears) || 0,
+                    specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
+                    tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
+                },
+                verificationDocuments: {
+                    governmentID: formData.governmentID,
+                    tourGuideLicense: formData.tourGuideLicense,
+                },
                 availability: formData.availability,
-                hourlyRate: formattedHourlyRate,
-                dailyRate: formattedDailyRate,
-                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
-                username: formData.username?.trim(),
-                password: formData.password,
-                bio: formData.bio?.trim(),
+                pricing: {
+                    hourlyRate: formattedHourlyRate,
+                    dailyRate: formattedDailyRate,
+                    paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
+                },
+                account: {
+                    username: formData.username?.trim().toLowerCase(),
+                    password: formData.password,
+                },
+                additionalInfo: {
+                    bio: formData.bio?.trim(),
+                }
             };
+
+            // Data type validation
+            const validationErrors = [];
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(requestData.contact.email)) {
+                validationErrors.push('Invalid email format');
+            }
+
+            // Validate phone format (Sri Lankan format)
+            const phoneRegex = /^07[0-9]{8}$/;
+            if (!phoneRegex.test(requestData.contact.phone)) {
+                validationErrors.push('Invalid phone number format');
+            }
+
+            // Validate password length
+            if (requestData.account.password.length < 8) {
+                validationErrors.push('Password must be at least 8 characters long');
+            }
+
+            // Validate experience years
+            if (isNaN(requestData.professionalDetails.experienceYears) || requestData.professionalDetails.experienceYears < 0) {
+                validationErrors.push('Invalid experience years');
+            }
+
+            // Validate arrays are not empty
+            if (requestData.professionalDetails.languagesSpoken.length === 0) {
+                validationErrors.push('At least one language is required');
+            }
+            if (requestData.professionalDetails.specialties.length === 0) {
+                validationErrors.push('At least one specialty is required');
+            }
+            if (requestData.professionalDetails.tourRegions.length === 0) {
+                validationErrors.push('At least one tour region is required');
+            }
+            if (requestData.pricing.paymentMethods.length === 0) {
+                validationErrors.push('At least one payment method is required');
+            }
+
+            if (validationErrors.length > 0) {
+                console.error('Validation errors:', validationErrors);
+                throw new Error(validationErrors.join(', '));
+            }
 
             console.log('Initial request data:', JSON.stringify(requestData, null, 2));
 
@@ -444,10 +500,10 @@ const Register = () => {
 
             // Validate required fields before sending
             const requiredFields = [
-                'fullName', 'email', 'phone', 'username', 'password',
-                'address.street', 'address.city', 'address.district', 'address.province',
-                'guideRank', 'languagesSpoken', 'experienceYears', 'specialties', 'tourRegions',
-                'availability', 'paymentMethods', 'bio'
+                'fullName', 'dateOfBirth', 'gender', 'nationality', 'profilePhoto',
+                'contact.email', 'contact.phone', 'guideRank', 'professionalDetails.languagesSpoken',
+                'professionalDetails.experienceYears', 'professionalDetails.specialties', 'professionalDetails.tourRegions',
+                'availability', 'pricing.paymentMethods', 'account.username', 'account.password', 'additionalInfo.bio'
             ];
 
             const missingFields = requiredFields.filter(field => {
@@ -483,6 +539,7 @@ const Register = () => {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(requestData),
             });
