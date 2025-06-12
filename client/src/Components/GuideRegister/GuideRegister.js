@@ -386,38 +386,47 @@ const Register = () => {
 
             // Format the data before sending
             const requestData = {
-                ...formData,
-                // Ensure these are strings
+                fullName: formData.fullName?.trim(),
+                dateOfBirth: formData.dateOfBirth,
+                gender: formData.gender,
+                nationality: formData.nationality?.trim(),
+                profilePhoto: formData.profilePhoto,
                 email: formData.email?.trim(),
                 phone: formData.phone?.trim(),
-                username: formData.username?.trim(),
-                // Format the rates as strings
-                hourlyRate: formattedHourlyRate,
-                dailyRate: formattedDailyRate,
-                // Ensure these are numbers
-                experienceYears: Number(formData.experienceYears),
-                // Ensure these are arrays
-                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
-                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
-                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
-                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
-                // Ensure address is properly formatted
                 address: {
                     street: formData.address.street?.trim(),
                     city: formData.address.city?.trim(),
                     district: formData.address.district?.trim(),
                     province: formData.address.province?.trim(),
                 },
-                // Keep the file URLs
-                profilePhoto: formData.profilePhoto,
+                guideRank: formData.guideRank,
+                languagesSpoken: Array.isArray(formData.languagesSpoken) ? formData.languagesSpoken : [],
+                experienceYears: Number(formData.experienceYears) || 0,
+                specialties: Array.isArray(formData.specialties) ? formData.specialties : [],
+                tourRegions: Array.isArray(formData.tourRegions) ? formData.tourRegions : [],
                 governmentID: formData.governmentID,
                 tourGuideLicense: formData.tourGuideLicense,
+                availability: formData.availability,
+                hourlyRate: formattedHourlyRate,
+                dailyRate: formattedDailyRate,
+                paymentMethods: Array.isArray(formData.paymentMethods) ? formData.paymentMethods : [],
+                username: formData.username?.trim(),
+                password: formData.password,
+                bio: formData.bio?.trim(),
             };
 
-            // Remove any undefined or null values
+            // Remove any undefined, null, or empty string values
             Object.keys(requestData).forEach(key => {
-                if (requestData[key] === undefined || requestData[key] === null) {
+                if (requestData[key] === undefined || requestData[key] === null || requestData[key] === '') {
                     delete requestData[key];
+                }
+                // Handle nested objects
+                if (typeof requestData[key] === 'object' && requestData[key] !== null) {
+                    Object.keys(requestData[key]).forEach(nestedKey => {
+                        if (requestData[key][nestedKey] === undefined || requestData[key][nestedKey] === null || requestData[key][nestedKey] === '') {
+                            delete requestData[key][nestedKey];
+                        }
+                    });
                 }
             });
 
@@ -441,7 +450,7 @@ const Register = () => {
                 throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
             }
 
-            console.log('Sending registration data:', requestData);
+            console.log('Sending registration data:', JSON.stringify(requestData, null, 2));
 
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/guides/register`, {
                 method: "POST",
@@ -457,6 +466,7 @@ const Register = () => {
             if (!response.ok) {
                 if (response.status === 500) {
                     console.error('Server error details:', data);
+                    console.error('Request data that caused error:', JSON.stringify(requestData, null, 2));
                     throw new Error('Server error occurred. Please try again later or contact support.');
                 }
                 if (data.message && data.message.toLowerCase().includes('email already exists')) {
