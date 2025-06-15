@@ -750,7 +750,7 @@ const Register = () => {
                         </div>
                     )}
 
-                    {step === 4 && formData.guideRank !== "Unregistered Guide" && (
+                    {step === 4 && formData.guideRank !== "Unregistered Guide" && formData.guideRank !== "Driver Guide" && (
                         <div>
                             <h2>Step 4: Documents for Verification</h2>
                             <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
@@ -780,6 +780,79 @@ const Register = () => {
                             <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
                                 <label>NIC (National Identity Card)</label>
                                 <p className="registration-sub-label">Upload a clear photo or scan of your NIC or driver's license. This helps us confirm your identity.</p>
+                                <label className="file-input-wrapper">
+                                    <span className="file-input-button">Choose ID File</span>
+                                    <input
+                                        className="registration-file-input"
+                                        type="file"
+                                        name="governmentID"
+                                        accept="image/*"
+                                        onChange={handleFileUpload}
+                                        required
+                                    />
+                                </label>
+                                {errors.governmentID && <span className="registration-error-message">{errors.governmentID}</span>}
+                                {formData.governmentIDPreview && (
+                                    <img
+                                        src={formData.governmentIDPreview}
+                                        alt="ID Preview"
+                                        className="registration-preview-image"
+                                    />
+                                )}
+                            </div>
+
+                            <p className="registration-description-text" id="registration-description-text-italic">
+                                We need to check your documents to keep the platform safe and trusted.
+                                Your files will only be used for verification and will not be shared.
+                            </p>
+
+                            <div className="registration-button-container">
+                                <button
+                                    className="registration-button registration-button-back"
+                                    onClick={prevStep}
+                                >
+                                    Back
+                                </button>
+                                <button
+                                    className="registration-button registration-button-next"
+                                    onClick={nextStep}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 4 && formData.guideRank === "Driver Guide" && (
+                        <div>
+                            <h2>Step 4: Documents for Verification</h2>
+                            <div className={`registration-form-group ${errors.tourGuideLicense ? 'error' : ''}`}>
+                                <label>Driver's License</label>
+                                <p className="registration-sub-label">Upload a photo or scan of your valid driver's license. Make sure it's clear and readable.</p>
+                                <label className="file-input-wrapper">
+                                    <span className="file-input-button">Choose License File</span>
+                                    <input
+                                        className="registration-file-input"
+                                        type="file"
+                                        accept="image/*"
+                                        name="tourGuideLicense"
+                                        onChange={handleFileUpload}
+                                        required
+                                    />
+                                </label>
+                                {errors.tourGuideLicense && <span className="registration-error-message">{errors.tourGuideLicense}</span>}
+                                {formData.tourGuideLicensePreview && (
+                                    <img
+                                        src={formData.tourGuideLicensePreview}
+                                        alt="License Preview"
+                                        className="registration-preview-image"
+                                    />
+                                )}
+                            </div>
+
+                            <div className={`registration-form-group ${errors.governmentID ? 'error' : ''}`}>
+                                <label>NIC (National Identity Card)</label>
+                                <p className="registration-sub-label">Upload a clear photo or scan of your NIC. This helps us confirm your identity.</p>
                                 <label className="file-input-wrapper">
                                     <span className="file-input-button">Choose ID File</span>
                                     <input
