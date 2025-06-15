@@ -3,6 +3,7 @@
   height: 100vh;
   width: 100%;
   font-family: "Helvetica", "Arial", sans-serif;
+  overflow-x: hidden;
 }
 
 .ceylon-login-left {
@@ -205,78 +206,107 @@
   .ceylon-login-container {
     flex-direction: column;
     height: auto;
+    min-height: 100vh;
   }
 
   .ceylon-login-left,
   .ceylon-login-right {
     width: 100%;
-    height: auto;
-    padding: 20px 0;
+    min-height: 50vh;
+    padding: 40px 20px;
   }
 
   .ceylon-brand {
     padding-right: 0;
     text-align: center;
+    margin-bottom: 20px;
   }
 
   .ceylon-title {
-    font-size: 40px;
+    font-size: 36px;
   }
 
   .ceylon-logo {
-    position: static;
-    margin-top: 10px;
+    position: relative;
+    width: 300px;
+    height: auto;
+    margin: 20px auto;
+    left: auto;
+    transform: none;
+    top: auto;
   }
 
   .login-middleLogo {
-    width: 150px;
-    margin: 0 auto;
+    width: 200px;
+    margin: 20px auto;
   }
 
   .ceylon-login-form-container {
-    width: 90%;
-    max-width: 100%;
-    padding: 0 15px;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 20px;
+    margin: 0 auto;
   }
 
   .welcome-text {
     font-size: 28px;
+    margin-bottom: 10px;
   }
 
   .login-subtitle {
     font-size: 16px;
     margin-bottom: 30px;
+    padding: 0 10px;
   }
 
   .form-inputs {
-    font-size: 13px;
-    padding: 10px;
+    font-size: 16px;
+    padding: 12px;
+    margin-bottom: 5px;
   }
 
   .password-toggle {
-    right: 8px;
+    right: 12px;
+    padding: 8px;
   }
 
   .ceylon-login-button {
-    font-size: 14px;
-    padding: 10px;
+    font-size: 16px;
+    padding: 12px;
     max-width: 100%;
+    margin-top: 30px;
   }
 
   .ceylon-form-options {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 15px;
+    margin-top: 10px;
   }
 
   .ceylon-signup-link {
-    font-size: 13px;
+    font-size: 14px;
+    margin-top: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .ceylon-login-left,
+  .ceylon-login-right {
+    padding: 30px 15px;
+  }
+
   .ceylon-title {
-    font-size: 32px;
+    font-size: 28px;
+  }
+
+  .ceylon-logo {
+    width: 250px;
+    margin: 15px auto;
+  }
+
+  .login-middleLogo {
+    width: 180px;
   }
 
   .welcome-text {
@@ -285,9 +315,48 @@
 
   .login-subtitle {
     font-size: 14px;
+    margin-bottom: 25px;
+  }
+
+  .form-inputs {
+    font-size: 14px;
+    padding: 10px;
   }
 
   .ceylon-login-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .ceylon-form-options {
+    font-size: 13px;
+  }
+
+  .ceylon-signup-link {
+    font-size: 13px;
+  }
+}
+
+/* Add styles for very small devices */
+@media (max-width: 320px) {
+  .ceylon-title {
+    font-size: 24px;
+  }
+
+  .ceylon-logo {
+    width: 200px;
+    margin: 10px auto;
+  }
+
+  .login-middleLogo {
+    width: 150px;
+  }
+
+  .welcome-text {
+    font-size: 20px;
+  }
+
+  .login-subtitle {
     font-size: 13px;
   }
 }
