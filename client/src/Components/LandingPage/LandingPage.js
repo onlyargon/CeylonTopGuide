@@ -283,7 +283,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px] rounded-bl-[100px] sm:rounded-bl-[150px] md:rounded-bl-[250px] mt-[50px]">
+            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-pureWhite from-30% to-primaryGreen rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px] rounded-bl-[100px] sm:rounded-bl-[150px] md:rounded-bl-[320px] mt-[50px]">
                 <section className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="w-full md:w-1/2">
                         <h2 className="text-lg sm:text-xl md:text-4xl font-bold text-defaultBlack mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
@@ -295,7 +295,7 @@ const LandingPage = () => {
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
-                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px] shadow-lg max-w-full h-auto pr-0 md:pr-[50px]" />
+                        <img src="/Slideshow/slide11.jpg" className="rounded-tr-[100px] sm:rounded-tr-[150px] md:rounded-tr-[250px]  max-w-full h-auto pr-0 md:pr-[50px]" />
                     </div>
                 </section>
 
@@ -315,13 +315,13 @@ const LandingPage = () => {
                 </section>
             </div>
 
-            <div className="container mx-auto px-4 md:px-16 py-10 md:py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-10 md:mt-[100px]">
+            <div className="w-full px-4 md:px-16 py-10 md:py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-10 md:mt-[100px]">
                 <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">VERIFIED EXPERTS</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All tour guides are vetted and approved.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">VERIFIED EXPERTS: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All tour guides are vetted and approved.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -332,7 +332,7 @@ const LandingPage = () => {
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">EASY SEARCH</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">EASY SEARCH: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -344,7 +344,7 @@ const LandingPage = () => {
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">REAL REVIEWS</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">See traveler ratings & feedback before booking.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">REAL REVIEWS: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">See traveler ratings & feedback before booking.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -355,7 +355,7 @@ const LandingPage = () => {
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">NO HIDDEN FEES</span> - <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Transparent connections between travelers and guides.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">NO HIDDEN FEES: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Transparent connections between travelers and guides.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -366,8 +366,8 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16 text-center" id="find-guide">
-                <h1 className="text-3xl md:text-4xl font-bold text-primaryGreen mb-12">FIND A SUITABLE GUIDE FOR YOU</h1>
+            <div className="container mx-auto px-4 py-16 text-center md:mt-[100px] md:mb-[100px]" id="find-guide">
+                <h1 className="text-3xl md:text-4xl font-bold text-primaryGreen mb-14">FIND A SUITABLE GUIDE FOR YOU</h1>
 
                 <div className="flex items-center justify-center gap-4 relative">
                     <motion.button
@@ -470,50 +470,50 @@ const LandingPage = () => {
                 >
                     <Link 
                         to="/guideList" 
-                        className="inline-block px-8 py-4 bg-primaryGreen text-pureWhite font-semibold rounded-[15px] shadow-lg hover:bg-darkGreen transition-colors duration-300"
+                        className="inline-block px-8 py-4 bg-primaryGreen text-pureWhite font-semibold rounded-[15px] shadow-lg hover:bg-darkGreen transition-colors duration-300 md:mt-10"
                     >
-                        Find a Guide
+                        FIND A GUIDE
                     </Link>
                 </motion.div>
             </div>
 
             <div className="px-4 md:mx-16 flex justify-center items-center py-10 md:py-20 bg-gradient-to-b from-pureWhite/80 via-primaryGreen/50 to-pureWhite/80 rounded-3xl my-8 md:my-16" id="register">
                 <div className="w-full max-w-5xl bg-pureWhite/80 rounded-2xl shadow-xl p-4 sm:p-6 md:p-10 flex flex-col items-center">
-                    <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-primaryGreen mb-6 md:mb-10 text-center">REGISTER AS A TOUR GUIDE</h1>
+                    <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-primaryGreen mb-6 md:mb-10 text-center">REGISTER AS A TOUR GUIDE</h1>
                     <Link to="/guideRegister" className="w-full flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-6 md:mb-10">
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300 h-[220px] sm:h-[240px] md:h-[260px]">
+                            <div className="mb-1 sm:mb-2 md:mb-3 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="32" height="32" className="sm:w-40 sm:h-40 md:w-14 md:h-14">
                                     <path fill="currentColor" d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                 </svg>
                             </div>
-                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 1:</h3>
-                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">CREATE YOUR PROFILE</h2>
-                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
+                            <h3 className="text-xs sm:text-sm md:text-base font-semibold text-pureWhite">STEP 1:</h3>
+                            <h2 className="text-sm sm:text-base md:text-lg font-bold text-pureWhite mb-1 md:mb-2 text-center">CREATE YOUR PROFILE</h2>
+                            <p className="text-pureWhite/90 text-center text-[10px] sm:text-xs md:text-sm">
                                 Enter your basic details and upload<br />a profile photo.
                             </p>
                         </div>
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300 h-[220px] sm:h-[240px] md:h-[260px]">
+                            <div className="mb-1 sm:mb-2 md:mb-3 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="32" height="32" className="sm:w-40 sm:h-40 md:w-14 md:h-14">
                                     <path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
                                 </svg>
                             </div>
-                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 2:</h3>
-                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">ADD YOUR CREDENTIALS</h2>
-                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
+                            <h3 className="text-xs sm:text-sm md:text-base font-semibold text-pureWhite">STEP 2:</h3>
+                            <h2 className="text-sm sm:text-base md:text-lg font-bold text-pureWhite mb-1 md:mb-2 text-center">ADD YOUR CREDENTIALS</h2>
+                            <p className="text-pureWhite/90 text-center text-[10px] sm:text-xs md:text-sm">
                                 Share your guide license,<br />expertise, languages,<br />and tour types.
                             </p>
                         </div>
-                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300">
-                            <div className="mb-2 sm:mb-3 md:mb-4 text-pureWhite">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="40" height="40" className="sm:w-50 sm:h-50 md:w-16 md:h-16">
+                        <div className="w-full md:flex-1 flex flex-col items-center bg-primaryGreen/90 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg hover:scale-105 transition-transform duration-300 h-[220px] sm:h-[240px] md:h-[260px]">
+                            <div className="mb-1 sm:mb-2 md:mb-3 text-pureWhite">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="32" height="32" className="sm:w-40 sm:h-40 md:w-14 md:h-14">
                                     <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                                 </svg>
                             </div>
-                            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-pureWhite">STEP 3:</h3>
-                            <h2 className="text-base sm:text-lg md:text-xl font-bold text-pureWhite mb-1 md:mb-2 text-center">GET VERIFIED & GO LIVE</h2>
-                            <p className="text-pureWhite/90 text-center text-xs sm:text-sm md:text-base">
+                            <h3 className="text-xs sm:text-sm md:text-base font-semibold text-pureWhite">STEP 3:</h3>
+                            <h2 className="text-sm sm:text-base md:text-lg font-bold text-pureWhite mb-1 md:mb-2 text-center">GET VERIFIED & GO LIVE</h2>
+                            <p className="text-pureWhite/90 text-center text-[10px] sm:text-xs md:text-sm">
                                 Once approved, your profile<br />becomes searchable to<br />travelers worldwide.
                             </p>
                         </div>

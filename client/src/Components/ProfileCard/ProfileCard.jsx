@@ -11,7 +11,7 @@ const DEFAULT_INNER_GRADIENT =
 const GOLD_GRADIENT = "linear-gradient(145deg, #ffd700 0%, #ffa500 100%)";
 const SILVER_GRADIENT = "linear-gradient(145deg, #c0c0c0 0%, #808080 100%)";
 const BRONZE_GRADIENT = "linear-gradient(145deg, #cd7f32 0%, #8b4513 100%)";
-const DEFAULT_CARD_GRADIENT = "linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%)";
+const DEFAULT_CARD_GRADIENT = "linear-gradient(145deg, #3d9692 10%, #71C4FF44 100%)";
 
 // Helper function to get gradient string based on index
 const getGradientString = (index) => {
@@ -285,7 +285,6 @@ const ProfileCardComponent = ({
                   </div>
                   <div className="pc-user-text">
                     <div className="pc-handle">{handle}</div>
-                    <div className="pc-status">{status}</div>
                   </div>
                 </div>
                 <button
