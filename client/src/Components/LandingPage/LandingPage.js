@@ -374,7 +374,7 @@ const LandingPage = () => {
                         initial={false}
                         animate={{ backgroundColor: `var(--hue-${currentIndex % 6 + 1})` }}
                         aria-label="Previous"
-                        className="w-10 h-10 rounded-full flex items-center justify-center z-10"
+                        className="w-12 h-12 rounded-full flex items-center justify-center z-10 bg-primaryGreen shadow-lg hover:bg-darkGreen transition-colors duration-300"
                         onClick={() => {
                             setIsAutoPlaying(false);
                             setCurrentIndex(prev => (prev - 1 + topGuides.length) % topGuides.length);
@@ -383,7 +383,7 @@ const LandingPage = () => {
                         whileFocus={{ outline: `2px solid var(--hue-${currentIndex % 6 + 1})` }}
                         whileTap={{ scale: 0.9 }}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3d9692" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="m12 19-7-7 7-7" />
                             <path d="M19 12H5" />
                         </svg>
@@ -440,7 +440,7 @@ const LandingPage = () => {
                         initial={false}
                         animate={{ backgroundColor: `var(--hue-${currentIndex % 6 + 1})` }}
                         aria-label="Next"
-                        className="w-10 h-10 rounded-full flex items-center justify-center z-10"
+                        className="w-12 h-12 rounded-full flex items-center justify-center z-10 bg-primaryGreen shadow-lg hover:bg-darkGreen transition-colors duration-300"
                         onClick={() => {
                             setIsAutoPlaying(false);
                             setCurrentIndex(prev => (prev + 1) % topGuides.length);
@@ -449,7 +449,7 @@ const LandingPage = () => {
                         whileFocus={{ outline: `2px solid var(--hue-${currentIndex % 6 + 1})` }}
                         whileTap={{ scale: 0.9 }}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3d9692" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M5 12h14" />
                             <path d="m12 5 7 7-7 7" />
                         </svg>
