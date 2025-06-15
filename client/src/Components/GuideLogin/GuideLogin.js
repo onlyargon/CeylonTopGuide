@@ -83,8 +83,6 @@ const GuideLogin = () => {
       <div className="ceylon-login-left">
         <Link to="/landingPage" className="forgot-password-link">
           <div className="ceylon-brand">
-            <h1 className="ceylon-title">CEYLON</h1>
-            <h1 className="ceylon-title">TOPGUIDE</h1>
             <div className="ceylon-logo">
               <img src="./Logo/LogoBlack.png" alt="logo" className="login-middleLogo"/>
             </div>

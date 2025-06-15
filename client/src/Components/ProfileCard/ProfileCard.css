@@ -220,7 +220,7 @@
     }
   
     .pc-details h3 {
-      font-size: min(4svh, 2.5em);
+      font-size: min(3svh, 1.8em);
     }
   
     .pc-details p {
@@ -268,7 +268,7 @@
     }
   
     .pc-details h3 {
-      font-size: min(3.5svh, 2em);
+      font-size: min(2.5svh, 1em);
     }
   
     .pc-details p {

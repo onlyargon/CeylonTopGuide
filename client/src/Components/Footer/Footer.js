@@ -11,7 +11,6 @@ function Footer() {
             <div className="footer-main-content">
                 <div className="footer-brand">
                     <div className="title-with-logo">
-                        <h1 className="footer-title">CEYLON TOPGUIDE</h1>
                         <div className="footer-logo">
                             <img src="/Logo/LogoBlack.png" alt="LogoBlack" className='compass-logo' />
                         </div>
