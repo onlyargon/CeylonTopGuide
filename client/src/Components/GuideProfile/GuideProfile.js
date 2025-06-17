@@ -55,6 +55,7 @@ const GuideProfile = () => {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
   const [showPhotos, setShowPhotos] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Add slideshow images
   const slides = [
@@ -665,8 +666,21 @@ const GuideProfile = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto p-8">
+      <div className="relative min-h-screen bg-gray-100 overflow-hidden">
+        <div className="fixed inset-0 z-0">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out bg-cover bg-center bg-no-repeat ${
+                index === currentSlide ? 'opacity-15' : 'opacity-0'
+              }`}
+              style={{
+                backgroundImage: `url(/Slideshow/${slide})`,
+              }}
+            />
+          ))}
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-white/95 rounded-2xl shadow-lg">
           {editing ? (
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
               <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Profile</h2>
@@ -958,77 +972,77 @@ const GuideProfile = () => {
             </div>
           ) : (
             <>
-              <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                <div className="flex justify-between items-start">
-                  <div className="flex gap-4 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      guide.account?.isVerified 
-                        ? 'bg-secondaryGreen text-pureWhite' 
-                        : 'bg-defaultRed text-pureWhite'
-                    }`}>
-                      {guide.account?.isVerified ? "Verified" : "Unverified"}
-                    </span>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      guide.isActive 
-                        ? 'bg-secondaryGreen text-pureWhite' 
-                        : 'bg-defaultRed text-pureWhite'
-                    }`}>
-                      {guide.isActive ? "Active" : "Inactive"}
-                    </span>
-                  </div>
-                  <div className="flex-1 pr-8">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
+              <div className="flex justify-between items-start mb-8">
+                <div className="flex gap-4 mb-4">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    guide.account?.isVerified 
+                      ? 'bg-secondaryGreen text-pureWhite' 
+                      : 'bg-defaultRed text-pureWhite'
+                  }`}>
+                    {guide.account?.isVerified ? "Verified" : "Unverified"}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    guide.isActive 
+                      ? 'bg-secondaryGreen text-pureWhite' 
+                      : 'bg-defaultRed text-pureWhite'
+                  }`}>
+                    {guide.isActive ? "Active" : "Inactive"}
+                  </span>
+                </div>
+                <div className="flex-1 pr-8">
+                  <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
 
-                    <div className="flex gap-8 mb-4">
-                      <div className="flex flex-col items-center">
-                        <span className="text-2xl font-bold text-gray-800">{guide.professionalDetails?.experienceYears || '0'}</span>
-                        <span className="text-sm text-gray-600">Years</span>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <span className="text-2xl font-bold text-gray-800">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
-                        <span className="text-sm text-gray-600">Rating</span>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <span className="text-2xl font-bold text-gray-800">
-                          {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                            `$${guide.pricing.hourlyRate}`
-                          ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                            `$${guide.pricing.dailyRate}`
-                          ) : (
-                            "Rate not set"
-                          )}
-                        </span>
-                        <span className="text-sm text-gray-600">
-                          {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
-                        </span>
-                      </div>
+                  <div className="flex gap-8 mb-4">
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">{guide.professionalDetails?.experienceYears || '0'}</span>
+                      <span className="text-sm text-gray-600">Years</span>
                     </div>
-
-                    <div className="flex justify-center gap-4 mt-4">
-                      <span className="flex items-center gap-2 text-lg text-gray-800">
-                        <FaWhatsapp className="text-secondaryGreen" /> {guide.contact?.phone || "Phone not provided"}
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">★{(Number(guide.averageRating) || 0).toFixed(2)}</span>
+                      <span className="text-sm text-gray-600">Rating</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-bold text-gray-800">
+                        {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                          `$${guide.pricing.hourlyRate}`
+                        ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                          `$${guide.pricing.dailyRate}`
+                        ) : (
+                          "Rate not set"
+                        )}
                       </span>
-                      <span className="flex items-center gap-2 text-lg text-gray-800">
-                        <FaEnvelope className="text-gray-800" /> {guide.contact?.email || "Email not provided"}
+                      <span className="text-sm text-gray-600">
+                        {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? 'Hourly Rate' : 'Daily Rate'}
                       </span>
                     </div>
                   </div>
 
-                  <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg">
-                    <img
-                      src={getCloudinaryUrl(guide.profilePhoto)}
-                      alt={guide.fullName}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/default-profile.png';
-                      }}
-                    />
+                  <div className="flex justify-center gap-4 mt-4">
+                    <span className="flex items-center gap-2 text-lg text-gray-800">
+                      <FaWhatsapp className="text-secondaryGreen" /> {guide.contact?.phone || "Phone not provided"}
+                    </span>
+                    <span className="flex items-center gap-2 text-lg text-gray-800">
+                      <FaEnvelope className="text-gray-800" /> {guide.contact?.email || "Email not provided"}
+                    </span>
                   </div>
+                </div>
+
+                <div className="w-48 h-48 rounded-full overflow-hidden shadow-lg">
+                  <img
+                    src={getCloudinaryUrl(guide.profilePhoto)}
+                    alt={guide.fullName}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/default-profile.png';
+                    }}
+                  />
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <div className="h-px bg-gray-200 my-8"></div>
+
+              <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
                 <div className={`relative ${isAboutExpanded ? 'max-h-none' : 'max-h-24'} overflow-hidden transition-all duration-300`}>
                   <p className="text-gray-600">{guide.additionalInfo?.bio || "No bio added yet."}</p>
@@ -1041,7 +1055,9 @@ const GuideProfile = () => {
                 </button>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <div className="h-px bg-gray-200 my-8"></div>
+
+              <div className="my-8">
                 <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8">
                   <button
                     className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
@@ -1200,7 +1216,9 @@ const GuideProfile = () => {
                 )}
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <div className="h-px bg-gray-200 my-8"></div>
+
+              <div className="mt-8">
                 <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">REVIEWS</h2>
                 <h3 className="text-lg text-gray-600 text-center mb-8">
                   What Fellow Tourist Say About {guide.fullName}
