@@ -21,6 +21,21 @@ const GuideList = () => {
   });
   const [isFiltersExpanded, setIsFiltersExpanded] = useState(false);
 
+  const resetFilters = () => {
+    setFilters({
+      rank: 'All',
+      language: [],
+      experience: 'All',
+      specialty: [],
+      region: [],
+      availability: 'All',
+      paymentMethod: 'All',
+      maxHourlyRate: '',
+      maxDailyRate: '',
+    });
+    setSearchQuery('');
+  };
+
   const toggleFilters = () => {
     setIsFiltersExpanded(!isFiltersExpanded);
   };
@@ -327,6 +342,14 @@ const GuideList = () => {
                 </select>
               </div>
             </div>
+
+            {/* Reset Filters Button */}
+            <button
+              onClick={resetFilters}
+              className="w-full mt-6 bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-md hover:bg-gray-300 transition-colors duration-300"
+            >
+              Reset All Filters
+            </button>
           </div>
         </div>
 
