@@ -13,33 +13,7 @@ const PublicGuideProfile = () => {
   const [reviews, setReviews] = useState([]);
   const [tourPhotos, setTourPhotos] = useState([]);
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
-  const [showPhotos, setShowPhotos] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Slideshow images
-  const slides = [
-    'slide1.jpg',
-    'slide2.jpg',
-    'slide3.jpg',
-    'slide4.jpg',
-    'slide5.jpg',
-    'slide6.jpg',
-    'slide7.jpg',
-    'slide8.jpg',
-    'slide9.jpg',
-    'slide10.jpg',
-    'slide11.jpg',
-    'slide12.jpg'
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 4 * 5000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const fetchGuideWithRecalculation = async () => {
@@ -133,21 +107,8 @@ const PublicGuideProfile = () => {
   return (
     <>
       <Header />
-      <div className="relative min-h-screen bg-defaultWhite overflow-hidden">
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out bg-cover bg-center bg-no-repeat ${
-                index === currentSlide ? 'opacity-15' : 'opacity-0'
-              }`}
-              style={{
-                backgroundImage: `url(/Slideshow/${slide})`,
-              }}
-            />
-          ))}
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto p-8 bg-pureWhite rounded-2xl shadow-lg">
+      <div className="min-h-screen bg-defaultWhite">
+        <div className="max-w-7xl mx-auto p-8 bg-pureWhite rounded-2xl shadow-lg">
           <div className="flex justify-between items-start mb-8">
             <div className="flex-1 pr-8">
               <h1 className="text-4xl font-bold text-gray-800 mb-4">{guide.fullName}</h1>
@@ -231,109 +192,95 @@ const PublicGuideProfile = () => {
 
           <div className="h-px bg-gray-200 my-8"></div>
 
-          <div className="my-8">
-            <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8 group">
-              <button
-                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-200 ${
-                  showPhotos ? 'text-pureWhite' : 'text-gray-600'
-                }`}
-                onClick={() => setShowPhotos(true)}
-              >
-                <FaImages className="text-lg" />
-                <span className="text-sm font-medium opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-300 overflow-hidden whitespace-nowrap">Tour Photos</span>
-              </button>
-              <button
-                className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-200 ${
-                  !showPhotos ? 'text-pureWhite' : 'text-gray-600'
-                }`}
-                onClick={() => setShowPhotos(false)}
-              >
-                <FaUserTie className="text-lg" />
-                <span className="text-sm font-medium opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-300 overflow-hidden whitespace-nowrap">Professional Details</span>
-              </button>
-              <div className={`absolute top-1 left-1 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-all duration-300 ${
-                showPhotos ? 'translate-x-0 w-[60px] group-hover:w-[140px]' : 'translate-x-full w-[60px] group-hover:w-[200px] group-hover:translate-x-[70%]'
-              }`}></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 my-8">
+            {/* Tour Photos Section */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <FaImages className="text-primaryGreen" />
+                Tour Photos
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                {tourPhotos.length > 0 ? (
+                  tourPhotos.map((photo) => (
+                    <div key={photo._id} className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                      <img
+                        src={`${photo.imagePath}?w=400&h=300&c_fill`}
+                        alt={photo.caption || "Tour"}
+                        className="w-full h-48 object-cover cursor-pointer hover:scale-105 transition-transform duration-200"
+                        loading="lazy"
+                        onClick={() => handleImageClick(photo.imagePath)}
+                      />
+                      {photo.caption && (
+                        <div className="p-3 text-center text-sm text-gray-600 border-t border-gray-100">
+                          {photo.caption}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p className="col-span-2 text-gray-600 text-center py-4">No tour photos uploaded yet.</p>
+                )}
+              </div>
             </div>
 
-            {showPhotos ? (
-              <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Tour Photos</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
-                  {tourPhotos.length > 0 ? (
-                    tourPhotos.map((photo) => (
-                      <div key={photo._id} className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                        <img
-                          src={`${photo.imagePath}?w=400&h=300&c_fill`}
-                          alt={photo.caption || "Tour"}
-                          className="w-full h-48 object-cover cursor-pointer hover:scale-105 transition-transform duration-200"
-                          loading="lazy"
-                          onClick={() => handleImageClick(photo.imagePath)}
-                        />
-                        {photo.caption && (
-                          <div className="p-3 text-center text-sm text-gray-600 border-t border-gray-100">
-                            {photo.caption}
-                          </div>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p className="col-span-full text-gray-600">No tour photos uploaded yet.</p>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="p-6 bg-white rounded-lg shadow-sm">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Professional Details</h2>
-                <div className="space-y-4">
-                  <p className="py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-800">Specialties:</span> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
-                  </p>
-                  <p className="py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-800">Languages:</span> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
-                  </p>
-                  <p className="py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-800">Experience:</span> {guide.professionalDetails?.experienceYears || "0"} years
-                  </p>
-                  <p className="py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-800">Tour Regions:</span> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
-                  </p>
-                  {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                    <p className="py-2 border-b border-gray-100">
-                      <span className="font-semibold text-gray-800">Hourly Rate:</span>
-                      <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
-                        ${guide.pricing.hourlyRate}
-                      </span>
-                    </p>
-                  ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                    <p className="py-2 border-b border-gray-100">
-                      <span className="font-semibold text-gray-800">Daily Rate:</span>
-                      <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
-                        ${guide.pricing.dailyRate}
-                      </span>
-                    </p>
-                  ) : (
-                    <p className="py-2 border-b border-gray-100">
-                      <span className="font-semibold text-gray-800">Rate:</span> Not set
-                    </p>
-                  )}
-                  <p className="py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-800">Availability:</span> {guide.availability || "Not specified"}
-                  </p>
-                  {guide._id && (
-                    <div className="mt-4 text-center">
-                      <QRCodeSVG
-                        value={`${window.location.origin}/guides/${guide._id}`}
-                        size={100}
-                        level="H"
-                        includeMargin={true}
-                      />
-                      <p className="mt-2 text-sm text-gray-600">Scan to view this profile</p>
+            {/* Professional Details Section */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <FaUserTie className="text-primaryGreen" />
+                Professional Details
+              </h2>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Specialties</h3>
+                    <p className="text-gray-600">{guide.professionalDetails?.specialties?.join(", ") || "Not specified"}</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Languages</h3>
+                    <p className="text-gray-600">{guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Tour Regions</h3>
+                    <p className="text-gray-600">{guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Experience</h3>
+                    <p className="text-gray-600">{guide.professionalDetails?.experienceYears || "0"} years</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Rates</h3>
+                    <div className="flex gap-4">
+                      {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                        <span className="px-3 py-1 bg-primaryGreen/10 text-primaryGreen font-bold rounded">
+                          ${guide.pricing.hourlyRate}/hour
+                        </span>
+                      ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                        <span className="px-3 py-1 bg-primaryGreen/10 text-primaryGreen font-bold rounded">
+                          ${guide.pricing.dailyRate}/day
+                        </span>
+                      ) : (
+                        <span className="text-gray-600">Not set</span>
+                      )}
                     </div>
-                  )}
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Availability</h3>
+                    <p className="text-gray-600">{guide.availability || "Not specified"}</p>
+                  </div>
                 </div>
+                {guide._id && (
+                  <div className="mt-6 text-center p-4 bg-gray-50 rounded-lg">
+                    <QRCodeSVG
+                      value={`${window.location.origin}/guides/${guide._id}`}
+                      size={100}
+                      level="H"
+                      includeMargin={true}
+                    />
+                    <p className="mt-2 text-sm text-gray-600">Scan to view this profile</p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
           <div className="h-px bg-gray-200 my-8"></div>
