@@ -1010,33 +1010,15 @@ const GuideProfile = () => {
               </div>
 
               <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                <div className="relative flex bg-gray-100 rounded-full p-1 w-fit mx-auto mb-8">
-                  <button
-                    className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
-                      showPhotos ? 'text-pureWhite' : 'text-gray-600'
-                    }`}
-                    onClick={() => setShowPhotos(true)}
-                  >
-                    <FaImages className="text-lg" />
-                    <span className="text-sm font-medium">Tour Photos</span>
-                  </button>
-                  <button
-                    className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full transition-colors duration-200 ${
-                      !showPhotos ? 'text-pureWhite' : 'text-gray-600'
-                    }`}
-                    onClick={() => setShowPhotos(false)}
-                  >
-                    <FaUserTie className="text-lg" />
-                    <span className="text-sm font-medium">Professional Details</span>
-                  </button>
-                  <div className={`absolute top-1 left-1 w-1/2 h-[calc(100%-8px)] bg-primaryGreen rounded-full transition-transform duration-300 ${
-                    showPhotos ? 'translate-x-0' : 'translate-x-full'
-                  }`}></div>
-                </div>
-
-                {showPhotos ? (
-                  <div className="text-center">
-                    <div className="mb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Tour Photos Section */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-6">
+                      <FaImages className="text-2xl text-primaryGreen" />
+                      <h2 className="text-2xl font-bold text-gray-800">Tour Photos</h2>
+                    </div>
+                    
+                    <div className="text-center mb-6">
                       <label className="inline-block px-6 py-3 bg-primaryGreen text-pureWhite rounded-full cursor-pointer hover:bg-secondaryGreen transition-colors duration-200">
                         Choose Photo
                         <input
@@ -1079,13 +1061,13 @@ const GuideProfile = () => {
                     {selectedPhotos.length > 0 && (
                       <button
                         onClick={handleDeleteSelectedPhotos}
-                        className="mb-8 px-6 py-2 bg-defaultRed text-pureWhite rounded-full hover:bg-red-700 transition-colors duration-200"
+                        className="mb-4 px-6 py-2 bg-defaultRed text-pureWhite rounded-full hover:bg-red-700 transition-colors duration-200"
                       >
                         Delete Selected ({selectedPhotos.length})
                       </button>
                     )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+                    <div className="grid grid-cols-2 gap-4">
                       {tourPhotos.length > 0 ? (
                         tourPhotos.map((photo) => (
                           <div key={photo._id} className="relative border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
@@ -1110,50 +1092,69 @@ const GuideProfile = () => {
                           </div>
                         ))
                       ) : (
-                        <p className="col-span-full text-gray-600">No tour photos uploaded yet.</p>
+                        <p className="col-span-2 text-gray-600 text-center py-8">No tour photos uploaded yet.</p>
                       )}
                     </div>
                   </div>
-                ) : (
-                  <div className="p-6 bg-white rounded-lg shadow-sm">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Professional Details</h2>
+
+                  {/* Professional Details Section */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-6">
+                      <FaUserTie className="text-2xl text-primaryGreen" />
+                      <h2 className="text-2xl font-bold text-gray-800">Professional Details</h2>
+                    </div>
+
                     <div className="space-y-4">
-                      <p className="py-2 border-b border-gray-100">
-                        <span className="font-semibold text-gray-800">Specialties:</span> {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
-                      </p>
-                      <p className="py-2 border-b border-gray-100">
-                        <span className="font-semibold text-gray-800">Languages:</span> {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
-                      </p>
-                      <p className="py-2 border-b border-gray-100">
-                        <span className="font-semibold text-gray-800">Experience:</span> {guide.professionalDetails?.experienceYears || "0"} years
-                      </p>
-                      <p className="py-2 border-b border-gray-100">
-                        <span className="font-semibold text-gray-800">Tour Regions:</span> {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
-                      </p>
-                      {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
-                        <p className="py-2 border-b border-gray-100">
-                          <span className="font-semibold text-gray-800">Hourly Rate:</span>
-                          <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
-                            ${guide.pricing.hourlyRate}
-                          </span>
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Specialties</h3>
+                        <p className="text-gray-600">
+                          {guide.professionalDetails?.specialties?.join(", ") || "Not specified"}
                         </p>
-                      ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
-                        <p className="py-2 border-b border-gray-100">
-                          <span className="font-semibold text-gray-800">Daily Rate:</span>
-                          <span className="ml-2 px-2 py-1 bg-gray-50 text-primaryGreen font-bold rounded">
-                            ${guide.pricing.dailyRate}
-                          </span>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Languages</h3>
+                        <p className="text-gray-600">
+                          {guide.professionalDetails?.languagesSpoken?.join(", ") || "Not specified"}
                         </p>
-                      ) : (
-                        <p className="py-2 border-b border-gray-100">
-                          <span className="font-semibold text-gray-800">Rate:</span> Not set
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Experience</h3>
+                        <p className="text-gray-600">
+                          {guide.professionalDetails?.experienceYears || "0"} years
                         </p>
-                      )}
-                      <p className="py-2 border-b border-gray-100">
-                        <span className="font-semibold text-gray-800">Availability:</span> {guide.availability || "Not specified"}
-                      </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Tour Regions</h3>
+                        <p className="text-gray-600">
+                          {guide.professionalDetails?.tourRegions?.join(", ") || "Not specified"}
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Pricing</h3>
+                        {guide.pricing?.hourlyRate && guide.pricing?.hourlyRate !== "0" ? (
+                          <p className="text-gray-600">
+                            <span className="font-medium text-primaryGreen">${guide.pricing.hourlyRate}</span> per hour
+                          </p>
+                        ) : guide.pricing?.dailyRate && guide.pricing?.dailyRate !== "0" ? (
+                          <p className="text-gray-600">
+                            <span className="font-medium text-primaryGreen">${guide.pricing.dailyRate}</span> per day
+                          </p>
+                        ) : (
+                          <p className="text-gray-600">Rate not set</p>
+                        )}
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-gray-800 mb-2">Availability</h3>
+                        <p className="text-gray-600">{guide.availability || "Not specified"}</p>
+                      </div>
+
                       {guide._id && (
-                        <div className="mt-4 text-center">
+                        <div className="p-4 bg-gray-50 rounded-lg text-center">
                           <QRCodeSVG
                             value={`${window.location.origin}/guides/${guide._id}`}
                             size={100}
@@ -1165,7 +1166,7 @@ const GuideProfile = () => {
                       )}
                     </div>
                   </div>
-                )}
+                </div>
               </div>
 
               <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
