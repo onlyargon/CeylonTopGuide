@@ -405,20 +405,74 @@ const Register = () => {
             console.log('Server response:', data);
 
             if (!response.ok) {
-                if (data.message && data.message.toLowerCase().includes('email already exists')) {
-                    alert("This email belongs to a registered account. If you have an account, please log in using the same email.");
+                if (data.message) {
+                    const errorMessage = data.message.toLowerCase();
+                    
+                    if (errorMessage.includes('email already exists')) {
+                        setErrors({ email: "This email is already registered. Please use a different email address or log in if this is your account." });
+                        scrollToField('email');
+                    } else if (errorMessage.includes('username already exists')) {
+                        setErrors({ username: "This username is already taken. Please choose a different username." });
+                        scrollToField('username');
+                    } else if (errorMessage.includes('phone number already exists')) {
+                        setErrors({ phone: "This phone number is already registered. Please use a different phone number or log in if this is your account." });
+                        scrollToField('phone');
+                    } else if (errorMessage.includes('invalid file format')) {
+                        setErrors({ 
+                            profilePhoto: "Invalid file format. Please upload images in JPG, PNG, or JPEG format.",
+                            governmentID: "Invalid file format. Please upload images in JPG, PNG, or JPEG format.",
+                            tourGuideLicense: "Invalid file format. Please upload images in JPG, PNG, or JPEG format."
+                        });
+                        scrollToField('profilePhoto');
+                    } else if (errorMessage.includes('file size too large')) {
+                        setErrors({ 
+                            profilePhoto: "File size is too large. Please upload an image smaller than 5MB.",
+                            governmentID: "File size is too large. Please upload an image smaller than 5MB.",
+                            tourGuideLicense: "File size is too large. Please upload an image smaller than 5MB."
+                        });
+                        scrollToField('profilePhoto');
+                    } else if (errorMessage.includes('invalid phone number')) {
+                        setErrors({ phone: "Invalid phone number format. Please enter a valid Sri Lankan phone number starting with '07'." });
+                        scrollToField('phone');
+                    } else if (errorMessage.includes('invalid email format')) {
+                        setErrors({ email: "Invalid email format. Please enter a valid email address." });
+                        scrollToField('email');
+                    } else if (errorMessage.includes('password too weak')) {
+                        setErrors({ password: "Password is too weak. Please use a stronger password with at least 8 characters, including letters and numbers." });
+                        scrollToField('password');
+                    } else if (errorMessage.includes('server error')) {
+                        alert("We're experiencing technical difficulties. Please try again later or contact support if the problem persists.");
+                    } else {
+                        alert(`Registration failed: ${data.message}`);
+                    }
                     return;
                 }
-                throw new Error(data.message || "Failed to register");
             }
 
             console.log("Registration successful:", data);
-            alert("Registration successful!");
+            alert("Registration successful! Please check your email to verify your account.");
             navigate("/registration-confirmation");
         } catch (error) {
             console.error("Error submitting form:", error.message);
             console.error("Full error:", error);
-            alert(`Registration failed: ${error.message}`);
+            
+            // Handle network errors
+            if (!navigator.onLine) {
+                alert("No internet connection. Please check your connection and try again.");
+            } else if (error.message.includes('Failed to fetch')) {
+                alert("Unable to connect to the server. Please try again later or contact support if the problem persists.");
+            } else {
+                alert(`Registration failed: ${error.message}`);
+            }
+        }
+    };
+
+    // Helper function to scroll to form fields
+    const scrollToField = (fieldName) => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            field.focus();
         }
     };
 
