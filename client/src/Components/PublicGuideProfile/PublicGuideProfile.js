@@ -162,7 +162,7 @@ const PublicGuideProfile = () => {
               </div>
             </div>
 
-            <div className="w-48 h-48 sm:w-[100px] sm:h-[50px]rounded-full overflow-hidden shadow-lg">
+            <div className="w-48 h-48 sm:w-[100px] sm:h-[50px] rounded-full overflow-hidden shadow-lg">
               <img
                 src={getCloudinaryUrl(guide.profilePhoto)}
                 alt={guide.fullName}
