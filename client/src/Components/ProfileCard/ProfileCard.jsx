@@ -15,16 +15,7 @@ const DEFAULT_CARD_GRADIENT = "linear-gradient(145deg, #3d9692 10%, #71C4FF44 10
 
 // Helper function to get gradient string based on index
 const getGradientString = (index) => {
-  switch (index) {
-    case 0:
-      return GOLD_GRADIENT;
-    case 1:
-      return SILVER_GRADIENT;
-    case 2:
-      return BRONZE_GRADIENT;
-    default:
-      return DEFAULT_CARD_GRADIENT;
-  }
+  return DEFAULT_CARD_GRADIENT;
 };
 
 const ANIMATION_CONFIG = {

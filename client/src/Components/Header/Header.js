@@ -35,14 +35,20 @@ function Header() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const scrollToSection = (sectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setIsMenuOpen(false); // Close mobile menu after clicking
+        }
+    };
+
     return (
         <header className="w-full bg-primaryGreen py-4 text-white font-['Work_Sans',_Helvetica,_Arial,_sans-serif]">
             <div className="flex items-center justify-between mx-auto px-5">
-                <div className="w-[50px] h-[50px]">
-                    <img src='/Logo/Logo.png' alt='logo' className='w-[60px]' />
+                <div className="w-[90px] h-[50px]">
+                    <img src='/Logo/Logo.png' alt='logo' className='w-[90px] mt-[-20px]' />
                 </div>
-
-                {/* Hamburger Menu Button - Only visible on mobile */}
                 <button 
                     className="lg:hidden p-2"
                     onClick={toggleMenu}
@@ -55,8 +61,7 @@ function Header() {
                     </div>
                 </button>
 
-                {/* Navigation Menu */}
-                <nav className={`lg:flex-grow lg:ml-10 ${isMenuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-[72px] lg:top-0 left-0 w-full lg:w-auto bg-primaryGreen lg:bg-transparent z-50 transition-all duration-300 ease-in-out transform ${isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 lg:translate-y-0 lg:opacity-100'}`}>
+                <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-[70px] lg:top-0 left-0 w-full lg:w-auto bg-primaryGreen lg:bg-transparent z-50`}>
                     <ul className="flex flex-col lg:flex-row list-none m-0 p-0 md:gap-[40px] gap-[2px] lg:items-center items-center">
                         <li className="inline-block p-4 lg:p-0 w-full lg:w-auto text-center">
                             <Link to="/" className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block">Home</Link>
@@ -65,16 +70,25 @@ function Header() {
                             <Link to="/guideList" className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block">Find a guide</Link>
                         </li>
                         <li className="inline-block p-4 lg:p-0 w-full lg:w-auto text-center">
-                            <Link to="/#about" className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block">About us</Link>
+                            <button 
+                                onClick={() => scrollToSection('about')}
+                                className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block bg-transparent border-none cursor-pointer w-full lg:w-auto"
+                            >
+                                About us
+                            </button>
                         </li>
                         <li className="inline-block p-4 lg:p-0 w-full lg:w-auto text-center">
-                            <Link to="/#contact" className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block">Contact</Link>
+                            <button 
+                                onClick={() => scrollToSection('contact')}
+                                className="text-pureWhite no-underline text-base transition-opacity duration-200 hover:opacity-80 block bg-transparent border-none cursor-pointer w-full lg:w-auto"
+                            >
+                                Contact
+                            </button>
                         </li>
                     </ul>
                 </nav>
 
-                {/* Auth Buttons */}
-                <div className={`${isMenuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-[300px] lg:top-0 left-0 w-full lg:w-auto bg-primaryGreen lg:bg-transparent p-4 lg:p-0 z-50 transition-all duration-300 ease-in-out transform ${isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 lg:translate-y-0 lg:opacity-100'}`}>
+                <div className={`${isMenuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-[300px] lg:top-0 left-0 w-full lg:w-auto bg-primaryGreen lg:bg-transparent z-50`}>
                     {userData ? (
                         <Link 
                             to="/guideProfile" 

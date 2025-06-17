@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AnimatePresence, motion, wrap } from "framer-motion";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faTrophy, faSearch, faRoad, faUser } from '@fortawesome/free-solid-svg-icons';
 import AnimatedList from '../AnimatedList/AnimatedList';
 import BlurText from "../BlurText/BlurText";
 import ScrollReveal from '../ScrollReveal/ScrollReveal';
@@ -180,7 +180,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </header>*/}
-            <Header/>
+            <Header />
             <div className="relative w-full min-h-screen bg-gradient-to-b from-primaryGreen via-primaryGreen/90 to-pureWhite/70 flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4 md:px-[100px] py-10 md:py-0 pt-24 md:pt-[220px] pb-10 md:pb-0" id="home">
                 <div className="flex flex-col items-center md:items-start mb-8 md:mb-0 w-full md:w-1/2 text-center md:text-left">
                     <BlurText
@@ -191,14 +191,7 @@ const LandingPage = () => {
                         onAnimationComplete={handleAnimationComplete}
                         className="text-2xl sm:text-3xl md:text-7xl font-bold text-pureWhite mb-2 md:mb-4"
                     />
-                    <BlurText
-                        text="Connecting Travelers with Sri Lanka's Best Tour Guides"
-                        delay={200}
-                        animateBy="words"
-                        direction="top"
-                        onAnimationComplete={handleAnimationComplete}
-                        className="text-base sm:text-lg md:text-2xl text-pureWhite mb-6 md:mb-12 max-w-full md:max-w-2xl"
-                    />
+                    <h2 className='text-pureWhite md:text-lg md:mt-[20px] md:mb-[20px] mb-[10px]'>Connecting <strong>Travelers</strong> with Sri Lanka's Best <strong>Tour Guides</strong></h2>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start w-full">
                         <motion.div
                             drag
@@ -287,11 +280,17 @@ const LandingPage = () => {
                 <section className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                     <div className="w-full md:w-1/2">
                         <h2 className="text-lg sm:text-xl md:text-4xl font-bold text-defaultBlack mb-4 text-shadow-white">Explore Sri Lanka Like Never Before</h2>
-                        <h3 className="text-base sm:text-lg md:text-2xl font-semibold text-defaultBlack mb-6 text-shadow-white">Your Journey Deserves a Local Touch</h3>
+                        <h3 className="text-base sm:text-lg md:text-2xl font-semibold text-defaultBlack mb-6 text-shadow-white">Discover More Than Just Destinations, Discover Stories</h3>
                         <p className="text-defaultBlack text-xs sm:text-sm md:text-base leading-relaxed text-shadow-white">
-                            Experience the heart of Sri Lanka with a guide who knows every hidden gem.
-                            From ancient temples to coastal wonders, our verified guides bring authentic stories and personal insight to every trip.
-                            Make your travel meaningful, not just memorable.
+                            At Ceylon Top Guide, we believe travel is more than sightseeing, it's about connecting with the heart of a place.
+
+                            Whether you're exploring ancient temples, tasting spicy street food, chasing waterfalls, or unwinding on a hidden beach, your experience is richer with the right local guide by your side.
+
+                            We connect you with trusted, verified local experts who know Sri Lanka inside and out, the culture, the secrets, and the places guidebooks miss.
+
+                            Let us turn your trip into a personal, meaningful, and unforgettable journey.
+
+                            Browse local guides now and start planning your adventure with a local touch!
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
@@ -301,12 +300,13 @@ const LandingPage = () => {
 
                 <section className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mt-10 md:mt-16">
                     <div className="w-full md:w-1/2">
-                        <h2 className="text-xl md:text-4xl font-bold text-pureWhite mb-4">Travel Smart with Trusted Chauffeur Guides</h2>
-                        <h3 className="text-lg md:text-2xl font-semibold text-pureWhite mb-6">Comfort, Safety, and Insider Knowledge</h3>
+                        <h2 className="text-xl md:text-4xl font-bold text-pureWhite mb-4">Calling All Local Guides in Sri Lanka!</h2>
+                        <h3 className="text-lg md:text-2xl font-semibold text-pureWhite mb-6">Share Your Sri Lanka with the World, Join Ceylon Top Guide</h3>
                         <p className="text-pureWhite text-sm md:text-base leading-relaxed">
-                            Avoid the stress of logistics.
-                            Our chauffeur guides not only get you where you need to go, they elevate your journey.
-                            Enjoy personalized recommendations, cultural tips, and real-time flexibility, all while traveling in comfort and style.
+                            You know the hidden gems and true stories of Sri Lanka. Travelers want to see the island through your eyes. You are the key to unlocking Sri Lanka's real magic.
+
+                            Get verified, build your profile, and connect with travelers who value authentic, local experiences.
+                            Turn your passion into a rewarding guiding career. Don't just guide, inspire, lead, and change how the world sees Sri Lanka.
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 flex justify-center">
@@ -316,12 +316,22 @@ const LandingPage = () => {
             </div>
 
             <div className="w-full px-4 md:px-16 py-10 md:py-[200px] text-center bg-gradient-to-b from-pureWhite/70 via-primaryGreen/70 to-pureWhite/70 mt-10 md:mt-[100px]">
-                <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12">WHY CHOOSE CEYLONTOPGUIDE ?</h1>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    <div className="col-span-1 md:col-span-2 mb-4">
+                        <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12 text-center">WHY CHOOSE CEYLONTOPGUIDE ?</h2>
+                    </div>
+
+                    <div className="flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You Are A Tourist</h3>
+                    </div>
+
+                    <div className="flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You are A Tour Guide</h3>
+                    </div>
+
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">VERIFIED EXPERTS: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All tour guides are vetted and approved.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base"> Trusted Local Experts: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All guides are verified for quality and authenticity, backed by real reviews.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -332,19 +342,19 @@ const LandingPage = () => {
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">EASY SEARCH: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Filter by location, language, expertise, and reviews.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Build Your Reputation: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Get verified and showcase your guiding skills to travelers worldwide.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z" />
-                                <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                                <circle cx="12" cy="12" r="3" fill="currentColor" />
                             </svg>
                         </div>
                     </div>
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">REAL REVIEWS: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">See traveler ratings & feedback before booking.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Unique Experiences: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Go beyond the tourist trail and uncover hidden gems only locals know.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -355,12 +365,30 @@ const LandingPage = () => {
 
                     <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
                         <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">NO HIDDEN FEES: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Transparent connections between travelers and guides.</span>
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Connect with Real Travelers: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Reach people looking for genuine, local experiences – just like yours.</span>
                         </div>
                         <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                             </svg>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                        <div className="flex-grow text-left mr-4">
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Personalized Journeys: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Plan trips that match your interests with guides who truly understand Sri Lanka.</span>
+                        </div>
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <FontAwesomeIcon icon={faRoad} className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                        <div className="flex-grow text-left mr-4">
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Grow with Support: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Turn your passion into a profession with the tools and platform you need to succeed.</span>
+                        </div>
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <FontAwesomeIcon icon={faUser} className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
                         </div>
                     </div>
                 </div>
@@ -425,7 +453,7 @@ const LandingPage = () => {
                                                 avatarUrl={getCloudinaryUrl(guide.profilePhoto)}
                                                 showUserInfo={true}
                                                 enableTilt={true}
-                                                onContactClick={() => {}}
+                                                onContactClick={() => { }}
                                                 guideIndex={guideIndex}
                                                 className="rounded-[26px]"
                                             />
@@ -468,8 +496,8 @@ const LandingPage = () => {
                         damping: 6
                     }}
                 >
-                    <Link 
-                        to="/guideList" 
+                    <Link
+                        to="/guideList"
                         className="inline-block px-8 py-4 bg-primaryGreen text-pureWhite font-semibold rounded-[15px] shadow-lg hover:bg-darkGreen transition-colors duration-300 md:mt-10"
                     >
                         FIND A GUIDE
