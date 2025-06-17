@@ -833,21 +833,6 @@ const GuideProfile = () => {
                           <option key={spec} value={spec}>{spec}</option>
                         ))}
                       </select>
-                      <input
-                        type="text"
-                        placeholder="Add custom specialty"
-                        onKeyPress={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            const value = e.target.value.trim();
-                            if (value) {
-                              handleAddCustom("professionalDetails.specialties", value);
-                              e.target.value = '';
-                            }
-                          }
-                        }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryGreen"
-                      />
                       <div className="flex flex-wrap gap-2">
                         {formData.professionalDetails?.specialties?.map((spec, index) => (
                           <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondaryGreen/10 text-secondaryGreen">
