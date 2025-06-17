@@ -321,15 +321,23 @@ const LandingPage = () => {
                         <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-defaultBlack mb-6 md:mb-12 text-center">WHY CHOOSE CEYLONTOPGUIDE ?</h2>
                     </div>
 
-                    <div className="flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                    {/* Mobile View - Tourist Section */}
+                    <div className="flex md:hidden items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4 order-1">
                         <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You Are A Tourist</h3>
                     </div>
 
-                    <div className="flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                    {/* Desktop View - Tourist Header */}
+                    <div className="hidden md:flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You Are A Tourist</h3>
+                    </div>
+
+                    {/* Desktop View - Tour Guide Header */}
+                    <div className="hidden md:flex items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
                         <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You are A Tour Guide</h3>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    {/* Trusted Local Experts */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-2">
                         <div className="flex-grow text-left mr-4">
                             <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base"> Trusted Local Experts: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">All guides are verified for quality and authenticity, backed by real reviews.</span>
                         </div>
@@ -340,7 +348,47 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    {/* Unique Experiences */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-3 md:order-7">
+                        <div className="flex-grow text-left mr-4">
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Unique Experiences: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Go beyond the tourist trail and uncover hidden gems only locals know.</span>
+                        </div>
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Connect with Real Travelers */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-7 md:order-3">
+                        <div className="flex-grow text-left mr-4">
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Connect with Real Travelers: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Reach people looking for genuine, local experiences – just like yours.</span>
+                        </div>
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Personalized Journeys */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-4">
+                        <div className="flex-grow text-left mr-4">
+                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Personalized Journeys: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Plan trips that match your interests with guides who truly understand Sri Lanka.</span>
+                        </div>
+                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
+                            <FontAwesomeIcon icon={faRoad} className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
+                        </div>
+                    </div>
+
+                    {/* Mobile View - Tour Guide Section */}
+                    <div className="flex md:hidden items-center justify-center bg-primaryGreen/20 backdrop-filter backdrop-blur-lg rounded-lg p-4 order-5">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-pureWhite text-center">If You are A Tour Guide</h3>
+                    </div>
+
+                    {/* Build Your Reputation */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-6">
                         <div className="flex-grow text-left mr-4">
                             <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Build Your Reputation: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Get verified and showcase your guiding skills to travelers worldwide.</span>
                         </div>
@@ -352,38 +400,8 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
-                        <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Unique Experiences: </span> <span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Go beyond the tourist trail and uncover hidden gems only locals know.</span>
-                        </div>
-                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
-                        <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Connect with Real Travelers: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Reach people looking for genuine, local experiences – just like yours.</span>
-                        </div>
-                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
-                        <div className="flex-grow text-left mr-4">
-                            <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Personalized Journeys: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Plan trips that match your interests with guides who truly understand Sri Lanka.</span>
-                        </div>
-                        <div className="flex-shrink-0 text-pureWhite w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center">
-                            <FontAwesomeIcon icon={faRoad} className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                    {/* Grow with Support */}
+                    <div className="flex items-center bg-primaryGreen backdrop-filter backdrop-blur-lg rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:scale-105 transition duration-300 ease-in-out order-8">
                         <div className="flex-grow text-left mr-4">
                             <span className="font-bold text-pureWhite text-xs sm:text-sm md:text-base">Grow with Support: </span><span className="text-pureWhite/80 text-xs sm:text-sm md:text-base">Turn your passion into a profession with the tools and platform you need to succeed.</span>
                         </div>
