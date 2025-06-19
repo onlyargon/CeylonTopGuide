@@ -51,16 +51,16 @@ function Footer() {
                     <div className="links-column">
                         <h3>Contact Us:</h3>
                         <ul>
-                            <li>Email: <a href="mailto:support@ceylontopguide.lk">support@ceylontopguide.lk</a></li>
-                            <li>Contact Number: +94 xx xxx xxxx</li>
+                            <li>Email: <a href="mailto:hello@ceylontopguide.lk">hello@ceylontopguide.lk</a></li>
+                            <li>Contact Number: <a href="tel:+94771126127">+94 77 112 6127</a></li>
                         </ul>
                     </div>
 
                     <div className="links-column">
                         <h3>Follow Us On:</h3>
                         <div className="social-icons">
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
+                            <a href="https://www.facebook.com/share/19sjregmuA/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} /></a>
+                            <a href="https://www.instagram.com/ceylon_top_guide?igsh=MTY0aXQ5ZjRqaHY1dQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
                         </div>
                     </div>
                 </div>
