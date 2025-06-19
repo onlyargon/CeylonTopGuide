@@ -276,7 +276,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[50px] md:pb-[100px] md:rounded-[10px]">
+            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[100px] md:pb-[100px] md:rounded-[10px]">
                 <section className="flex flex-col gap-8 items-center md:flex-row md:gap-12">
                     <div className="flex relative flex-col items-center w-full md:w-full md:items-start">
                         {/* Background Image */}
