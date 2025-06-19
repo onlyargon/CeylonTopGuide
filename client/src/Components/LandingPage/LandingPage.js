@@ -276,18 +276,18 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[50px] md:pb-[100px] rounded-[10px]">
+            <div className="container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[50px] md:pb-[100px] md:rounded-[10px]">
                 <section className="flex flex-col gap-8 items-center md:flex-row md:gap-12">
                     <div className="flex relative flex-col items-center w-full md:w-full md:items-start">
                         {/* Background Image */}
                         <img
                             src="/Images/Collage2.png"
-                            className="absolute top-[-300px] left-[285px] w-[1200px] h-auto object-cover z-0 pointer-events-none"
+                            className="absolute w-[600px] md:top-[-300px] md:left-[285px] md:w-[1200px] top-[25px] h-auto object-cover z-0 pointer-events-none md:rounded-br-[10px]"
                             style={{ maxWidth: '5000px' }}
                             alt=""
                         />
                         {/* Foreground Text */}
-                        <div className="relative z-10">
+                        <div className="relative z-10 text-center">
                             <h2 className="mb-4 text-lg font-bold sm:text-xl md:text-4xl text-pureWhite text-shadow-defaultBlack text-shadow-lg">Explore Sri Lanka Like Never Before</h2>
                             <h3 className="mb-6 text-base font-semibold sm:text-lg md:text-2xl text-pureWhite text-shadow-defaultBlack text-shadow-lg">Discover More Than Just Destinations, Discover Stories</h3>
                             <p className="text-pureWhite text-xs sm:text-sm md:text-base leading-relaxed text-shadow-white bg-primaryGreen/60 rounded-[10px] p-[10px] shadow-lg">
@@ -308,20 +308,20 @@ const LandingPage = () => {
                     </div>
                 </section>
             </div>
-            <div className='container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[150px] rounded-[10px]'>
+            <div className='container mx-auto px-4 py-10 md:py-16 pl-4 md:pl-[50px] bg-gradient-to-b from-primaryGreen/60 from-30% to-primaryGreen mt-[150px] md:rounded-[10px]'>
                 <section className="flex flex-col gap-8 items-center mt-10 md:flex-row md:gap-12 md:mt-16">
                     {/* Image on the left */}
                     <div className="flex relative flex-col items-center w-full md:w-1/2 md:items-start min-h-[300px]">
                         <img 
                             src="/Images/Collage1.png" 
-                            className="absolute top-[-250px] left-[-100px] w-[1200px] h-auto object-cover z-0 pointer-events-none"
+                            className="absolute top-[-100px] md:top-[-250px] left-0 md:left-[-100px] w-[800px] md:w-[1200px] h-auto object-cover z-0 pointer-events-none"
                             style={{ maxWidth: '5000px' }}
                             alt="Collage background"
                         />
                     </div>
                     {/* Text on the right */}
-                    <div className="flex relative z-10 flex-col items-center w-full md:items-start md:w-full left-[-50px]">
-                        <h2 className="mb-4 text-xl font-bold md:text-4xl text-pureWhite text-shadow-defaultBlack text-shadow-lg">Calling All Local Guides in Sri Lanka!</h2>
+                    <div className="flex relative z-10 flex-col items-center w-full md:items-start md:w-full md:left-[-50px] text-center">
+                        <h2 className="left-0 mb-4 text-xl font-bold md:text-4xl text-pureWhite text-shadow-defaultBlack text-shadow-lg">Calling All Local Guides in Sri Lanka!</h2>
                         <h3 className="mb-6 text-lg font-semibold md:text-2xl text-pureWhite text-shadow-defaultBlack text-shadow-lg">Share Your Sri Lanka with the World, Join Ceylon Top Guide</h3>
                         <p className="text-sm leading-relaxed text-pureWhite md:text-base bg-primaryGreen/60 rounded-[10px] p-[10px] shadow-lg">
                             You know the hidden gems and true stories of Sri Lanka. Travelers want to see the island through your eyes. You are the key to unlocking Sri Lanka's real magic.
