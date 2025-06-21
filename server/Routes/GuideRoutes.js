@@ -385,6 +385,7 @@ router.put('/approve/:id', async (req, res) => {
 router.post('/forgot-password', async (req, res) => {
   const { email } = req.body;
   try {
+    console.log('[Forgot Password] Requested email:', email);
     const guide = await Guide.findOne({ "contact.email": email });
     if (!guide) return res.status(404).json({ error: "Guide not found" });
 
@@ -394,13 +395,23 @@ router.post('/forgot-password', async (req, res) => {
     await guide.save();
 
     const resetURL = `${process.env.REACT_APP_API_BASE_URL}/reset-password/${token}`;
+    console.log('[Forgot Password] Generated token:', token);
+    console.log('[Forgot Password] Reset URL:', resetURL);
 
-    // Replace your current nodemailer.createTransport configuration with this:
-
-    const transporter = nodemailer.createTransport({
+    // Log transporter config (excluding password)
+    const transporterConfig = {
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       secure: true, // 465 is secure by default
+      auth: {
+        user: process.env.EMAIL_USER,
+        // pass: process.env.EMAIL_PASSWORD // Do not log password
+      }
+    };
+    console.log('[Forgot Password] Nodemailer transporter config:', transporterConfig);
+
+    const transporter = nodemailer.createTransport({
+      ...transporterConfig,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
@@ -427,11 +438,20 @@ router.post('/forgot-password', async (req, res) => {
       </div>
     `
     };
+    // Log mailOptions (excluding password)
+    const mailOptionsLog = { ...mailOptions };
+    console.log('[Forgot Password] mailOptions:', mailOptionsLog);
 
-    await transporter.sendMail(mailOptions);
-    res.json({ message: 'Password reset email sent.' });
+    try {
+      const emailResult = await transporter.sendMail(mailOptions);
+      console.log('[Forgot Password] Email sent result:', emailResult);
+      res.json({ message: 'Password reset email sent.' });
+    } catch (emailError) {
+      console.error('[Forgot Password] Email sending failed:', emailError);
+      res.status(500).json({ error: 'Failed to send password reset email' });
+    }
   } catch (err) {
-    console.error(err);
+    console.error('[Forgot Password] Server error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
